@@ -4,13 +4,14 @@ import {classNames} from "../utils";
 
 const ProfileDropdown = ({userNavigation}) => {
     return (
+        <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
         <Menu as="div" className="relative flex-shrink-0">
             <div>
                 <Menu.Button
                     className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <span className="sr-only">Open user menu</span>
                     <img
-                        className="h-8 w-8 rounded-full"
+                        className="h-10 w-10 rounded-full"
                         src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
                         alt=""
                     />
@@ -45,6 +46,7 @@ const ProfileDropdown = ({userNavigation}) => {
                 </Menu.Items>
             </Transition>
         </Menu>
+        </div>
     );
 };
 

@@ -23,6 +23,7 @@ import NarrowSidebar from "../components/NarrowSidebar";
 import {classNames} from "../utils";
 import MobileMenu from "../components/MobileMenu";
 import ContentArea from "../components/ContentArea";
+import All from "../components/All";
 
 const navigation = [
     {name: 'Home', href: '#', icon: HomeIcon, current: false},
@@ -48,6 +49,90 @@ const files = [
         source:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: true,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
+    },
+    {
+        name: 'IMG_4985.HEIC',
+        size: '3.9 MB',
+        source:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        current: false,
     },
     // More files...
 ]
@@ -81,20 +166,10 @@ const currentFile = {
 
 export default function Home() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
     return (
         <>
-            <div className="h-full flex">
-                {/* Narrow sidebar */}
-                <NarrowSidebar navs={navigation}/>
-
-                {/* Mobile menu */}
-                <MobileMenu navs={navigation} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen}/>
-
-                {/* Content area */}
-                <ContentArea setMobileMenuOpen={setMobileMenuOpen} userNavigation={userNavigation}
-                             currentFile={currentFile} files={files} tabs={tabs}/>
-            </div>
+            <All navigation={navigation} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen}
+                 userNavigation={userNavigation} currentFile={currentFile} files={files} tabs={tabs} />
         </>
     )
 }
