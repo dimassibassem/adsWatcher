@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-    PencilIcon,
-    PlusSmIcon as PlusSmIconSolid,
-    ViewGridIcon as ViewGridIconSolid,
-    ViewListIcon
-} from "@heroicons/react/solid";
-import {classNames} from "../utils";
-import {HeartIcon} from "@heroicons/react/outline";
+import { ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
 import Tabs from "./Tabs";
 import Gallery from "./Gallery";
 import DetailsSidebar from "./DetailsSidebar";
 
-const MainContent = ({tabs, files, currentFile}) => {
+const MainContent = ({tabs, files, currentFile,source}) => {
     return (
         <div className="flex-1 flex items-stretch overflow-hidden">
             <main className="flex-1 overflow-y-auto">
@@ -45,7 +38,7 @@ const MainContent = ({tabs, files, currentFile}) => {
             </main>
 
             {/* Details sidebar */}
-            <DetailsSidebar currentFile={currentFile}/>
+            <DetailsSidebar currentFile={currentFile} source={source}/>
         </div>
     );
 };

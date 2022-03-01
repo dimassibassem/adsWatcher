@@ -12,7 +12,7 @@ const Gallery = ({files}) => {
                 className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
             >
                 {files.map((file) => (
-                    <li key={file.name} className="relative">
+                    <li key={file.title} className="relative">
                         <div
                             className={classNames(
                                 file.current
@@ -22,7 +22,7 @@ const Gallery = ({files}) => {
                             )}
                         >
                             <img
-                                src={file.source}
+                                src={file.thumbnail}
                                 alt=""
                                 className={classNames(
                                     file.current ? '' : 'group-hover:opacity-75',
@@ -35,9 +35,9 @@ const Gallery = ({files}) => {
                             </button>
                         </div>
                         <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
-                            {file.name}
+                            {file.title}
                         </p>
-                        <p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.size}</p>
+                        <p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.price}</p>
                     </li>
                 ))}
             </ul>

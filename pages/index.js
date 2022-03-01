@@ -1,29 +1,15 @@
-import {Fragment, useState} from 'react'
-import {Dialog, Menu, Transition} from '@headlessui/react'
 import {
     CogIcon,
     CollectionIcon,
-    HeartIcon,
     HomeIcon,
-    MenuAlt2Icon,
     PhotographIcon,
-    PlusSmIcon as PlusSmIconOutline,
     UserGroupIcon,
     ViewGridIcon as ViewGridIconOutline,
-    XIcon,
+
 } from '@heroicons/react/outline'
-import {
-    PencilIcon,
-    PlusSmIcon as PlusSmIconSolid,
-    SearchIcon,
-    ViewGridIcon as ViewGridIconSolid,
-    ViewListIcon,
-} from '@heroicons/react/solid'
 import NarrowSidebar from "../components/NarrowSidebar";
-import {classNames} from "../utils";
-import MobileMenu from "../components/MobileMenu";
 import ContentArea from "../components/ContentArea";
-import All from "../components/All";
+
 
 const navigation = [
     {name: 'Home', href: '#', icon: HomeIcon, current: false},
@@ -44,132 +30,172 @@ const tabs = [
 ]
 const files = [
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: true,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     {
-        name: 'IMG_4985.HEIC',
-        size: '3.9 MB',
-        source:
+        title: 'IMG_4985.HEIC',
+        price: '$500',
+        thumbnail:
             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
         current: false,
     },
     // More files...
 ]
+const timestamp = new Date(1645804485 * 1000);
+let month = timestamp.getMonth() + 1;
+let year = timestamp.getFullYear();
+let date = timestamp.getDate();
+let categoryDisplayNames = {
+    '1': 'Auto & Moto',
+    '2': 'Électronique & Multimédia',
+    '3': 'Immobilier',
+    '4': 'Maison & Jardin',
+    '5': 'Mode & Beauté',
+    '6': 'Bébé & Enfant',
+    '7': 'Loisirs & Sport',
+    '8': 'Animaux',
+    '9': 'Emploi',
+    '10': 'Services',
+    '11': 'Cours & Formations',
+    '12': 'Matériel Professionnel',
+    '13': 'Autres'
+}
+let source=  {
+    '1': { name: 'Tunisie Annonce', hasLargeImages: true, hasPrice: true },
+    '2': { name: 'Tayara', hasLargeImages: true, hasPrice: true },
+    '3': { name: 'Ballouchi', hasLargeImages: true, hasPrice: true },
+    '4': { name: 'Facebook', hasLargeImages: true, hasPrice: true },
+    '5': { name: 'Ahaya', hasLargeImages: true, hasPrice: true },
+    '6': { name: 'Tanitjobs', hasLargeImages: false, hasPrice: false },
+    '7': { name: 'Afariat', hasLargeImages: true, hasPrice: true },
+    '8': { name: 'Tunisiapromo', hasLargeImages: true, hasPrice: true },
+    '9': { name: 'Jumia Deals', hasLargeImages: true, hasPrice: true },
+    '10': { name: 'DannousTn', hasLargeImages: true, hasPrice: true },
+    '11': { name: 'Ijaelhouni', hasLargeImages: true, hasPrice: true },
+    '12': { name: 'Keejob', hasLargeImages: false, hasPrice: false },
+    '13': { name: 'Automobile.tn', hasLargeImages: true, hasPrice: true },
+    '14': { name: 'Tunisie Travail', hasLargeImages: false, hasPrice: false },
+    '15': { name: 'Mubawab', hasLargeImages: true, hasPrice: true },
+    '16': { name: 'Affare', hasLargeImages: true, hasPrice: true },
+    '17': { name: 'Fammech', hasLargeImages: true, hasPrice: true },
+    '18': { name: 'emploi.nat.tn', hasLargeImages: false, hasPrice: false },
+    '19': { name: 'Locanto', hasLargeImages: true, hasPrice: true },
+    '20': { name: 'Sindibad', hasLargeImages: true, hasPrice: true },
+    '21': { name: 'Houni.tn', hasLargeImages: true, hasPrice: true },
+    '22': { name: 'Cava.tn', hasLargeImages: true, hasPrice: true },
+    '23': { name: 'BnB Tunisie', hasLargeImages: true, hasPrice: true }
+}
+
+
 const currentFile = {
-    name: 'IMG_4985.HEIC',
-    size: '3.9 MB',
-    source:
+    title: 'IMG_4985.HEIC',
+    price: '$500',
+    thumbnail:
         'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
     information: {
-        'Uploaded by': 'Marie Culver',
-        Created: 'June 8, 2020',
-        'Last modified': 'June 8, 2020',
-        Dimensions: '4032 x 3024',
-        Resolution: '72 x 72',
-    },
-    sharedWith: [
-        {
-            id: 1,
-            name: 'Aimee Douglas',
-            imageUrl:
-                'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=1024&h=1024&q=80',
-        },
-        {
-            id: 2,
-            name: 'Andrea McMillan',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixqx=oilqXxSqey&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-    ],
+        Category: Object.values(categoryDisplayNames)[2],
+        Location: 'Location',
+        distance: '7km',
+        CreatedAt: `${month}/${date}/${year}`,
+    }
+
 }
 
 export default function Home() {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     return (
         <>
-            <All navigation={navigation} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen}
-                 userNavigation={userNavigation} currentFile={currentFile} files={files} tabs={tabs} />
+            <div className="h-full flex">
+                {/* Narrow sidebar */}
+                <NarrowSidebar navs={navigation}/>
+
+
+                {/* Content area */}
+                <ContentArea userNavigation={userNavigation}
+                             currentFile={currentFile} files={files} tabs={tabs} source={source}/>
+
+            </div>
+
         </>
     )
 }
