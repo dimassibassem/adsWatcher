@@ -22,9 +22,9 @@ import  {locations} from "./locations";
 
 export default function ComboBox() {
     const [query, setQuery] = useState('')
-    const [selectedPerson, setSelectedPerson] = useState()
+    const [selectedLocation, setSelectedLocation] = useState()
 
-    const filteredPeople =
+    const filtredLocation =
         query === ''
             ? locations
             : locations.filter((location) => {
@@ -32,11 +32,11 @@ export default function ComboBox() {
             })
 
     return (
-        <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
+        <Combobox as="div" value={selectedLocation} onChange={setSelectedLocation}>
             <Combobox.Label className="block text-sm font-medium text-gray-700">Near</Combobox.Label>
             <div className="relative mt-1">
                 <Combobox.Input
-                    className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                     onChange={(event) => setQuery(event.target.value)}
                     displayValue={(location) => location.name}
                 />
@@ -44,9 +44,9 @@ export default function ComboBox() {
                     <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Combobox.Button>
 
-                {filteredPeople.length > 0 && (
+                {filtredLocation.length > 0 && (
                     <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                        {filteredPeople.map((location) => (
+                        {filtredLocation.map((location) => (
                             <Combobox.Option
                                 key={location.id}
                                 value={location}
