@@ -23,7 +23,6 @@ import  {locations} from "./locations";
 export default function ComboBox() {
     const [query, setQuery] = useState('')
     const [selectedLocation, setSelectedLocation] = useState()
-
     const filtredLocation =
         query === ''
             ? locations
