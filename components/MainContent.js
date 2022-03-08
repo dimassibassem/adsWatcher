@@ -4,7 +4,7 @@ import Tabs from "./Tabs";
 import Gallery from "./Gallery";
 import DetailsSidebar from "./DetailsSidebar";
 
-const MainContent = ({tabs, files, currentFile,source}) => {
+const MainContent = ({tabs, files,source}) => {
     return (
         <div className="flex-1 flex items-stretch overflow-hidden">
             <main className="flex-1 overflow-y-auto">
@@ -38,7 +38,7 @@ const MainContent = ({tabs, files, currentFile,source}) => {
             </main>
 
             {/* Details sidebar */}
-            <DetailsSidebar currentFile={currentFile} source={source}/>
+            <DetailsSidebar source={source}/>
         </div>
     );
 };

@@ -48,30 +48,30 @@ let categoryDisplayNames = {
     '12': 'Matériel Professionnel',
     '13': 'Autres'
 }
-let source=  {
-    '1': { name: 'Tunisie Annonce', hasLargeImages: true, hasPrice: true },
-    '2': { name: 'Tayara', hasLargeImages: true, hasPrice: true },
-    '3': { name: 'Ballouchi', hasLargeImages: true, hasPrice: true },
-    '4': { name: 'Facebook', hasLargeImages: true, hasPrice: true },
-    '5': { name: 'Ahaya', hasLargeImages: true, hasPrice: true },
-    '6': { name: 'Tanitjobs', hasLargeImages: false, hasPrice: false },
-    '7': { name: 'Afariat', hasLargeImages: true, hasPrice: true },
-    '8': { name: 'Tunisiapromo', hasLargeImages: true, hasPrice: true },
-    '9': { name: 'Jumia Deals', hasLargeImages: true, hasPrice: true },
-    '10': { name: 'DannousTn', hasLargeImages: true, hasPrice: true },
-    '11': { name: 'Ijaelhouni', hasLargeImages: true, hasPrice: true },
-    '12': { name: 'Keejob', hasLargeImages: false, hasPrice: false },
-    '13': { name: 'Automobile.tn', hasLargeImages: true, hasPrice: true },
-    '14': { name: 'Tunisie Travail', hasLargeImages: false, hasPrice: false },
-    '15': { name: 'Mubawab', hasLargeImages: true, hasPrice: true },
-    '16': { name: 'Affare', hasLargeImages: true, hasPrice: true },
-    '17': { name: 'Fammech', hasLargeImages: true, hasPrice: true },
-    '18': { name: 'emploi.nat.tn', hasLargeImages: false, hasPrice: false },
-    '19': { name: 'Locanto', hasLargeImages: true, hasPrice: true },
-    '20': { name: 'Sindibad', hasLargeImages: true, hasPrice: true },
-    '21': { name: 'Houni.tn', hasLargeImages: true, hasPrice: true },
-    '22': { name: 'Cava.tn', hasLargeImages: true, hasPrice: true },
-    '23': { name: 'BnB Tunisie', hasLargeImages: true, hasPrice: true }
+let source = {
+    '1': {name: 'Tunisie Annonce', hasLargeImages: true, hasPrice: true},
+    '2': {name: 'Tayara', hasLargeImages: true, hasPrice: true},
+    '3': {name: 'Ballouchi', hasLargeImages: true, hasPrice: true},
+    '4': {name: 'Facebook', hasLargeImages: true, hasPrice: true},
+    '5': {name: 'Ahaya', hasLargeImages: true, hasPrice: true},
+    '6': {name: 'Tanitjobs', hasLargeImages: false, hasPrice: false},
+    '7': {name: 'Afariat', hasLargeImages: true, hasPrice: true},
+    '8': {name: 'Tunisiapromo', hasLargeImages: true, hasPrice: true},
+    '9': {name: 'Jumia Deals', hasLargeImages: true, hasPrice: true},
+    '10': {name: 'DannousTn', hasLargeImages: true, hasPrice: true},
+    '11': {name: 'Ijaelhouni', hasLargeImages: true, hasPrice: true},
+    '12': {name: 'Keejob', hasLargeImages: false, hasPrice: false},
+    '13': {name: 'Automobile.tn', hasLargeImages: true, hasPrice: true},
+    '14': {name: 'Tunisie Travail', hasLargeImages: false, hasPrice: false},
+    '15': {name: 'Mubawab', hasLargeImages: true, hasPrice: true},
+    '16': {name: 'Affare', hasLargeImages: true, hasPrice: true},
+    '17': {name: 'Fammech', hasLargeImages: true, hasPrice: true},
+    '18': {name: 'emploi.nat.tn', hasLargeImages: false, hasPrice: false},
+    '19': {name: 'Locanto', hasLargeImages: true, hasPrice: true},
+    '20': {name: 'Sindibad', hasLargeImages: true, hasPrice: true},
+    '21': {name: 'Houni.tn', hasLargeImages: true, hasPrice: true},
+    '22': {name: 'Cava.tn', hasLargeImages: true, hasPrice: true},
+    '23': {name: 'BnB Tunisie', hasLargeImages: true, hasPrice: true}
 }
 
 const files = [
@@ -79,31 +79,31 @@ const files = [
         title: 'IM.HEIC',
         price: '$400',
         thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+            'https://design5.com.au/wp-content/uploads/2018/11/ifb130217_4602.jpg',
         information: {
             Category: Object.values(categoryDisplayNames)[2],
-            Location: 'Location',
-            distance: '7km',
+            Location: 'sousse',
+            distance: '10km',
             CreatedAt: `${month}/${date}/${year}`,
         },
         current: false
 
 
-    },{
+    }, {
         title: 'I56566.HEIC',
         price: '777500',
         thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+            'https://www.dvdoverseas.com/resize/Shared/Images/Product/Panasonic-KX-TG1911-220-240-Volt-Cordless-Phone-For-Export-International-Use/kxtg1911.jpg?bw=500&bh=500',
         information: {
             Category: Object.values(categoryDisplayNames)[2],
-            Location: 'Location',
-            distance: '7km',
+            Location: 'mahdia',
+            distance: '8km',
             CreatedAt: `${month}/${date}/${year}`,
         },
         current: false
 
 
-    },{
+    }, {
         title: 'IMEIC',
         price: '$5000000',
         thumbnail:
@@ -127,6 +127,17 @@ const files = [
 let currentFile = files[0]
 
 
+import create from 'zustand'
+import {devtools} from 'zustand/middleware'
+
+// Usage with a plain action store, it will log actions as "setState"
+
+export const useStore = create(devtools(set => ({
+    files: files,
+    currentFile: files[0],
+    setCurrentFile: (index) => set(state => ({currentFile: state.files[index]}), null, "setCurrentFile")
+})))
+
 export default function Home() {
     return (
         <>
@@ -137,7 +148,7 @@ export default function Home() {
 
                 {/* Content area */}
                 <ContentArea userNavigation={userNavigation}
-                             currentFile={currentFile} files={files} tabs={tabs} source={source}/>
+                              files={files} tabs={tabs} source={source}/>
 
             </div>
 

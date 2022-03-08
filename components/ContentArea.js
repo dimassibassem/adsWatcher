@@ -5,7 +5,7 @@ import ProfileDropdown from "./ProfileDropdown";
 
 import SearchBar from "./SearchBar";
 
-const ContentArea = ({ userNavigation, currentFile, files, tabs,source}) => {
+const ContentArea = ({ userNavigation, files, tabs,source}) => {
     return (
         <div className="flex-1 flex flex-col overflow-hidden">
             <header className="w-full">
@@ -24,7 +24,7 @@ const ContentArea = ({ userNavigation, currentFile, files, tabs,source}) => {
             </header>
 
             {/* Main content */}
-            <MainContent currentFile={currentFile} tabs={tabs} files={files} source={source} />
+            <MainContent  tabs={tabs} files={files} source={source} />
         </div>
     );
 };

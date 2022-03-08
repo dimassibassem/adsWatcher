@@ -1,9 +1,11 @@
 import React from 'react';
 import {classNames} from "../utils";
+import {useStore} from '../pages/index';
 
+const Gallery = () => {
 
-
-const Gallery = ({files}) => {
+    const setCurrentFile = useStore(state => state.setCurrentFile);
+    const files = useStore(state => state.files);
 
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
@@ -14,7 +16,7 @@ const Gallery = ({files}) => {
                 role="list"
                 className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
             >
-                {files.map((file) => (
+                {files.map((file, index) => (
                     <li key={file.title} className="relative">
                         <div
                             className={classNames(
@@ -35,11 +37,8 @@ const Gallery = ({files}) => {
 
 
                             <button type="button"
-                                    className="absolute inset-0 focus:outline-none" onClick={()=>{
-                                files.forEach(item => {item.current = false})
-                                        file.current = true
-                                        console.log(files);
-                            }}>
+                                    className="absolute inset-0 focus:outline-none"
+                                    onClick={() => setCurrentFile(index)}>
 
                                 <span className="sr-only">View details for {file.title}</span>
                             </button>
