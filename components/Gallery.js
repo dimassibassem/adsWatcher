@@ -1,7 +1,10 @@
 import React from 'react';
 import {classNames} from "../utils";
 
+
+
 const Gallery = ({files}) => {
+
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
             <h2 id="gallery-heading" className="sr-only">
@@ -29,9 +32,16 @@ const Gallery = ({files}) => {
                                     'object-cover pointer-events-none'
                                 )}
                             />
+
+
                             <button type="button"
-                                    className="absolute inset-0 focus:outline-none">
-                                <span className="sr-only">View details for {file.name}</span>
+                                    className="absolute inset-0 focus:outline-none" onClick={()=>{
+                                files.forEach(item => {item.current = false})
+                                        file.current = true
+                                        console.log(files);
+                            }}>
+
+                                <span className="sr-only">View details for {file.title}</span>
                             </button>
                         </div>
                         <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">

@@ -28,100 +28,7 @@ const tabs = [
     {name: 'Recently Added', href: '#', current: false},
     {name: 'Favorited', href: '#', current: false},
 ]
-const files = [
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: true,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    {
-        title: 'IMG_4985.HEIC',
-        price: '$500',
-        thumbnail:
-            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-        current: false,
-    },
-    // More files...
-]
+
 const timestamp = new Date(1645804485 * 1000);
 let month = timestamp.getMonth() + 1;
 let year = timestamp.getFullYear();
@@ -167,27 +74,65 @@ let source=  {
     '23': { name: 'BnB Tunisie', hasLargeImages: true, hasPrice: true }
 }
 
+const files = [
+    {
+        title: 'IM.HEIC',
+        price: '$400',
+        thumbnail:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        information: {
+            Category: Object.values(categoryDisplayNames)[2],
+            Location: 'Location',
+            distance: '7km',
+            CreatedAt: `${month}/${date}/${year}`,
+        },
+        current: false
 
-const currentFile = {
-    title: 'IMG_4985.HEIC',
-    price: '$500',
-    thumbnail:
-        'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-    information: {
-        Category: Object.values(categoryDisplayNames)[2],
-        Location: 'Location',
-        distance: '7km',
-        CreatedAt: `${month}/${date}/${year}`,
+
+    },{
+        title: 'I56566.HEIC',
+        price: '777500',
+        thumbnail:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        information: {
+            Category: Object.values(categoryDisplayNames)[2],
+            Location: 'Location',
+            distance: '7km',
+            CreatedAt: `${month}/${date}/${year}`,
+        },
+        current: false
+
+
+    },{
+        title: 'IMEIC',
+        price: '$5000000',
+        thumbnail:
+            'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
+        information: {
+            Category: Object.values(categoryDisplayNames)[2],
+            Location: 'Location',
+            distance: '7km',
+            CreatedAt: `${month}/${date}/${year}`,
+        },
+        current: false
+
+
     }
 
-}
+
+    // More files...
+]
+
+
+let currentFile = files[0]
+
 
 export default function Home() {
     return (
         <>
             <div className="h-full flex">
                 {/* Narrow sidebar */}
-                <NarrowSidebar navs={navigation}/>
+                <NarrowSidebar/>
 
 
                 {/* Content area */}
