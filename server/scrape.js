@@ -10,9 +10,9 @@ let decode = functions.decode
 let getData = functions.getData
 async function scrape() {
     let query = "iphone 12"
-    let locationId = null //null
-    let maxPrice = 2200 //2500 // null
-    let minPrice = 2000// 1500 // null
+    let locationId = "1734" //null
+    let maxPrice = null //2500 // null
+    let minPrice = null// 1500 // null
 
     const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
     const firstResult = await search(dataConfig.data, dataConfig.config)
@@ -49,7 +49,7 @@ async function scrape() {
     }
 
 
-    return (results.sort((a, b) => a.timestamp - b.timestamp))
+    return (results.sort((a, b) => a.timestamp + b.timestamp))
 }
 
 module.exports = scrape

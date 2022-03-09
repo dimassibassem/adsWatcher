@@ -32,7 +32,7 @@ const Information = ({currentFile}) => {
 
                     <div className="py-3 flex justify-between text-sm font-medium">
                         <dt className="text-gray-500">Distance</dt>
-                        <dd className="text-gray-900">{currentFile.distance}</dd>
+                        <dd className="text-gray-900">{currentFile.distance} KM</dd>
                     </div>
 
                 </dl>
