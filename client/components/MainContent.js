@@ -3,8 +3,17 @@ import { ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react
 import Tabs from "./Tabs";
 import Gallery from "./Gallery";
 import DetailsSidebar from "./DetailsSidebar";
+import GalleryList from "./GalleryList";
+import {useStore} from "../pages";
 
 const MainContent = ({tabs, files,source}) => {
+    const list= useStore(store=>store.list)
+    let view
+    if(list){
+        view = <GalleryList source={source}/>
+    }
+    else
+        view = <Gallery />
     return (
         <div className="flex-1 flex items-stretch overflow-hidden">
             <main className="flex-1 overflow-y-auto">
@@ -33,7 +42,11 @@ const MainContent = ({tabs, files,source}) => {
                     <Tabs tabs={tabs}/>
 
                     {/* Gallery */}
-                    <Gallery files={files}/>
+                    {/*<Gallery />*/}
+
+                    {view}
+                    {/*Gallery List*/}
+                    {/*<GalleryList source={source}/>*/}
                 </div>
             </main>
 

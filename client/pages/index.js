@@ -117,6 +117,8 @@ export const useStore = create(devtools(set => ({
     categoryDisplayNames: categoryDisplayNames,
     files: files,
     currentFile: null,
+    list:false,
+    setList:(bool)=>set ({list: bool}),
     setCurrentFile: (index) => set(state => ({currentFile: state.files[index]}), null, "setCurrentFile"),
     setFiles: (data) => set({files: data}, null, "setFiles"),
     loadFiles: async () => {
@@ -137,7 +139,7 @@ export default function Home() {
         <>
             <div className="h-full flex">
                 {/* Narrow sidebar */}
-                <NarrowSidebar/>
+                {/*<NarrowSidebar/>*/}
 
 
                 {/* Content area */}
