@@ -14,10 +14,10 @@ const Gallery = () => {
             </h2>
             <ul
                 role="list"
-                className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
+                className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 xl:gap-x-10"
             >
                 {files.map((file, index) => (
-                    <li key={file.title} className="relative">
+                    <li key={file.id} className="relative ">
                         <div
                             className={classNames(
                                 file.current
@@ -46,7 +46,7 @@ const Gallery = () => {
                         <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                             {file.title}
                         </p>
-                        <p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.price}</p>
+                        <p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.price} TND</p>
                     </li>
                 ))}
             </ul>

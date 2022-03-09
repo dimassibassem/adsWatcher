@@ -118,7 +118,7 @@ export const useStore = create(devtools(set => ({
     files: files,
     currentFile: null,
     list:false,
-    setList:(bool)=>set ({list: bool}),
+    setList:(bool)=>set ({list: bool,currentFile:null}),
     setCurrentFile: (index) => set(state => ({currentFile: state.files[index]}), null, "setCurrentFile"),
     setFiles: (data) => set({files: data}, null, "setFiles"),
     loadFiles: async () => {
