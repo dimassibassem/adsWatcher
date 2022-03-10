@@ -1,4 +1,4 @@
-import NarrowSidebar from "../components/NarrowSidebar";
+
 import ContentArea from "../components/ContentArea";
 import create from 'zustand'
 import {devtools} from 'zustand/middleware'
@@ -60,56 +60,6 @@ let source = {
     '22': {name: 'Cava.tn', hasLargeImages: true, hasPrice: true},
     '23': {name: 'BnB Tunisie', hasLargeImages: true, hasPrice: true}
 }
-
-// const files = [
-//     {
-//         title: 'IM.HEIC',
-//         price: '$400',
-//         thumbnail:
-//             'https://design5.com.au/wp-content/uploads/2018/11/ifb130217_4602.jpg',
-//         information: {
-//             Category: Object.values(categoryDisplayNames)[2],
-//             Location: 'sousse',
-//             distance: '10km',
-//             CreatedAt: `${month}/${date}/${year}`,
-//         },
-//         current: false
-//
-//
-//     }, {
-//         title: 'I56566.HEIC',
-//         price: '777500',
-//         thumbnail:
-//             'https://www.dvdoverseas.com/resize/Shared/Images/Product/Panasonic-KX-TG1911-220-240-Volt-Cordless-Phone-For-Export-International-Use/kxtg1911.jpg?bw=500&bh=500',
-//         information: {
-//             Category: Object.values(categoryDisplayNames)[2],
-//             Location: 'mahdia',
-//             distance: '8km',
-//             CreatedAt: `${month}/${date}/${year}`,
-//         },
-//         current: false
-//
-//
-//     }, {
-//         title: 'IMEIC',
-//         price: '$5000000',
-//         thumbnail:
-//             'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80',
-//         information: {
-//             Category: Object.values(categoryDisplayNames)[2],
-//             Location: 'Location',
-//             distance: '7km',
-//             CreatedAt: `${month}/${date}/${year}`,
-//         },
-//         current: false
-//
-//
-//     }
-//
-//
-//     // More files...
-// ]
-
 
 let files = [];
 // Usage with a plain action store, it will log actions as "setState"

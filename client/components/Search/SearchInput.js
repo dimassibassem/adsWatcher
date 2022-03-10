@@ -3,6 +3,7 @@ import {Switch} from '@headlessui/react'
 import {classNames} from "../../utils";
 import ComboBox from "./ComboBox";
 
+
 export default function SearchInput() {
     const [agreed, setAgreed] = useState(false)
 

@@ -1,19 +1,23 @@
 import React from 'react';
-import { ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
+import {ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
 import Tabs from "./Tabs";
 import Gallery from "./Gallery";
 import DetailsSidebar from "./DetailsSidebar";
 import GalleryList from "./GalleryList";
 import {useStore} from "../pages";
+import Loading from "./Loading";
 
-const MainContent = ({tabs, files,source}) => {
-    const list= useStore(store=>store.list)
+const MainContent = ({tabs, source}) => {
+    const list = useStore(store => store.list)
+    const files = useStore(state => state.files);
     let view
-    if(list){
+    if (files.length === 0) {
+        view = <Loading/>
+    }else
+    if (list && files.length > 0) {
         view = <GalleryList source={source}/>
-    }
-    else
-        view = <Gallery />
+    } else if (!list && files.length > 0)
+        view = <Gallery/>
     return (
         <div className="flex-1 flex items-stretch overflow-hidden">
             <main className="flex-1 overflow-y-auto">

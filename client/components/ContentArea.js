@@ -24,7 +24,7 @@ const ContentArea = ({ userNavigation, files, tabs,source}) => {
             </header>
 
             {/* Main content */}
-            <MainContent  tabs={tabs} files={files} source={source} />
+            <MainContent  tabs={tabs} source={source} />
         </div>
     );
 };

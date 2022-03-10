@@ -7,7 +7,6 @@ const locationIndex = (locationId)=>{
             return true;
         }
     });
-
 }
 
 function numToLetters(e) {
