@@ -8,11 +8,11 @@ let searchMore = functions.searchMore
 let getImages = functions.getImages
 let decode = functions.decode
 let getData = functions.getData
-async function scrape() {
-    let query = "iphone 12"
-    let locationId = "1734" //null
-    let maxPrice = null //2500 // null
-    let minPrice = null// 1500 // null
+async function scrape(query,locationId,maxPrice,minPrice) {
+    // let query = q
+    // let locationId = lid //null
+    // let maxPrice = maxp //2500 // null
+    // let minPrice = minp// 1500 // null
 
     const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
     const firstResult = await search(dataConfig.data, dataConfig.config)

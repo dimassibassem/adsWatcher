@@ -9,6 +9,14 @@ const locationIndex = (locationId)=>{
     });
 }
 
+const nameToIndex = (locationName)=>{
+    return locations.findIndex(element => {
+        if (element.name === locationName) {
+            return true;
+        }
+    });
+}
+
 function numToLetters(e) {
     let t = "";
     for (const n of e.toString())
@@ -137,5 +145,5 @@ function numToLetters(e) {
 }
 
 module.exports = {
-    decode,searchMore,search,getImages,getOffset,getData,params
+    decode,searchMore,search,getImages,getOffset,getData,params,nameToIndex
 }

@@ -30,16 +30,19 @@ export default function ComboBox() {
             : locations.filter((location) => {
                 return location.name.toLowerCase().includes(query.toLowerCase())
             })
-
     return (
         <Combobox as="div" value={selectedLocation} onChange={setSelectedLocation}>
             <Combobox.Label className="block text-sm font-medium text-gray-700">Near</Combobox.Label>
-            <div className="relative mt-1">
+            <div className="relative mt-1" >
                 <Combobox.Input
+                    name="combo"
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                    onChange={(event) => setQuery(event.target.value)}
+                    onChange={(event) => {
+                        console.log(event.target)
+                        setQuery(event.target.value);
+                    }}
                     displayValue={(location) => location.name}
-                    value={(location) => location.name}
+                    value={(location) => location.id}
                 />
                 <Combobox.Button
                     className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">

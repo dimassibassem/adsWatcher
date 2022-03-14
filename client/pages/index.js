@@ -16,10 +16,10 @@ const tabs = [
     {name: 'Favorited', href: '#', current: false},
 ]
 
-const timestamp = new Date(1645804485 * 1000);
-let month = timestamp.getMonth() + 1;
-let year = timestamp.getFullYear();
-let date = timestamp.getDate();
+// const timestamp = new Date(1645804485 * 1000);
+// let month = timestamp.getMonth() + 1;
+// let year = timestamp.getFullYear();
+// let date = timestamp.getDate();
 let categoryDisplayNames = {
     '1': 'Auto & Moto',
     '2': 'Électronique & Multimédia',
@@ -74,7 +74,7 @@ export const useStore = create(devtools(set => ({
     loadFiles: async () => {
         const response = await axios({
             url: "http://localhost:3001/api/data",
-            method: "GET"
+            method: "get"
         })
         set({files: await response.data})
     }

@@ -63,7 +63,7 @@ export default function SearchInput() {
                     </p>
                 </div>
                 <div className="mt-12">
-                    <form action="#" method="POST" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+                    <form action="http://localhost:3001/Search" method="POST" className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
 
                         <div className="sm:col-span-2">
                             <label htmlFor="searchBar" className="block text-sm font-medium text-gray-700">
@@ -186,12 +186,12 @@ export default function SearchInput() {
                             </div>
                         </div>
                         <div className="sm:col-span-2">
-                            <button
-                                type="submit"
-                                className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                Let's find best proposals
-                            </button>
+                                <button
+                                    type="submit"
+                                    className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    Let's find best proposals
+                                </button>
                         </div>
                     </form>
                 </div>
