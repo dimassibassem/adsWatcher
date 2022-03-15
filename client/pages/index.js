@@ -1,5 +1,5 @@
 
-import ContentArea from "../components/ContentArea";
+import ContentArea from "../components/Home/ContentArea";
 import create from 'zustand'
 import {devtools} from 'zustand/middleware'
 import axios from "axios";

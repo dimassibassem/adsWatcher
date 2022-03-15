@@ -9,10 +9,6 @@ let getImages = functions.getImages
 let decode = functions.decode
 let getData = functions.getData
 async function scrape(query,locationId,maxPrice,minPrice) {
-    // let query = q
-    // let locationId = lid //null
-    // let maxPrice = maxp //2500 // null
-    // let minPrice = minp// 1500 // null
 
     const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
     const firstResult = await search(dataConfig.data, dataConfig.config)
@@ -26,10 +22,10 @@ async function scrape(query,locationId,maxPrice,minPrice) {
 // console.log("appData: ", appData)
     const decodedAppData = decode(appData, 4)
 
-    console.log("Source: ", decode(decodedAppData.src, 1))
-    console.log("categoryDisplayNames: ", decode(decodedAppData.cat, 2))
+    //console.log("Source: ", decode(decodedAppData.src, 1))
+   // console.log("categoryDisplayNames: ", decode(decodedAppData.cat, 2))
     const crawlerAdUrls = decode(decodedAppData.cau, 3)
-    console.log(crawlerAdUrls);
+   // console.log(crawlerAdUrls);
 
     console.log("hits: " + hits);
 

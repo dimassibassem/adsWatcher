@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  avatarUrl String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  searchs   Search[]
+}
+
+model Search {
+    id String @id @default(uuid())
+    query String @db.VarChar(255)
+    locationId Int?
+    minPrice Float?
+    maxPrice Float?
+    userId Int
+    user User? @relation(fields: [userId], references: [id])
+}
