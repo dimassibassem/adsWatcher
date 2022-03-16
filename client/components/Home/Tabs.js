@@ -1,7 +1,7 @@
 import React from 'react';
 import {classNames} from "../../utils";
 import {ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
-import {useStore} from "../../pages";
+import {useStore} from "../../store";
 
 const Tabs = ({tabs}) => {
     const setList = useStore(store=>store.setList)

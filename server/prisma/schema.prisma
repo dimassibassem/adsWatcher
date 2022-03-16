@@ -11,19 +11,19 @@ model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String   @db.VarChar(255)
+  username  String   @unique @db.VarChar(255)
   password  String   @db.VarChar(255)
   avatarUrl String   @db.VarChar(255)
-  email     String   @db.VarChar(255)
+  email     String  @unique @db.VarChar(255)
   searchs   Search[]
 }
 
 model Search {
     id String @id @default(uuid())
     query String @db.VarChar(255)
-    locationId Int?
-    minPrice Float?
-    maxPrice Float?
+    locationId String?
+    minPrice String?
+    maxPrice String?
     userId Int
     user User? @relation(fields: [userId], references: [id])
 }

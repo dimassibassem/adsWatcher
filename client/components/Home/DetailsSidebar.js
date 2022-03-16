@@ -2,7 +2,7 @@ import React from 'react';
 import ImageAndName from "./ImageAndNameOfSelected";
 import Information from "./Information";
 import LinkButton from "./LinkButton";
-import {useStore} from "../../pages";
+import {useStore} from "../../store";
 
 const DetailsSidebar = ({source}) => {
     const currentFile = useStore(state => state.currentFile);

@@ -1,11 +1,10 @@
 import React from 'react';
 import {classNames} from "../../utils";
-import {useStore} from '../../pages';
+import {useStore} from '../../store';
 import LinkButton from "./LinkButton";
 
 const GalleryList = ({source}) => {
     const categoryDisplayNames = useStore(store => store.categoryDisplayNames)
-    const setCurrentFile = useStore(state => state.setCurrentFile);
     const files = useStore(state => state.files);
     const formatedDate = (timestamp) => {
         let ts = new Date(timestamp * 1000);

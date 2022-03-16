@@ -4,7 +4,7 @@ import Tabs from "./Tabs";
 import Gallery from "./Gallery";
 import DetailsSidebar from "./DetailsSidebar";
 import GalleryList from "./GalleryList";
-import {useStore} from "../../pages";
+import {useStore} from "../../store";
 import Loading from "./Loading";
 
 const MainContent = ({tabs, source}) => {

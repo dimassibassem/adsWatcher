@@ -1,5 +1,5 @@
 import React from 'react';
-import {useStore} from "../../pages";
+import {useStore} from "../../store";
 
 const Information = ({currentFile}) => {
     const categoryDisplayNames = useStore(store => store.categoryDisplayNames)

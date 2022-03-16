@@ -1,6 +1,6 @@
 import React from 'react';
 import {classNames} from "../../utils";
-import {useStore} from '../../pages';
+import {useStore} from '../../store';
 
 const Gallery = () => {
 

@@ -21,7 +21,7 @@ import {classNames} from "../../utils";
 
 const locations = require('../../utils/locations')
 
-export default function ComboBox() {
+export default function ComboBox({handleChange}) {
     const [query, setQuery] = useState('')
     const [selectedLocation, setSelectedLocation] = useState()
     const filtredLocation =
@@ -35,10 +35,10 @@ export default function ComboBox() {
             <Combobox.Label className="block text-sm font-medium text-gray-700">Near</Combobox.Label>
             <div className="relative mt-1" >
                 <Combobox.Input
+
                     name="combo"
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                     onChange={(event) => {
-                        console.log(event.target)
                         setQuery(event.target.value);
                     }}
                     displayValue={(location) => location.name}
