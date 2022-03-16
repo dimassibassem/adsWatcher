@@ -1,20 +1,37 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Switch} from '@headlessui/react'
 import {classNames} from "../../utils";
 import ComboBox from "./ComboBox";
 import axios from "axios";
-
-
+import locations from "../../utils/locations";
+import {useRouter} from 'next/router'
+import {useLocalStorage} from "../../store";
 
 export default function SearchInput() {
+    const router = useRouter()
+    const token = useLocalStorage((store) => store.token)
+
+    useEffect(async () => {
+        if (!token) {
+            await router.push("/Login")
+        }
+    }, [token])
+
     const [agreed, setAgreed] = useState(false)
+    const [selectedLocation, setSelectedLocation] = useState()
     const [state, setState] = useState({
-        userId: 11,
         combo: "",
         maxPrice: "",
         minPrice: "",
         searchBar: ""
     });
+
+    const filtredLocation =
+        state.combo === ''
+            ? locations
+            : locations.filter((location) => {
+                return location.name.toLowerCase().includes(state.combo.toLowerCase())
+            })
 
     const handleChange = e => {
         setState({
@@ -22,12 +39,15 @@ export default function SearchInput() {
             [e.target.name]: e.target.value,
         })
     }
+
     async function handleSubmit(e) {
-        console.log(state);
         e.preventDefault()
-        const res = await axios.post("http://localhost:3001/search", state)
-        if(res.data){
-            window.location.href = `http://localhost:3000`;
+        console.log(state);
+        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation}, {
+            headers: {Authorization: "Bearer " + token},
+        })
+        if (res.data) {
+            await router.push("/")
         }
         console.log(res.data);
     }
@@ -89,15 +109,7 @@ export default function SearchInput() {
                 </div>
                 <div className="mt-12">
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-                        {/*for testing */}
-                        <input
-                            onChange={handleChange}
-                            type="text"
-                            name="userId"
-                            id="userId"
-                            value={11}
-                            className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                        />
+
                         <div className="sm:col-span-2">
                             <label htmlFor="searchBar" className="block text-sm font-medium text-gray-700">
                                 I am Searching for
@@ -116,9 +128,8 @@ export default function SearchInput() {
                         <div className="sm:col-span-2">
                             <div className="mt-1">
                                 {/* ComboBox*/}
-                                <ComboBox onChange={handleChange}/>
-
-
+                                <ComboBox onChange={handleChange} selectedLocation={selectedLocation}
+                                          setSelectedLocation={setSelectedLocation} filtredLocation={filtredLocation}/>
                             </div>
                         </div>
 
@@ -222,12 +233,13 @@ export default function SearchInput() {
                             </div>
                         </div>
                         <div className="sm:col-span-2">
-                                <button
-                                    type="submit"
-                                    className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
-                                    Let's find best proposals
-                                </button>
+                            <button
+                                type="submit"
+                                className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                                Let's find best proposals
+                            </button>
                         </div>
                     </form>
                 </div>

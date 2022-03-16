@@ -19,28 +19,19 @@ import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
 import {Combobox} from '@headlessui/react'
 import {classNames} from "../../utils";
 
-const locations = require('../../utils/locations')
 
-export default function ComboBox({handleChange}) {
-    const [query, setQuery] = useState('')
-    const [selectedLocation, setSelectedLocation] = useState()
-    const filtredLocation =
-        query === ''
-            ? locations
-            : locations.filter((location) => {
-                return location.name.toLowerCase().includes(query.toLowerCase())
-            })
+
+export default function ComboBox({onChange, filtredLocation, selectedLocation, setSelectedLocation}) {
+
+
     return (
         <Combobox as="div" value={selectedLocation} onChange={setSelectedLocation}>
             <Combobox.Label className="block text-sm font-medium text-gray-700">Near</Combobox.Label>
             <div className="relative mt-1" >
                 <Combobox.Input
-
                     name="combo"
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                    onChange={(event) => {
-                        setQuery(event.target.value);
-                    }}
+                    onChange={onChange}
                     displayValue={(location) => location.name}
                     value={(location) => location.id}
                 />

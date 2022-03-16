@@ -33,6 +33,10 @@ const tabs = [
     {name: 'Recently Added', href: '#', current: false},
     {name: 'Favorited', href: '#', current: false},
 ]
+const userNavigation = [
+    {name: 'Your profile', href: '#'},
+    {name: 'Sign out', href: '#'},
+]
 
 let categoryDisplayNames = {
     '1': 'Auto & Moto',
@@ -49,10 +53,9 @@ let categoryDisplayNames = {
     '12': 'Matériel Professionnel',
     '13': 'Autres'
 }
-const createTokenSlice = (set, get) => ({
-    token: null,
-    setToken: (token) => set({token: token})
-});
+
+
+
 
 const createStateSlice = (set, get) => ({
     files: [],
@@ -68,11 +71,15 @@ const createStateSlice = (set, get) => ({
         set({files: await response.data})
     },
     source: source,
-    tabs:tabs,
+    tabs: tabs,
     categoryDisplayNames: categoryDisplayNames,
-    currentFile:null
+    currentFile: null,
+    userNavigation: userNavigation
 })
-
+const createTokenSlice = (set, get) => ({
+    token: null,
+    setToken: (token) => set({token: token})
+});
 
 const createRootStorage = (set, get) => ({
     ...createTokenSlice(set, get)
@@ -82,7 +89,6 @@ export const useLocalStorage = create(devtools(persist(createRootStorage, {name:
 
 const createRootSlice = (set, get) => ({
     ...createStateSlice(set, get),
-
 });
 
 export const useStore = create(devtools(createRootSlice))

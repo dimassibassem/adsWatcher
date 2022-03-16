@@ -14,7 +14,38 @@
   }
   ```
 */
+import {useState} from "react";
+import axios from "axios";
+import {useLocalStorage} from "../../store";
+import {useRouter} from "next/router";
+
 export default function LoginForm() {
+    const setToken = useLocalStorage((store) => store.setToken)
+    const router = useRouter()
+    const [state, setState] = useState({
+        email: "",
+        password: "",
+    });
+
+    const handleChange = e => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        const res = await axios.post("http://localhost:3001/login", state)
+        if (res.data) {
+            if (res.data.success) {
+                setToken(res.data.token)
+                await router.push("/Search")
+            }
+        }
+    }
+
+
     return (
         <>
             {/*
@@ -43,7 +74,7 @@ export default function LoginForm() {
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <form className="space-y-6" action="http://localhost:3001/login" method="POST">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Email address
@@ -55,6 +86,7 @@ export default function LoginForm() {
                                         type="email"
                                         autoComplete="email"
                                         required
+                                        onChange={handleChange}
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     />
                                 </div>
@@ -71,6 +103,7 @@ export default function LoginForm() {
                                         type="password"
                                         autoComplete="current-password"
                                         required
+                                        onChange={handleChange}
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     />
                                 </div>

@@ -23,8 +23,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-function generateAccessToken(username) {
-    return jwt.sign(username, TOKEN_SECRET, {expiresIn: '172800s'});
+function generateAccessToken(username, email, userId) {
+    return jwt.sign({username, email, userId}, TOKEN_SECRET, {expiresIn: '172800s'});
 }
 
 function authenticateToken(req, res, next) {
@@ -33,30 +33,29 @@ function authenticateToken(req, res, next) {
 
     if (token == null) return res.sendStatus(401)
 
-    jwt.verify(token, TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, TOKEN_SECRET, (err, payload) => {
         console.log(err)
 
         if (err) return res.sendStatus(403)
-
-        req.user = user
+        req.user = payload
 
         next()
     })
 }
 
 
-app.get('/api/data', async function (req, res) {
-
+app.get('/api/data',authenticateToken, async function (req, res) {
+    const userId = req.user.userId
     const search = await prisma.search.findFirst({
         where: {
-            userId: 11
+            userId: userId
         }
     })
     const data = await scrape(search.query, search.locationId, search.maxPrice, search.minPrice)
     return res.status(200).send(data)
 });
 
-app.get('/api/getAppData', (async (req, res) => {
+app.get('/api/getAppData',authenticateToken, (async (req, res) => {
     const response = await axios.get('https://cdn.9annas.tn/data/appdata.json?v=3');
     return res.status(200).send(response.data)
 }))
@@ -81,7 +80,7 @@ app.post('/login', async (req, res) => {
         }
         if (result) {
             // Send JWT
-            const token = generateAccessToken({username: req.body.username});
+            const token = generateAccessToken(user.username, user.email, user.id);
             return res.json({success: true, token: token});
         } else {
             // response is OutgoingMessage object that server response http request
@@ -90,27 +89,24 @@ app.post('/login', async (req, res) => {
     });
 })
 
-app.post('/search', async (req, res) => {
+app.post('/search',authenticateToken, async (req, res) => {
     const query = req.body.searchBar
     const userId = req.body.userId
-    console.log(req.body)
-    let locationId
-    if (req.body.combo === '') {
+    let locationId = req.body.selectedLocation?.id
+    if (!locationId) {
         locationId = null
-    } else {
-        locationId = locations[nameToIndex(req.body.combo)].id
     }
 
     const maxPrice = req.body.maxPrice !== '' ? req.body.maxPrice : null
     const minPrice = req.body.minPrice !== '' ? req.body.minPrice : null
-    console.log({query, locationId, maxPrice, minPrice,userId})
+    console.log({query, locationId, maxPrice, minPrice, userId})
     await prisma.search.create({
         data: {
             query: query,
             locationId: locationId,
             minPrice: minPrice,
             maxPrice: maxPrice,
-            userId: req.body.userId
+            userId: 11
         },
     })
     return res.sendStatus(200)
