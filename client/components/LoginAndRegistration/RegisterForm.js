@@ -1,23 +1,8 @@
-/*
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import {useState} from "react";
 import axios from "axios";
 import FileBase from 'react-file-base64';
 import {useRouter} from "next/router";
+import ErrorNotification from "./ErrorNotification";
 
 export default function RegisterForm() {
     const router = useRouter()
@@ -35,10 +20,17 @@ export default function RegisterForm() {
             [e.target.name]: e.target.value,
         })
     }
-
+    const [errorMessage, setErrorMessage] = useState("");
+    const errorHandler = (message) => {
+        setErrorMessage(<ErrorNotification setErrorMessage={setErrorMessage} message={message} />)
+}
     async function handleSubmit(e) {
         console.log(state);
         e.preventDefault()
+        if(state.password1 !== state.password2) {
+            errorHandler("Passwords don't match")
+            return
+        }
         const res = await axios.post("http://localhost:3001/register", state)
         console.log(res.data);
         if (res.data.success) {
@@ -48,14 +40,6 @@ export default function RegisterForm() {
 
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <img
@@ -73,6 +57,7 @@ export default function RegisterForm() {
                 </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                        {errorMessage}
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>

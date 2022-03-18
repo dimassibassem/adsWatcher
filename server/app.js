@@ -48,7 +48,7 @@ function exclude(user, ...keys) {
     return user
 }
 
-app.get('/api/users/:id',authenticateToken, async (req, res) => {
+app.get('/api/users/:id', authenticateToken, async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             id: parseInt(req.params.id)
@@ -86,25 +86,37 @@ app.post('/login', async (req, res) => {
     console.log(req.body);
     const email = req.body.email;
     const password = req.body.password;
-    const user = await prisma.user.findFirst({
-        where: {
-            email: email,
-        },
-    })
-    bcrypt.compare(password, user.password, function (err, result) {
-        if (err) {
-            // handle error
-            return res.json({success: false, message: 'Failed to log in'});
-        }
-        if (result) {
-            // Send JWT
-            const token = generateAccessToken(user.username, user.email, user.id);
-            return res.json({success: true, token: token});
-        } else {
-            // response is OutgoingMessage object that server response http request
-            return res.json({success: false, message: 'passwords do not match'});
-        }
-    });
+    let user = {}
+    try {
+        user = await prisma.user.findFirst({
+            where: {
+                email: email,
+            },
+        })
+    } catch (e) {
+        return res.status(400).send({
+            message: 'User not found'
+        })
+    }
+
+    if (user) {
+        bcrypt.compare(password, user.password, function (err, result) {
+            if (err) {
+                // handle error
+                return res.json({success: false, message: 'Failed to log in'});
+            }
+            if (result) {
+                // Send JWT
+                const token = generateAccessToken(user.username, user.email, user.id);
+                return res.json({success: true, token: token});
+            } else {
+                // response is OutgoingMessage object that server response http request
+                return res.json({success: false, message: 'Invalid password'});
+            }
+        })
+    } else {
+        return res.json({success: false, message: 'User not found'});
+    }
 })
 
 
