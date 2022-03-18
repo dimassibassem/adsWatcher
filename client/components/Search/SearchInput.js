@@ -42,7 +42,6 @@ export default function SearchInput() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        console.log(state);
         const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation}, {
             headers: {Authorization: "Bearer " + token},
         })
@@ -50,6 +49,7 @@ export default function SearchInput() {
             await router.push("/")
         }
         console.log(res.data);
+        console.log(state);
     }
 
     return (
