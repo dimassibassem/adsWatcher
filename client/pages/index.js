@@ -3,22 +3,22 @@ import {useEffect} from "react";
 import {useLocalStorage, useStore} from "../store";
 import axios from "axios";
 
-
-
-// const timestamp = new Date(1645804485 * 1000);
-// let month = timestamp.getMonth() + 1;
-// let year = timestamp.getFullYear();
-// let date = timestamp.getDate();
-
 export default function Home() {
 
     const token = useLocalStorage(store => store.token)
-
-    const loadFiles = useStore(store => store.loadFiles)
+    const setFiles = useStore(store => store.setFiles)
+    const loadFiles = async () => {
+        const response = await axios({
+            url: "http://localhost:3001/api/data",
+            method: "get",
+            headers: {Authorization: "Bearer " + token}
+        })
+        setFiles(await response.data)
+    }
     const files = useStore(store => store.files)
-    const source = useStore(store=>store.source)
-    const tabs = useStore(store=>store.tabs)
-    const userNavigation = useStore(store=>store.userNavigation)
+    const source = useStore(store => store.source)
+    const tabs = useStore(store => store.tabs)
+    const userNavigation = useStore(store => store.userNavigation)
     console.log(token);
     useEffect(async () => {
         await loadFiles()

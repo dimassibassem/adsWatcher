@@ -13,7 +13,7 @@ model User {
   updatedAt DateTime @updatedAt
   username  String   @unique @db.VarChar(255)
   password  String   @db.VarChar(255)
-  avatarUrl String   @db.VarChar(255)
+  avatarUrl String   @db.Text
   email     String  @unique @db.VarChar(255)
   searchs   Search[]
 }

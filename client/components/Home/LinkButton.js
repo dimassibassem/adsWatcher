@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {decode} from '../../../server/functions'
 import axios from "axios";
+import {useLocalStorage} from "../../store";
 
 const LinkButton = ({source, currentFile}) => {
     const [url, setUrl] = useState('');
+    const token = useLocalStorage((store) => store.token)
     useEffect(async () => {
-        const result = await axios.get('http://localhost:3001/api/getAppData')
+        const result = await axios.get('http://localhost:3001/api/getAppData',{headers: {Authorization: "Bearer " + token},})
         const appData = result.data
         const decodedAppData = decode(appData, 4)
         const crawlerAdUrls = decode(decodedAppData.cau, 3)

@@ -1,8 +1,40 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Menu, Transition} from "@headlessui/react";
 import {classNames} from "../../utils";
+import {useLocalStorage} from "../../store";
+import axios from "axios";
 
 const ProfileDropdown = ({userNavigation}) => {
+    const token = useLocalStorage(store => store.token);
+
+    function parseJwt(token) {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    }
+
+    const [decodedToken, setDecodedToken] = useState(null);
+    const [userData, setUserData] = useState({});
+    useEffect(async () => {
+        setDecodedToken(parseJwt(token));
+    }, [token]);
+
+    useEffect(async () => {
+        setUserData(await userInfo())
+    }, [decodedToken]);
+
+    const userInfo = async () => {
+        if (decodedToken) {
+            const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`);
+            console.log("from Function userInfo:  "+res.data.avatarUrl);
+            return res.data;
+        }
+    }
+
+
     return (
         <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
             <Menu as="div" className="relative flex-shrink-0">
@@ -12,7 +44,7 @@ const ProfileDropdown = ({userNavigation}) => {
                         <span className="sr-only">Open user menu</span>
                         <img
                             className="h-11 w-11 rounded-full"
-                            src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+                            src={userData?.avatarUrl}
                             alt=""
                         />
                     </Menu.Button>

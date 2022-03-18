@@ -63,13 +63,7 @@ const createStateSlice = (set, get) => ({
     setList: (bool) => set({list: bool, currentFile: null}),
     setCurrentFile: (index) => set(state => ({currentFile: state.files[index]}), null, "setCurrentFile"),
     setFiles: (data) => set({files: data}, null, "setFiles"),
-    loadFiles: async () => {
-        const response = await axios({
-            url: "http://localhost:3001/api/data",
-            method: "get"
-        })
-        set({files: await response.data})
-    },
+
     source: source,
     tabs: tabs,
     categoryDisplayNames: categoryDisplayNames,

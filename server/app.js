@@ -18,9 +18,11 @@ dotenv.config();
 
 // access config var
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
-app.use(cors());
 
-app.use(bodyParser.json());
+app.use(cors())
+
+
+app.use(bodyParser.json({limit: '50mb'}));
 
 
 function generateAccessToken(username, email, userId) {
@@ -42,7 +44,22 @@ function authenticateToken(req, res, next) {
         next()
     })
 }
+function exclude(user, ...keys) {
+    for (let key of keys) {
+        delete user[key]
+    }
+    return user
+}
 
+app.get('/api/users/:id', async (req, res) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: parseInt(req.params.id)
+        },
+    })
+    const userWithoutPassword = exclude(user, 'password')
+    return res.json(userWithoutPassword)
+})
 
 app.get('/api/data',authenticateToken, async function (req, res) {
     const userId = req.user.userId
@@ -72,7 +89,6 @@ app.post('/login', async (req, res) => {
             email: email,
         },
     })
-
     bcrypt.compare(password, user.password, function (err, result) {
         if (err) {
             // handle error
@@ -89,9 +105,11 @@ app.post('/login', async (req, res) => {
     });
 })
 
+
+
 app.post('/search',authenticateToken, async (req, res) => {
     const query = req.body.searchBar
-    const userId = req.body.userId
+    const userId = req.user.userId
     let locationId = req.body.selectedLocation?.id
     if (!locationId) {
         locationId = null
@@ -106,7 +124,7 @@ app.post('/search',authenticateToken, async (req, res) => {
             locationId: locationId,
             minPrice: minPrice,
             maxPrice: maxPrice,
-            userId: 11
+            userId: userId
         },
     })
     return res.sendStatus(200)
