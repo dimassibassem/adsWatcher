@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {decode} from '../../../server/functions'
 import axios from "axios";
 import {useLocalStorage} from "../../store";
 
@@ -9,8 +8,8 @@ const LinkButton = ({source, currentFile}) => {
     useEffect(async () => {
         const result = await axios.get('http://localhost:3001/api/getAppData',{headers: {Authorization: "Bearer " + token},})
         const appData = result.data
-        const decodedAppData = decode(appData, 4)
-        const crawlerAdUrls = decode(decodedAppData.cau, 3)
+        //const decodedAppData = appData.decodedAppData
+        const crawlerAdUrls = appData.crawlerAdUrls
         const url = crawlerAdUrls[currentFile.crawlerId].replace(/{id}/g, currentFile.externalId)
         setUrl(url)
     });

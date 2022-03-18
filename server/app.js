@@ -5,13 +5,11 @@ const app = express();
 const cors = require("cors")
 const scrape = require("./scrape.js");
 const axios = require("axios");
-const functions = require('./functions')
-const locations = require('../client/utils/locations')
-let nameToIndex = functions.nameToIndex
 const jwt = require('jsonwebtoken');
 const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 const dotenv = require('dotenv');
+const {decode} = require("./functions");
 
 // get config vars
 dotenv.config();
@@ -20,8 +18,6 @@ dotenv.config();
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 app.use(cors())
-
-
 app.use(bodyParser.json({limit: '50mb'}));
 
 
@@ -44,6 +40,7 @@ function authenticateToken(req, res, next) {
         next()
     })
 }
+
 function exclude(user, ...keys) {
     for (let key of keys) {
         delete user[key]
@@ -61,7 +58,7 @@ app.get('/api/users/:id', async (req, res) => {
     return res.json(userWithoutPassword)
 })
 
-app.get('/api/data',authenticateToken, async function (req, res) {
+app.get('/api/data', authenticateToken, async function (req, res) {
     const userId = req.user.userId
     const search = await prisma.search.findFirst({
         where: {
@@ -72,9 +69,17 @@ app.get('/api/data',authenticateToken, async function (req, res) {
     return res.status(200).send(data)
 });
 
-app.get('/api/getAppData',authenticateToken, (async (req, res) => {
+app.get('/api/getAppData', authenticateToken, (async (req, res) => {
     const response = await axios.get('https://cdn.9annas.tn/data/appdata.json?v=3');
-    return res.status(200).send(response.data)
+    // return res.status(200).send(response.data)
+    let data = response.data
+    let decodedAppData = decode(data, 4)
+    let crawlerAdUrls = decode(decodedAppData.cau, 3)
+    return res.json({
+       // appData: data,
+        //decodedAppData: decodedAppData,
+        crawlerAdUrls: crawlerAdUrls
+    })
 }))
 app.listen(3001);
 
@@ -106,8 +111,7 @@ app.post('/login', async (req, res) => {
 })
 
 
-
-app.post('/search',authenticateToken, async (req, res) => {
+app.post('/search', authenticateToken, async (req, res) => {
     const query = req.body.searchBar
     const userId = req.user.userId
     let locationId = req.body.selectedLocation?.id
