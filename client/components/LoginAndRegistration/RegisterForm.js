@@ -36,6 +36,9 @@ export default function RegisterForm() {
         if (res.data.success) {
             await router.push("/Login")
         }
+        if (res.data.message) {
+            errorHandler(res.data.message)
+        }
     }
 
     return (
@@ -47,13 +50,7 @@ export default function RegisterForm() {
                         src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                         alt="Workflow"
                     />
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
-                        Or{' '}
-                        <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                            start your 14-day free trial
-                        </a>
-                    </p>
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create Account</h2>
                 </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -136,20 +133,6 @@ export default function RegisterForm() {
 
                             </div>
 
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <input
-                                        id="remember-me"
-                                        name="remember-me"
-                                        type="checkbox"
-                                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                    />
-
-                                </div>
-
-
-                            </div>
-
                             <div>
                                 <button
                                     type="submit"
@@ -204,7 +187,7 @@ export default function RegisterForm() {
 
                                 <div>
                                     <a
-                                        href="#"
+                                        href="http://localhost:3001/api/auth/github"
                                         className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                                     >
                                         <span className="sr-only">Sign in with GitHub</span>

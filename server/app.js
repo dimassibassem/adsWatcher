@@ -10,6 +10,8 @@ const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 const dotenv = require('dotenv');
 const {decode} = require("./functions");
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 // get config vars
 dotenv.config();
@@ -78,7 +80,6 @@ app.get('/api/getAppData', authenticateToken, (async (req, res) => {
         crawlerAdUrls: crawlerAdUrls
     })
 }))
-app.listen(3001);
 
 
 app.post('/login', async (req, res) => {
@@ -144,6 +145,26 @@ app.post('/search', authenticateToken, async (req, res) => {
 })
 
 app.post('/register', async (req, res) => {
+    const test1 = await prisma.user.findUnique({
+        where: {
+            username: req.body.username,
+        },
+    })
+    if (test1) {
+        return res.json({
+            message: 'Username already exists'
+        })
+    }
+    const test2 = await prisma.user.findUnique({
+        where: {
+            email: req.body.email,
+        },
+    })
+    if (test2) {
+        return res.json({
+            message: 'Email already exists'
+        })
+    }
     bcrypt.genSalt(10, function (err, salt) {
         if (err) {
             return res.json({success: false, message: 'Failed to create user'});
@@ -166,5 +187,39 @@ app.post('/register', async (req, res) => {
     });
 })
 
+//
+// passport.use(new GitHubStrategy({
+//         clientID: process.env.GITHUB_CLIENT_ID,
+//         clientSecret: process.env.GITHUB_CLIENT_SECRET,
+//         callbackURL: "http://localhost:3001/api/auth/callback/github"
+//     },
+//     async function (accessToken, refreshToken, profile, done) {
+//         await prisma.user.upsert({
+//             where: {
+//                 email: profile.emails[0].value
+//             },
+//             update: {},
+//             create: {
+//                 email: profile.emails[0].value,
+//                 name: profile.displayName,
+//             },
+//         },
+//         //     function (err, user) {
+//         //     return done(err, user);
+//         // }
+//         )
+//         console.log(profile)
+//     }
+// ));
+//
+// app.get('/api/auth/github',
+//     passport.authenticate('github', {scope: ['user:email']}));
+//
+// app.get('/api/auth/github/callback',
+//     passport.authenticate('github', {failureRedirect: 'http://localhost:3000/Login'}),
+//     function (req, res) {
+//         // Successful authentication, redirect home.
+//         res.redirect('http://localhost:3000');
+//     });
 
-
+app.listen(3001);

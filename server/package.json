@@ -24,6 +24,7 @@
     "method-override": "^3.0.0",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
+    "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
