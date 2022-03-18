@@ -28,7 +28,11 @@ const ProfileDropdown = ({userNavigation}) => {
 
     const userInfo = async () => {
         if (decodedToken) {
-            const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`);
+            const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             console.log("from Function userInfo:  "+res.data.avatarUrl);
             return res.data;
         }

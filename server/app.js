@@ -48,7 +48,7 @@ function exclude(user, ...keys) {
     return user
 }
 
-app.get('/api/users/:id', async (req, res) => {
+app.get('/api/users/:id',authenticateToken, async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             id: parseInt(req.params.id)
@@ -71,13 +71,10 @@ app.get('/api/data', authenticateToken, async function (req, res) {
 
 app.get('/api/getAppData', authenticateToken, (async (req, res) => {
     const response = await axios.get('https://cdn.9annas.tn/data/appdata.json?v=3');
-    // return res.status(200).send(response.data)
     let data = response.data
     let decodedAppData = decode(data, 4)
     let crawlerAdUrls = decode(decodedAppData.cau, 3)
     return res.json({
-       // appData: data,
-        //decodedAppData: decodedAppData,
         crawlerAdUrls: crawlerAdUrls
     })
 }))
