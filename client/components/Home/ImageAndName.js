@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
 import {HeartIcon} from "@heroicons/react/outline";
 import {useStore} from "../../store";
-import Carousel from "./MyCarousel";
+
 
 const ImageAndName = ({currentFile}) => {
     const moreImages = useStore(state => state.moreImages);
@@ -21,7 +20,7 @@ const ImageAndName = ({currentFile}) => {
     console.log(moreImages);
     return (
         <div>
-            <Carousel images={moreImages}/>
+            {imagesView}
             <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
                 <img src={currentFile.thumbnail} alt="" className="object-cover"/>
             </div>

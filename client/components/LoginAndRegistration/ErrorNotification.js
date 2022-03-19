@@ -22,11 +22,11 @@ export default function ErrorNotification({message, setErrorMessage}) {
                         <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-2">
                             <button
                                 type="button"
-                                className="-mr-1 flex p-2 rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-white"
+                                className="-mr-1 flex p-2 rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red"
                                 onClick={() => setErrorMessage("")}
                             >
                                 <span className="sr-only">Dismiss</span>
-                                <XIcon className="h-6 w-6 text-white" aria-hidden="true"/>
+                                <XIcon className="h-6 w-6 text-red-700" aria-hidden="true"/>
                             </button>
                         </div>
                     </div>

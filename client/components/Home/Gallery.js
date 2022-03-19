@@ -1,9 +1,9 @@
 import React from 'react';
 import {classNames} from "../../utils";
-import {useStore} from '../../store';
+import {useLocalStorage, useStore} from '../../store';
 
 const Gallery = () => {
-
+    const token = useLocalStorage(store => store.token)
     const setCurrentFile = useStore(state => state.setCurrentFile);
     const setMoreImages = useStore(state => state.setMoreImages);
     const files = useStore(state => state.files);
@@ -42,8 +42,7 @@ const Gallery = () => {
                                         className="absolute inset-0 focus:outline-none"
                                         onClick={async () => {
                                             setCurrentFile(index)
-                                            await setMoreImages(file)
-                                            console.log("file: " + file.id)
+                                            await setMoreImages(file, token)
                                         }}>
 
                                     <span className="sr-only">View details for {file.title}</span>

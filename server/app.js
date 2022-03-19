@@ -81,7 +81,7 @@ app.get('/api/getAppData', authenticateToken, (async (req, res) => {
     })
 }))
 
-app.get('/api/getMoreImages/:id',authenticateToken async (req, res) => {
+app.get('/api/getMoreImages/:id',authenticateToken, async (req, res) => {
     return res.json(await getImages(req.params.id))
 })
 
