@@ -2,7 +2,7 @@ import React from 'react';
 import {useStore} from "../../store";
 
 const Information = ({currentFile}) => {
-    const categoryDisplayNames = useStore( store =>  store.categoryDisplayNames);
+    const categoryDisplayNames = useStore(store => store.categoryDisplayNames);
 
     const formatedDate = (timestamp) => {
         let ts = new Date(timestamp * 1000);
@@ -11,7 +11,12 @@ const Information = ({currentFile}) => {
         let date = ts.getDate();
         return `${date}/${month}/${year}`
     }
-    console.log("categories :    "+categoryDisplayNames);
+
+    let distance = currentFile.distance != 0 ? <div className="py-3 flex justify-between text-sm font-medium">
+        <dt className="text-gray-500">Distance</dt>
+        <dd className="text-gray-900">{currentFile.distance} KM</dd>
+    </div> : <div/>;
+
     return (
         <div>
             <div>
@@ -20,7 +25,7 @@ const Information = ({currentFile}) => {
 
                     <div className="py-3 flex justify-between text-sm font-medium">
                         <dt className="text-gray-500">Category</dt>
-                        <dd className="text-gray-900">{categoryDisplayNames[currentFile.categoryId-1].name}</dd>
+                        <dd className="text-gray-900">{categoryDisplayNames[currentFile.categoryId - 1].name}</dd>
                     </div>
 
                     <div className="py-3 flex justify-between text-sm font-medium">
@@ -32,10 +37,7 @@ const Information = ({currentFile}) => {
                         <dd className="text-gray-900">{formatedDate(currentFile.timestamp)}</dd>
                     </div>
 
-                    <div className="py-3 flex justify-between text-sm font-medium">
-                        <dt className="text-gray-500">Distance</dt>
-                        <dd className="text-gray-900">{currentFile.distance} KM</dd>
-                    </div>
+                    {distance}
 
                 </dl>
             </div>

@@ -13,6 +13,14 @@ const GalleryList = ({source}) => {
         let date = ts.getDate();
         return `${date}/${month}/${year}`
     }
+    const distance = (file) => {
+        if (file.distance != 0) {
+            return <div className="py-3 flex justify-between text-sm font-medium">
+                <dt className="text-gray-500">Distance</dt>
+                <dd className="text-gray-900">{file.distance} KM</dd>
+            </div>
+        } else return <div/>
+    }
 
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
@@ -50,8 +58,8 @@ const GalleryList = ({source}) => {
 
                                         <button type="button"
                                                 className="absolute inset-0 focus:outline-none"
-                                                // onClick={() => setCurrentFile(index)}
-                                            >
+                                            // onClick={() => setCurrentFile(index)}
+                                        >
 
                                             <span className="sr-only">View details for {file.title}</span>
                                         </button>
@@ -61,12 +69,12 @@ const GalleryList = ({source}) => {
                                     </div>
 
                                     <div className="py-3 flex justify-between text-sm font-medium">
-                                        <dt className="text-gray-500">Price  </dt>
+                                        <dt className="text-gray-500">Price</dt>
                                         <dd className="text-gray-900">{file.price} TND</dd>
                                     </div>
                                     <div className="py-3 flex justify-between text-sm font-medium">
-                                        <dt className="text-gray-500">Category  </dt>
-                                        <dd className="text-gray-900">{categoryDisplayNames[file.categoryId-1].name}</dd>
+                                        <dt className="text-gray-500">Category</dt>
+                                        <dd className="text-gray-900">{categoryDisplayNames[file.categoryId - 1].name}</dd>
                                     </div>
                                     <div className="py-3 flex justify-between text-sm font-medium">
                                         <dt className="text-gray-500">Location</dt>
@@ -76,10 +84,7 @@ const GalleryList = ({source}) => {
                                         <dt className="text-gray-500">Posted at</dt>
                                         <dd className="text-gray-900">{formatedDate(file.timestamp)}</dd>
                                     </div>
-                                    <div className="py-3 flex justify-between text-sm font-medium">
-                                        <dt className="text-gray-500">Distance</dt>
-                                        <dd className="text-gray-900">{file.distance} KM</dd>
-                                    </div>
+                                    {distance(file)}
 
                                     <div className="pt-3">
                                         <h3 className="font-medium text-gray-900">Description</h3>
