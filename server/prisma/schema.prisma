@@ -31,3 +31,13 @@ model Location {
     id String @id @db.VarChar(255)
     name String @db.VarChar(255)
 }
+model Category{
+    id String @id @db.VarChar(255)
+    name String @db.VarChar(255)
+}
+model Source{
+    id String @id @db.VarChar(255)
+    name String @db.VarChar(255)
+    hasLargeImages Boolean
+    hasPrice Boolean
+}

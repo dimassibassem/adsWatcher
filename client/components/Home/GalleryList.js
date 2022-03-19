@@ -66,7 +66,7 @@ const GalleryList = ({source}) => {
                                     </div>
                                     <div className="py-3 flex justify-between text-sm font-medium">
                                         <dt className="text-gray-500">Category  </dt>
-                                        <dd className="text-gray-900">{categoryDisplayNames[file.categoryId]}</dd>
+                                        <dd className="text-gray-900">{categoryDisplayNames[file.categoryId-1].name}</dd>
                                     </div>
                                     <div className="py-3 flex justify-between text-sm font-medium">
                                         <dt className="text-gray-500">Location</dt>

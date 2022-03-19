@@ -8,6 +8,7 @@ export default  function Home() {
 
     const token = useLocalStorage(store => store.token)
     const setFiles = useStore(store => store.setFiles)
+    const setCategoryDisplayNames = useStore(store => store.setCategoryDisplayNames)
     const router = useRouter()
 
 
@@ -26,9 +27,11 @@ export default  function Home() {
     const source = useStore(store => store.source)
     const tabs = useStore(store => store.tabs)
     const userNavigation = useStore(store => store.userNavigation)
+    const setSource = useStore(store => store.setSource)
     console.log(token);
     useEffect(async () => {
-
+        await setSource(token)
+        await setCategoryDisplayNames(token)
         await loadFiles()
     }, []);
     return (

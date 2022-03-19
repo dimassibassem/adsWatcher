@@ -50,6 +50,16 @@ function exclude(user, ...keys) {
     return user
 }
 
+app.get('/api/getCategoryDisplayNames', authenticateToken, async (req, res) => {
+    const category = await prisma.category.findMany()
+    return res.send(category)
+})
+
+app.get('/api/getSource',authenticateToken , async (req, res) => {
+    const source = await prisma.source.findMany()
+    return res.send(source)
+})
+
 app.get('/api/users/:id', authenticateToken, async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {

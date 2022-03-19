@@ -26,7 +26,7 @@ const LinkButton = ({source, currentFile}) => {
                 }}
             >
                 <a>
-                    See on {source[currentFile.sourceId].name}
+                    See on {source[currentFile.sourceId-1].name}
                 </a>
             </button>
 
