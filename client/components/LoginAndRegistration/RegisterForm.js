@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import FileBase from 'react-file-base64';
 import {useRouter} from "next/router";
 import ErrorNotification from "./ErrorNotification";
+import Avatar from "./Avatar";
 
 export default function RegisterForm() {
     const router = useRouter()
@@ -10,7 +11,7 @@ export default function RegisterForm() {
         username: "",
         password1: "",
         password2: "",
-        avatar: "",
+        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1",
         email: ""
     });
 
@@ -22,12 +23,13 @@ export default function RegisterForm() {
     }
     const [errorMessage, setErrorMessage] = useState("");
     const errorHandler = (message) => {
-        setErrorMessage(<ErrorNotification setErrorMessage={setErrorMessage} message={message} />)
-}
+        setErrorMessage(<ErrorNotification setErrorMessage={setErrorMessage} message={message}/>)
+    }
+
     async function handleSubmit(e) {
         console.log(state);
         e.preventDefault()
-        if(state.password1 !== state.password2) {
+        if (state.password1 !== state.password2) {
             errorHandler("Passwords don't match")
             return
         }
@@ -40,6 +42,10 @@ export default function RegisterForm() {
             errorHandler(res.data.message)
         }
     }
+
+    useEffect(() => {
+        console.log(state);
+    }, [state.avatar])
 
     return (
         <>
@@ -54,16 +60,15 @@ export default function RegisterForm() {
                 </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                        {errorMessage}
+                    {errorMessage}
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="avatar" className="block text-sm font-medium text-gray-700">
-                                    Avatar
-                                </label>
 
-                                <FileBase type="file" multiple={false}
-                                          onDone={({base64}) => setState({...state, avatar: base64})}/>
+
+                                {/*Avatar*/}
+                                <Avatar setState={setState} state={state}/>
+
                             </div>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
