@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 const dotenv = require('dotenv');
-const {decode} = require("./functions");
+const {decode,getImages} = require("./functions");
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 
@@ -81,6 +81,16 @@ app.get('/api/getAppData', authenticateToken, (async (req, res) => {
     })
 }))
 
+app.get('/api/getMoreImages/:id',authenticateToken async (req, res) => {
+    return res.json(await getImages(req.params.id))
+})
+
+app.get('/api/getLocationData', authenticateToken, (async (req, res) => {
+const locations = await prisma.location.findMany()
+    return res.json({
+        locations: locations
+    })
+}))
 
 app.post('/login', async (req, res) => {
 

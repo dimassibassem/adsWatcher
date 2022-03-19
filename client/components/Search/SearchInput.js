@@ -3,15 +3,16 @@ import {Switch} from '@headlessui/react'
 import {classNames} from "../../utils";
 import ComboBox from "./ComboBox";
 import axios from "axios";
-import locations from "../../utils/locations";
+
 import {useRouter} from 'next/router'
 import {useLocalStorage} from "../../store";
 
 export default function SearchInput() {
     const router = useRouter()
     const token = useLocalStorage((store) => store.token)
-
+    const [locations, setLocations] = useState({});
     useEffect(async () => {
+        setLocations(await getLocations())
         if (!token) {
             await router.push("/Login")
         }
@@ -38,6 +39,13 @@ export default function SearchInput() {
             ...state,
             [e.target.name]: e.target.value,
         })
+    }
+
+    async function getLocations() {
+        const res = await axios.get(`http://localhost:3001/api/getLocationData`, {
+            headers: {Authorization: "Bearer " + token},
+        })
+        return res.data.locations
     }
 
     async function handleSubmit(e) {

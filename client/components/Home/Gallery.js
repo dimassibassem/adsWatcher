@@ -5,6 +5,7 @@ import {useStore} from '../../store';
 const Gallery = () => {
 
     const setCurrentFile = useStore(state => state.setCurrentFile);
+    const setMoreImages = useStore(state => state.setMoreImages);
     const files = useStore(state => state.files);
 
     return (
@@ -39,7 +40,11 @@ const Gallery = () => {
 
                                 <button type="button"
                                         className="absolute inset-0 focus:outline-none"
-                                        onClick={() => setCurrentFile(index)}>
+                                        onClick={async () => {
+                                            setCurrentFile(index)
+                                            await setMoreImages(file)
+                                            console.log("file: " + file.id)
+                                        }}>
 
                                     <span className="sr-only">View details for {file.title}</span>
                                 </button>

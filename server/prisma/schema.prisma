@@ -27,3 +27,7 @@ model Search {
     userId Int
     user User? @relation(fields: [userId], references: [id])
 }
+model Location {
+    id String @id @db.VarChar(255)
+    name String @db.VarChar(255)
+}
