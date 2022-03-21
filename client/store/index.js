@@ -12,6 +12,9 @@ const userNavigation = [
     {name: 'Sign out', href: '#'},
 ]
 
+
+
+
 const getSource = async (token) => {
     let response = await axios.get('http://localhost:3001/api/getSource', {headers: {'Authorization': 'Bearer ' + token}});
     return response.data;
@@ -43,7 +46,7 @@ const createStateSlice = (set, get) => ({
     userNavigation: userNavigation,
     setSource: async (token) => {
         let response = await getSource(token);
-        set({source: response});
+        set({source: response},null,"setSource");
     },
     setMoreImages: async (file, token) => {
         set({moreImages: await getMoreImages(file, token)}, null, "moreImages")
