@@ -11,6 +11,7 @@ const {decode, getImages, getData} = require("./functions");
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const prisma = require('./prismaClient');
+const cron = require("node-cron");
 
 // get config vars
 dotenv.config();
@@ -81,8 +82,12 @@ app.get('/api/users/:id', authenticateToken, async (req, res) => {
     } catch (e) {
     }
 })
-//TODO: cron job to run every day at midnight
+
+// cron job to run every 10 minutes
+cron.schedule("*/10 * * * *", async function () {
     await persistToDb()
+    console.log("running a task every 10 minutes")
+});
 
 
 app.get('/api/data', authenticateToken, async function (req, res) {
