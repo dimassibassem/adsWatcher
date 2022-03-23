@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 const dotenv = require('dotenv');
-const {decode, getImages, getData} = require("./functions");
+const {decode,getImages} = require("./functions");
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 
@@ -26,7 +26,6 @@ app.use(bodyParser.json({limit: '50mb'}));
 function generateAccessToken(username, email, userId) {
     return jwt.sign({username, email, userId}, TOKEN_SECRET, {expiresIn: '172800s'});
 }
-
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
@@ -51,107 +50,34 @@ function exclude(user, ...keys) {
     return user
 }
 
-
-async function persistToDb(userId) {
-    const locations = await prisma.location.findMany()
-    const searches = await prisma.search.findMany({
-        where: {
-            userId: userId
-        }
-    })
-
-    const appData = await getData()
-
-    const decodedAppData = decode(appData, 4)
-
-    const crawlerAdUrls = decode(decodedAppData.cau, 3)
-
-
-    for (let search of searches) {
-        let data = await scrape(search.query, search.locationId, search.maxPrice, search.minPrice, locations)
-        for (let i = 0; i < data.length; i++) {
-            await prisma.article.upsert({
-                where: {articleId: data[i].id},
-                create: {
-                    searchId: search.id,
-                    articleId: data[i].id,
-                    title: data[i].title,
-                    description: data[i].description,
-                    price: data[i].price,
-                    categoryId: data[i].categoryId,
-                    location: data[i].location,
-                    distance: data[i].distance,
-                    timestamp: data[i].timestamp,
-                    thumbnail: data[i].thumbnail,
-                    externalId: data[i].externalId,
-                    sourceId: data[i].sourceId,
-                    crawlerId: data[i].crawlerId,
-                    sourceUrl: crawlerAdUrls[data[i].crawlerId].replace(/{id}/g, data[i].externalId),
-                },
-                update: {
-                    searchId: search.id,
-                    articleId: data[i].id,
-                    title: data[i].title,
-                    description: data[i].description,
-                    price: data[i].price,
-                    categoryId: data[i].categoryId,
-                    location: data[i].location,
-                    distance: data[i].distance,
-                    timestamp: data[i].timestamp,
-                    thumbnail: data[i].thumbnail,
-                    externalId: data[i].externalId,
-                    sourceId: data[i].sourceId,
-                    crawlerId: data[i].crawlerId,
-                    sourceUrl: crawlerAdUrls[data[i].crawlerId].replace(/{id}/g, data[i].externalId),
-                }
-
-            })
-        }
-
-    }
-
-}
-
-app.get('/api/getLocations', async (req, res) => {
-    const result = await prisma.location.findMany()
-    return res.json(result)
-})
-
 app.get('/api/getCategoryDisplayNames', authenticateToken, async (req, res) => {
     const category = await prisma.category.findMany()
     return res.send(category)
 })
 
-app.get('/api/getSource', authenticateToken, async (req, res) => {
+app.get('/api/getSource',authenticateToken , async (req, res) => {
     const source = await prisma.source.findMany()
     return res.send(source)
 })
 
 app.get('/api/users/:id', authenticateToken, async (req, res) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                id: parseInt(req.params.id)
-            },
-        })
-        const userWithoutPassword = exclude(user, 'password')
-        return res.json(userWithoutPassword)
-    } catch (e) {
-
-    }
+    const user = await prisma.user.findUnique({
+        where: {
+            id: parseInt(req.params.id)
+        },
+    })
+    const userWithoutPassword = exclude(user, 'password')
+    return res.json(userWithoutPassword)
 })
 
 app.get('/api/data', authenticateToken, async function (req, res) {
-
     const userId = req.user.userId
-
-    await persistToDb(userId)
-
-    const data = await prisma.article.findMany()
-
-
-    // const data = await scrape(search.query, search.locationId, search.maxPrice, search.minPrice)
-
+    const search = await prisma.search.findFirst({
+        where: {
+            userId: userId
+        }
+    })
+    const data = await scrape(search.query, search.locationId, search.maxPrice, search.minPrice)
     return res.status(200).send(data)
 });
 
@@ -165,10 +91,16 @@ app.get('/api/getAppData', authenticateToken, (async (req, res) => {
     })
 }))
 
-app.get('/api/getMoreImages/:id', authenticateToken, async (req, res) => {
+app.get('/api/getMoreImages/:id',authenticateToken, async (req, res) => {
     return res.json(await getImages(req.params.id))
 })
 
+app.get('/api/getLocationData', authenticateToken, (async (req, res) => {
+const locations = await prisma.location.findMany()
+    return res.json({
+        locations: locations
+    })
+}))
 
 app.post('/login', async (req, res) => {
 
@@ -216,6 +148,7 @@ app.post('/search', authenticateToken, async (req, res) => {
     if (!locationId) {
         locationId = null
     }
+
     const maxPrice = req.body.maxPrice !== '' ? req.body.maxPrice : null
     const minPrice = req.body.minPrice !== '' ? req.body.minPrice : null
     console.log({query, locationId, maxPrice, minPrice, userId})

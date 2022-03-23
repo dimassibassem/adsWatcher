@@ -14,7 +14,7 @@ const GalleryList = ({source}) => {
         return `${date}/${month}/${year}`
     }
     const distance = (file) => {
-        if (file.distance !== 0) {
+        if (file.distance != 0) {
             return <div className="py-3 flex justify-between text-sm font-medium">
                 <dt className="text-gray-500">Distance</dt>
                 <dd className="text-gray-900">{file.distance} KM</dd>

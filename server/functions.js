@@ -1,4 +1,4 @@
- const locations = require('../client/utils/locations.js');
+const locations = require('../client/utils/locations.js');
 const axios = require('axios')
 
 const locationIndex = (locationId)=>{

@@ -1,16 +1,15 @@
 const functions = require('./functions')
-const axios = require("axios");
-// const locations = require('../client/utils/locations')
+const locations = require('../client/utils/locations.js')
 
-let params = functions.params
+let params=functions.params
 let getOffset = functions.getOffset
 let search = functions.search
 let searchMore = functions.searchMore
 let getImages = functions.getImages
 let decode = functions.decode
 let getData = functions.getData
+async function scrape(query,locationId,maxPrice,minPrice) {
 
-async function scrape(query, locationId, maxPrice, minPrice,locations) {
     const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
     const firstResult = await search(dataConfig.data, dataConfig.config)
 
@@ -19,13 +18,14 @@ async function scrape(query, locationId, maxPrice, minPrice,locations) {
     const results = firstResult.results;
 
 
-    //const appData = await getData()
-    // console.log("appData: ", appData)
-    //const decodedAppData = decode(appData, 4)
+    const appData = await getData()
+// console.log("appData: ", appData)
+    const decodedAppData = decode(appData, 4)
+
     //console.log("Source: ", decode(decodedAppData.src, 1))
-    // console.log("categoryDisplayNames: ", decode(decodedAppData.cat, 2))
-    //const crawlerAdUrls = decode(decodedAppData.cau, 3)
-    // console.log(crawlerAdUrls);
+   // console.log("categoryDisplayNames: ", decode(decodedAppData.cat, 2))
+    const crawlerAdUrls = decode(decodedAppData.cau, 3)
+   // console.log(crawlerAdUrls);
 
     console.log("hits: " + hits);
 
@@ -37,12 +37,13 @@ async function scrape(query, locationId, maxPrice, minPrice,locations) {
         for (let item of searchMoreData) {
             item = {
                 ...item,
-                //   sourceUrl:crawlerAdUrls[item.crawlerId].replace(/{id}/g, item.externalId),
+                sourceUrl: crawlerAdUrls[item.crawlerId].replace(/{id}/g, item.externalId),
                 //images: await getImages(item.id)
             }
             results.push(item)
         }
     }
+
 
     return (results.sort((a, b) => a.timestamp + b.timestamp))
 }

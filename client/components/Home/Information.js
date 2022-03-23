@@ -12,7 +12,7 @@ const Information = ({currentFile}) => {
         return `${date}/${month}/${year}`
     }
 
-    let distance = currentFile.distance !== 0 ? <div className="py-3 flex justify-between text-sm font-medium">
+    let distance = currentFile.distance != 0 ? <div className="py-3 flex justify-between text-sm font-medium">
         <dt className="text-gray-500">Distance</dt>
         <dd className="text-gray-900">{currentFile.distance} KM</dd>
     </div> : <div/>;

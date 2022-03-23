@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import SearchInput from "../components/Search/SearchInput";
 const Search = () => {
     return (<div>

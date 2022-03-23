@@ -3,14 +3,18 @@ import {Menu, Transition} from "@headlessui/react";
 import {classNames} from "../../utils";
 import {useLocalStorage} from "../../store";
 import axios from "axios";
-import {parseJwt} from "../../utils/token";
-import {router} from "next/client";
 
 const ProfileDropdown = ({userNavigation}) => {
     const token = useLocalStorage(store => store.token);
-    const setToken = useLocalStorage(store => store.setToken);
 
-
+    function parseJwt(token) {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    }
 
     const [decodedToken, setDecodedToken] = useState(null);
     const [userData, setUserData] = useState({});
@@ -37,16 +41,6 @@ const ProfileDropdown = ({userNavigation}) => {
 
     return (
         <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
-            <button
-                type="button"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={async () => {
-                    setToken(null);
-                    await router.push("/Login")
-                }}
-            >
-                logout
-            </button>
             <Menu as="div" className="relative flex-shrink-0">
                 <div>
                     <Menu.Button

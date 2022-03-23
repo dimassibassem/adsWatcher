@@ -6,28 +6,17 @@ import axios from "axios";
 
 import {useRouter} from 'next/router'
 import {useLocalStorage} from "../../store";
-import {tokenValid} from "../../utils/token";
 
 export default function SearchInput() {
     const router = useRouter()
     const token = useLocalStorage((store) => store.token)
     const [locations, setLocations] = useState({});
-    const setToken = useLocalStorage((store) => store.setToken)
-
-
-    async function getLocations() {
-        const res = await axios.get(`http://localhost:3001/api/getLocations`)
-        return res.data
-    }
-
     useEffect(async () => {
-        if (tokenValid(token)) {
-            setLocations(await getLocations())
-        }else{
-            setToken(null)
+        setLocations(await getLocations())
+        if (!token) {
             await router.push("/Login")
         }
-    }, [])
+    }, [token])
 
     const [agreed, setAgreed] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState()
@@ -52,6 +41,12 @@ export default function SearchInput() {
         })
     }
 
+    async function getLocations() {
+        const res = await axios.get(`http://localhost:3001/api/getLocationData`, {
+            headers: {Authorization: "Bearer " + token},
+        })
+        return res.data.locations
+    }
 
     async function handleSubmit(e) {
         e.preventDefault()
