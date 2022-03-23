@@ -26,7 +26,7 @@ model Search {
   maxPrice   String?
   userId     Int
   user       User?              @relation(fields: [userId], references: [id])
-  articles   Article[]
+
 }
 
 model Location {
@@ -49,7 +49,7 @@ model Source {
 model Article {
   id          Int                @id @default(autoincrement())
   articleId   Int                @unique
-  title       String             @db.VarChar(255)
+  title       String             @db.Text
   description String?            @db.Text
   price       Float?
   categoryId  Int
@@ -61,5 +61,5 @@ model Article {
   sourceId    Int
   crawlerId   Int
   sourceUrl   String             @db.Text
-  searches    Search[]
+
 }

@@ -6,12 +6,11 @@ const cors = require("cors")
 const scrape = require("./scrape.js");
 const axios = require("axios");
 const jwt = require('jsonwebtoken');
-const {PrismaClient} = require('@prisma/client')
-const prisma = new PrismaClient()
 const dotenv = require('dotenv');
 const {decode, getImages, getData} = require("./functions");
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
+const prisma = require('./prismaClient');
 
 // get config vars
 dotenv.config();
@@ -51,68 +50,11 @@ function exclude(user, ...keys) {
 }
 
 
-async function persistToDb(userId) {
-    const locations = await prisma.location.findMany()
-    const searches = await prisma.search.findMany({
-        where: {
-            userId: userId
-        }
-    })
-
-    const appData = await getData()
-
-    const decodedAppData = decode(appData, 4)
-
-    const crawlerAdUrls = decode(decodedAppData.cau, 3)
+async function persistToDb() {
+    const searches = await prisma.search.findMany()
 
     for (let search of searches) {
-        let data = await scrape(search.query, search.locationId, search.maxPrice, search.minPrice, locations)
-        for (let i = 0; i < data.length; i++) {
-            await prisma.article.upsert({
-                where: {articleId: data[i].id},
-                create: {
-                    searches: {
-                        connect: {
-                            id: search.id
-                        }
-                    },
-                    articleId: data[i].id,
-                    title: data[i].title,
-                    description: data[i].description,
-                    price: data[i].price,
-                    categoryId: data[i].categoryId,
-                    location: data[i].location,
-                    distance: data[i].distance,
-                    timestamp: data[i].timestamp,
-                    thumbnail: data[i].thumbnail,
-                    externalId: data[i].externalId,
-                    sourceId: data[i].sourceId,
-                    crawlerId: data[i].crawlerId,
-                    sourceUrl: crawlerAdUrls[data[i].crawlerId].replace(/{id}/g, data[i].externalId),
-                },
-                update: {
-                    searches: {
-                        connect: {
-                            id: search.id
-                        }
-                    },
-                    articleId: data[i].id,
-                    title: data[i].title,
-                    description: data[i].description,
-                    price: data[i].price,
-                    categoryId: data[i].categoryId,
-                    location: data[i].location,
-                    distance: data[i].distance,
-                    timestamp: data[i].timestamp,
-                    thumbnail: data[i].thumbnail,
-                    externalId: data[i].externalId,
-                    sourceId: data[i].sourceId,
-                    crawlerId: data[i].crawlerId,
-                    sourceUrl: crawlerAdUrls[data[i].crawlerId].replace(/{id}/g, data[i].externalId),
-                }
-            })
-        }
-
+        await scrape(search.query, null, null, null, null)
     }
 
 }
@@ -139,23 +81,17 @@ app.get('/api/users/:id', authenticateToken, async (req, res) => {
     } catch (e) {
     }
 })
+//TODO: cron job to run every day at midnight
+    await persistToDb()
+
 
 app.get('/api/data', authenticateToken, async function (req, res) {
     const userId = req.user.userId
-    await persistToDb(userId)
     const searches = await prisma.search.findMany({
         where: {
             userId: userId
         },
-        include: {
-            articles: true
-
-        }
     })
-
-    console.log(JSON.stringify(searches, null, 2))
-    // const data = await scrape(search.query, search.locationId, search.maxPrice, search.minPrice)
-
     return res.status(200).send(searches)
 });
 
@@ -283,39 +219,5 @@ app.post('/register', async (req, res) => {
     });
 })
 
-//
-// passport.use(new GitHubStrategy({
-//         clientID: process.env.GITHUB_CLIENT_ID,
-//         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-//         callbackURL: "http://localhost:3001/api/auth/callback/github"
-//     },
-//     async function (accessToken, refreshToken, profile, done) {
-//         await prisma.user.upsert({
-//             where: {
-//                 email: profile.emails[0].value
-//             },
-//             update: {},
-//             create: {
-//                 email: profile.emails[0].value,
-//                 name: profile.displayName,
-//             },
-//         },
-//         //     function (err, user) {
-//         //     return done(err, user);
-//         // }
-//         )
-//         console.log(profile)
-//     }
-// ));
-//
-// app.get('/api/auth/github',
-//     passport.authenticate('github', {scope: ['user:email']}));
-//
-// app.get('/api/auth/github/callback',
-//     passport.authenticate('github', {failureRedirect: 'http://localhost:3000/Login'}),
-//     function (req, res) {
-//         // Successful authentication, redirect home.
-//         res.redirect('http://localhost:3000');
-//     });
 
 app.listen(3001);
