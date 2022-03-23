@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import {useLocalStorage, useStore} from "../store";
 import axios from "axios";
 import {useRouter} from "next/router";
+import {tokenValid} from "../utils/token";
 
 export default  function Home() {
 
@@ -28,11 +29,17 @@ export default  function Home() {
     const tabs = useStore(store => store.tabs)
     const userNavigation = useStore(store => store.userNavigation)
     const setSource = useStore(store => store.setSource)
+    // const setLocations = useStore(store => store.setLocations)
     console.log(token);
     useEffect(async () => {
+        if (tokenValid(token)) {
+            // await setLocations(token)
         await setSource(token)
         await setCategoryDisplayNames(token)
         await loadFiles()
+        } else {
+            await router.push("/Login")
+        }
     }, []);
     return (
         <>

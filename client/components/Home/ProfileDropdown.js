@@ -3,18 +3,12 @@ import {Menu, Transition} from "@headlessui/react";
 import {classNames} from "../../utils";
 import {useLocalStorage} from "../../store";
 import axios from "axios";
+import {parseJwt} from "../../utils/token";
 
 const ProfileDropdown = ({userNavigation}) => {
     const token = useLocalStorage(store => store.token);
 
-    function parseJwt(token) {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        return JSON.parse(jsonPayload);
-    }
+
 
     const [decodedToken, setDecodedToken] = useState(null);
     const [userData, setUserData] = useState({});
@@ -33,7 +27,6 @@ const ProfileDropdown = ({userNavigation}) => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log("from Function userInfo:  "+res.data.avatarUrl);
             return res.data;
         }
     }

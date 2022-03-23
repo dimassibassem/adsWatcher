@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {classNames} from "../../utils";
-import {useStore} from '../../store';
+import {useLocalStorage, useStore} from '../../store';
 import LinkButton from "./LinkButton";
 
 const GalleryList = ({source}) => {
     const categoryDisplayNames = useStore(store => store.categoryDisplayNames)
     const files = useStore(state => state.files);
+
+
     const formatedDate = (timestamp) => {
         let ts = new Date(timestamp * 1000);
         let month = ts.getMonth() + 1;
@@ -14,7 +16,7 @@ const GalleryList = ({source}) => {
         return `${date}/${month}/${year}`
     }
     const distance = (file) => {
-        if (file.distance != 0) {
+        if (file.distance !== 0) {
             return <div className="py-3 flex justify-between text-sm font-medium">
                 <dt className="text-gray-500">Distance</dt>
                 <dd className="text-gray-900">{file.distance} KM</dd>
@@ -46,6 +48,8 @@ const GalleryList = ({source}) => {
                                             'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'
                                         )}
                                     >
+
+
                                         <img
                                             src={file.thumbnail}
                                             alt=""
@@ -58,7 +62,6 @@ const GalleryList = ({source}) => {
 
                                         <button type="button"
                                                 className="absolute inset-0 focus:outline-none"
-                                            // onClick={() => setCurrentFile(index)}
                                         >
 
                                             <span className="sr-only">View details for {file.title}</span>

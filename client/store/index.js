@@ -31,16 +31,24 @@ const getMoreImages = async (currentFile, token) => {
         console.log(e)
     }
 }
-
+async function getLocations() {
+    const res = await axios.get(`http://localhost:3001/api/getLocationData`)
+    return res.data
+}
 const createStateSlice = (set, get) => ({
     files: [],
     list: false,
     moreImages: [],
     source: [],
+    locations: [],
     tabs: tabs,
     categoryDisplayNames: [],
     currentFile: null,
     userNavigation: userNavigation,
+    setLocations: async (token) => {
+        const result = await getLocations(token)
+        set(state => ({locations: result}))
+    },
     setSource: async (token) => {
         let response = await getSource(token);
         set({source: response});

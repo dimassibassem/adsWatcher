@@ -4,10 +4,10 @@ import {useStore} from "../../store";
 
 const ImageAndName = ({currentFile}) => {
     const moreImages = useStore(state => state.moreImages);
-    let imagesView = ""
+    let imagesView = <div/>
     if (moreImages.length > 0) {
         imagesView = moreImages.map((image, index) => {
-            console.log(image);
+            // console.log(image);
             return (
                 <div key={index}>
                     <img className="object-cover" src={image} alt=""/>

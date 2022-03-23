@@ -1,15 +1,22 @@
 const functions = require('./functions')
-const locations = require('../client/utils/locations.js')
+// const locations = require('../client/utils/locations.js')
+const axios = require('axios')
 
-let params=functions.params
+async function getLocations() {
+    const res = await axios.get(`http://localhost:3001/api/getLocationData`)
+    return res.data
+}
+
+let params = functions.params
 let getOffset = functions.getOffset
 let search = functions.search
 let searchMore = functions.searchMore
 let getImages = functions.getImages
 let decode = functions.decode
 let getData = functions.getData
-async function scrape(query,locationId,maxPrice,minPrice) {
 
+async function scrape(query, locationId, maxPrice, minPrice) {
+    const locations = await getLocations()
     const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
     const firstResult = await search(dataConfig.data, dataConfig.config)
 
@@ -23,9 +30,9 @@ async function scrape(query,locationId,maxPrice,minPrice) {
     const decodedAppData = decode(appData, 4)
 
     //console.log("Source: ", decode(decodedAppData.src, 1))
-   // console.log("categoryDisplayNames: ", decode(decodedAppData.cat, 2))
+    // console.log("categoryDisplayNames: ", decode(decodedAppData.cat, 2))
     const crawlerAdUrls = decode(decodedAppData.cau, 3)
-   // console.log(crawlerAdUrls);
+    // console.log(crawlerAdUrls);
 
     console.log("hits: " + hits);
 

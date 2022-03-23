@@ -14,30 +14,52 @@ model User {
   username  String   @unique @db.VarChar(255)
   password  String   @db.VarChar(255)
   avatarUrl String   @db.Text
-  email     String  @unique @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
   searchs   Search[]
 }
 
 model Search {
-    id String @id @default(uuid())
-    query String @db.VarChar(255)
-    locationId String?
-    minPrice String?
-    maxPrice String?
-    userId Int
-    user User? @relation(fields: [userId], references: [id])
+  id         Int                @id @default(autoincrement())
+  query      String             @db.VarChar(255)
+  locationId String?
+  minPrice   String?
+  maxPrice   String?
+  userId     Int
+  user       User?              @relation(fields: [userId], references: [id])
+  articles   Article[]
 }
+
 model Location {
-    id String @id @db.VarChar(255)
-    name String @db.VarChar(255)
+  id   String @id @db.VarChar(255)
+  name String @db.VarChar(255)
 }
-model Category{
-    id String @id @db.VarChar(255)
-    name String @db.VarChar(255)
+
+model Category {
+  id   String @id @db.VarChar(255)
+  name String @db.VarChar(255)
 }
-model Source{
-    id String @id @db.VarChar(255)
-    name String @db.VarChar(255)
-    hasLargeImages Boolean
-    hasPrice Boolean
+
+model Source {
+  id             String  @id @db.VarChar(255)
+  name           String  @db.VarChar(255)
+  hasLargeImages Boolean
+  hasPrice       Boolean
+}
+
+model Article {
+  id          Int                @id @default(autoincrement())
+  articleId   Int                @unique
+  title       String             @db.VarChar(255)
+  description String?            @db.Text
+  price       Float?
+  categoryId  Int
+  distance    Int?
+  timestamp   Int
+  thumbnail   String?            @db.VarChar(255)
+  location    String?            @db.VarChar(255)
+  externalId  String             @db.VarChar(255)
+  sourceId    Int
+  crawlerId   Int
+  sourceUrl   String             @db.Text
+  searches    Search[]
 }
