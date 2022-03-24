@@ -15,7 +15,7 @@ export default function SearchInput() {
     const setLocations = useStore((store) => store.setLocations)
     useEffect(async () => {
         if (tokenValid(token)) {
-            await setLocations()
+           await setLocations()
         } else {
             await router.push('/Login')
         }

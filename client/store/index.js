@@ -1,6 +1,7 @@
 import axios from "axios";
 import create from "zustand";
 import {devtools, persist} from "zustand/middleware";
+import {parseJwt} from "../utils/token";
 
 const tabs = [
     {name: 'Recently Viewed', href: '#', current: true},
@@ -31,11 +32,24 @@ const getMoreImages = async (currentFile, token) => {
         console.log(e)
     }
 }
+
+const userInfo = async (decodedToken,token) => {
+    if (decodedToken) {
+        const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return res.data;
+    }
+}
+
 async function getLocations() {
     const res = await axios.get(`http://localhost:3001/api/getLocationData`)
     return res.data
 }
 const createStateSlice = (set, get) => ({
+    userData:null,
     files: [],
     list: false,
     moreImages: [],
@@ -45,13 +59,18 @@ const createStateSlice = (set, get) => ({
     categoryDisplayNames: [],
     currentFile: null,
     userNavigation: userNavigation,
-    setLocations: async (token) => {
-        const result = await getLocations(token)
-        set(state => ({locations: result}))
+    setUserData: async (token) =>{
+        const decodedToken = parseJwt(token);
+        const result = await userInfo(decodedToken,token);
+        set({userData: result}, null, "setUserData")
+    },
+    setLocations: async () => {
+        const result = await getLocations()
+        set( {locations: result} ,null, "setLocations")
     },
     setSource: async (token) => {
         let response = await getSource(token);
-        set({source: response});
+        set({source: response}, null, "setSource");
     },
     setMoreImages: async (file, token) => {
         set({moreImages: await getMoreImages(file, token)}, null, "moreImages")
@@ -68,7 +87,7 @@ const createStateSlice = (set, get) => ({
 
 const createTokenSlice = (set, get) => ({
     token: null,
-    setToken: (token) => set({token: token})
+    setToken: (token) => set({token: token}, null, "setToken")
 });
 
 const createRootStorage = (set, get) => ({

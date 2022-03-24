@@ -3,15 +3,14 @@ import {useEffect} from "react";
 import {useLocalStorage, useStore} from "../store";
 import axios from "axios";
 import {useRouter} from "next/router";
-import {tokenValid} from "../utils/token";
+import {parseJwt, tokenValid} from "../utils/token";
 
-export default  function Home() {
+export default function Home() {
 
     const token = useLocalStorage(store => store.token)
     const setFiles = useStore(store => store.setFiles)
     const setCategoryDisplayNames = useStore(store => store.setCategoryDisplayNames)
     const router = useRouter()
-
 
 
     const loadFiles = async () => {
@@ -29,18 +28,21 @@ export default  function Home() {
     const tabs = useStore(store => store.tabs)
     const userNavigation = useStore(store => store.userNavigation)
     const setSource = useStore(store => store.setSource)
-    // const setLocations = useStore(store => store.setLocations)
+  const setLocations = useStore(store => store.setLocations)
+    const setUserData = useStore(store => store.setUserData)
+
     console.log(token);
     useEffect(async () => {
         if (tokenValid(token)) {
-            // await setLocations(token)
-        await setSource(token)
-        await setCategoryDisplayNames(token)
-        await loadFiles()
+            await setUserData(token)
+            // await setLocations()
+            await setSource(token)
+            await setCategoryDisplayNames(token)
+            await loadFiles()
         } else {
             await router.push("/Login")
         }
-    }, []);
+    }, [token]);
     return (
         <>
             <div className="h-full flex">

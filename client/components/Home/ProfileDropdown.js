@@ -1,39 +1,25 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import {Menu, Transition} from "@headlessui/react";
 import {classNames} from "../../utils";
-import {useLocalStorage} from "../../store";
+import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {parseJwt} from "../../utils/token";
 
 const ProfileDropdown = ({userNavigation}) => {
     const token = useLocalStorage(store => store.token);
+    const setToken = useLocalStorage(store => store.setToken);
+
+    const userData = useStore(store => store.userData);
 
 
-
-    const [decodedToken, setDecodedToken] = useState(null);
-    const [userData, setUserData] = useState({});
-    useEffect(async () => {
-        setDecodedToken(parseJwt(token));
-    }, [token]);
-
-    useEffect(async () => {
-        setUserData(await userInfo())
-    }, [decodedToken]);
-
-    const userInfo = async () => {
-        if (decodedToken) {
-            const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`,{
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            return res.data;
-        }
-    }
     let profileAvatar = userData?.avatarUrl ? userData.avatarUrl : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1";
 
     return (
         <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
+            <button onClick={() => {
+                setToken(null);
+            }}>log out
+            </button>
             <Menu as="div" className="relative flex-shrink-0">
                 <div>
                     <Menu.Button
