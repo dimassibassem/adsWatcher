@@ -3,7 +3,8 @@ import {classNames} from "../../utils";
 import {ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
 import {useStore} from "../../store";
 
-const Tabs = ({tabs}) => {
+const Tabs = () => {
+    const tabs = useStore(store => store.tabs)
     const setList = useStore(store=>store.setList)
     return (
         <div className="mt-3 sm:mt-2">

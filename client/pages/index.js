@@ -23,10 +23,10 @@ export default function Home() {
     }
 
 
-    const files = useStore(store => store.files)
-    const source = useStore(store => store.source)
-    const tabs = useStore(store => store.tabs)
-    const userNavigation = useStore(store => store.userNavigation)
+
+
+
+
     const setSource = useStore(store => store.setSource)
   const setLocations = useStore(store => store.setLocations)
     const setUserData = useStore(store => store.setUserData)
@@ -48,8 +48,7 @@ export default function Home() {
             <div className="h-full flex">
 
                 {/* Content area */}
-                <ContentArea userNavigation={userNavigation}
-                             files={files} tabs={tabs} source={source}/>
+                <ContentArea/>
 
             </div>
 

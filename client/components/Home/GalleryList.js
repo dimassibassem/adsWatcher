@@ -3,7 +3,9 @@ import {classNames} from "../../utils";
 import {useLocalStorage, useStore} from '../../store';
 import LinkButton from "./LinkButton";
 
-const GalleryList = ({source}) => {
+const GalleryList = () => {
+    const source = useStore(store => store.source)
+
     const categoryDisplayNames = useStore(store => store.categoryDisplayNames)
     const files = useStore(state => state.files);
 

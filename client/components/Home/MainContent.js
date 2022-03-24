@@ -7,7 +7,9 @@ import GalleryList from "./GalleryList";
 import {useStore} from "../../store";
 import Loading from "./Loading";
 
-const MainContent = ({tabs, source}) => {
+const MainContent = () => {
+
+
     const list = useStore(store => store.list)
     const files = useStore(state => state.files);
     let view
@@ -15,7 +17,7 @@ const MainContent = ({tabs, source}) => {
         view = <Loading/>
     }else
     if (list && files.length > 0) {
-        view = <GalleryList source={source}/>
+        view = <GalleryList />
     } else if (!list && files.length > 0)
         view = <Gallery/>
     return (
@@ -43,7 +45,7 @@ const MainContent = ({tabs, source}) => {
                     </div>
 
                     {/* Tabs */}
-                    <Tabs tabs={tabs}/>
+                    <Tabs />
 
                     {/* Gallery */}
                     {/*<Gallery />*/}
@@ -55,7 +57,7 @@ const MainContent = ({tabs, source}) => {
             </main>
 
             {/* Details sidebar */}
-            <DetailsSidebar source={source}/>
+            <DetailsSidebar />
         </div>
     );
 };

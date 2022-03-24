@@ -5,7 +5,8 @@ import LinkButton from "./LinkButton";
 import {useStore} from "../../store";
 import axios from "axios";
 
-const DetailsSidebar = ({source}) => {
+const DetailsSidebar = () => {
+    const source = useStore(store => store.source)
     const currentFile = useStore(state => state.currentFile);
 
     if (currentFile) {

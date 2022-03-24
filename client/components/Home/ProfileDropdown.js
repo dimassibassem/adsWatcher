@@ -5,7 +5,8 @@ import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {parseJwt} from "../../utils/token";
 
-const ProfileDropdown = ({userNavigation}) => {
+const ProfileDropdown = () => {
+    const userNavigation = useStore(store => store.userNavigation)
     const token = useLocalStorage(store => store.token);
     const setToken = useLocalStorage(store => store.setToken);
 

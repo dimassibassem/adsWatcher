@@ -4,8 +4,10 @@ import MainContent from "./MainContent";
 import ProfileDropdown from "./ProfileDropdown";
 
 import SearchBar from "./SearchBar";
+import {useStore} from "../../store";
 
-const ContentArea = ({ userNavigation, tabs,source}) => {
+const ContentArea = () => {
+
     return (
         <div className="flex-1 flex flex-col overflow-hidden ">
             <header className="w-full">
@@ -18,13 +20,13 @@ const ContentArea = ({ userNavigation, tabs,source}) => {
                         <SearchBar/>
 
                         {/* Profile dropdown */}
-                        <ProfileDropdown userNavigation={userNavigation}/>
+                        <ProfileDropdown/>
                     </div>
                 </div>
             </header>
 
             {/* Main content */}
-            <MainContent  tabs={tabs} source={source} />
+            <MainContent />
         </div>
     );
 };
