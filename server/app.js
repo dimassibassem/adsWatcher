@@ -12,12 +12,22 @@ const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const prisma = require('./prismaClient');
 const cron = require("node-cron");
+const nodemailer = require('nodemailer');
 
 // get config vars
 dotenv.config();
 
 // access config var
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_HOST,
+        pass: process.env.EMAIL_PASSWORD,
+    }
+});
+
 
 app.use(cors())
 app.use(bodyParser.json({limit: '50mb'}));
@@ -52,10 +62,46 @@ function exclude(user, ...keys) {
 
 
 async function persistToDb() {
-    const searches = await prisma.search.findMany()
+    const distinctSearches = await prisma.search.findMany({distinct: ['query']})
+    const searches = await prisma.search.findMany({include: {user: true}})
+    for (let distinctSearch of distinctSearches) {
+        try {
+            const newArticles = await scrape(distinctSearch, null, null, null, null)
+            searches.forEach(search => {
+                if (search.query === distinctSearch.query) {
 
-    for (let search of searches) {
-        await scrape(search.query, null, null, null, null)
+                    const email = search.user.email
+
+                    const resultToSend = newArticles.filter(newArticle => {
+                        return newArticle.price === 0
+                            || (newArticle.price >= search.minPrice
+                                || search.minPrice === null)
+                            && (newArticle.price <= search.maxPrice
+                                || search.maxPrice === null);
+                    })
+                    if (resultToSend.length > 0) {
+                        const mailOptions = {
+                            from: process.env.EMAIL_HOST,
+                            to: email,
+                            subject: 'New articles found',
+                            html: resultToSend.map(article => {
+                                return `<h3 style="display: inline">${article.title}</h3>: <h5>${article.price} TND</h5> <img style="width: 280px;border-radius: 5px;height: 200px;" src="${article.thumbnail}" alt=""/><a style="display: block; width: 115px; height: 25px; background: #ffae90; padding: 10px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">take a look </a>`
+                            }).join("\n")
+                        };
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log('Email sent: ' + info.response);
+                            }
+                        });
+                    }
+                }
+            })
+
+        } catch (e) {
+            console.log(e)
+        }
     }
 
 }
@@ -85,7 +131,11 @@ app.get('/api/users/:id', authenticateToken, async (req, res) => {
 
 // cron job to run every 10 minutes
 cron.schedule("*/10 * * * *", async function () {
-    await persistToDb()
+    try {
+        await persistToDb()
+    } catch (e) {
+        console.log(e)
+    }
     console.log("running a task every 10 minutes")
 });
 

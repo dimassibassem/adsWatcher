@@ -11,16 +11,16 @@ const ProfileDropdown = () => {
     const setToken = useLocalStorage(store => store.setToken);
 
     const userData = useStore(store => store.userData);
-
+    console.log(userData?.username);
 
     let profileAvatar = userData?.avatarUrl ? userData.avatarUrl : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1";
 
     return (
         <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
-            <button onClick={() => {
-                setToken(null);
-            }}>log out
-            </button>
+
+            <span className="flex-1 flex flex-col min-w-0">
+                        <span className="text-gray-900 text-sm font-medium truncate">Welcome {userData?.username}</span>
+            </span>
             <Menu as="div" className="relative flex-shrink-0">
                 <div>
                     <Menu.Button
@@ -49,6 +49,11 @@ const ProfileDropdown = () => {
                                 {({active}) => (
                                     <a
                                         href={item.href}
+                                        onClick={() => {
+                                            if (item.name === "Sign out") {
+                                                setToken(null);
+                                            }
+                                        }}
                                         className={classNames(
                                             active ? 'bg-gray-100' : '',
                                             'block px-4 py-2 text-sm text-gray-700'
@@ -62,6 +67,7 @@ const ProfileDropdown = () => {
                     </Menu.Items>
                 </Transition>
             </Menu>
+
         </div>
     );
 };

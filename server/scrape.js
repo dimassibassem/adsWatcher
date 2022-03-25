@@ -45,8 +45,9 @@ async function addToDatabase(item, crawlerAdUrls) {
     }
 }
 
-async function scrape(query, locationId, maxPrice, minPrice) {
-    const breakThreshold = 100
+async function scrape(userSearch, locationId, maxPrice, minPrice) {
+    const query = userSearch.query
+    const breakThreshold = 300
     let countToThreshold = 0
 
     const locations = await getLocations()
@@ -121,7 +122,7 @@ async function scrape(query, locationId, maxPrice, minPrice) {
     }
 
     console.log("Done scraping")
-    console.log(newArticles);
+    return newArticles
 }
 
 module.exports = scrape
