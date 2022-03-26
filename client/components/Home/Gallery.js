@@ -29,33 +29,34 @@ const Gallery = () => {
                             {/*        'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'*/}
                             {/*    )}*/}
                             {/*>*/}
-                                {/*<img*/}
-                                {/*    src={file.thumbnail}*/}
-                                {/*    alt=""*/}
-                                {/*    className={classNames(*/}
-                                {/*        file.current ? '' : 'group-hover:opacity-75',*/}
-                                {/*        'object-cover pointer-events-none'*/}
-                                {/*    )}*/}
-                                {/*/>*/}
+                            {/*<img*/}
+                            {/*    src={file.thumbnail}*/}
+                            {/*    alt=""*/}
+                            {/*    className={classNames(*/}
+                            {/*        file.current ? '' : 'group-hover:opacity-75',*/}
+                            {/*        'object-cover pointer-events-none'*/}
+                            {/*    )}*/}
+                            {/*/>*/}
 
 
-                                {/*<button type="button"*/}
-                                {/*        className="absolute inset-0 focus:outline-none"*/}
-                                {/*        onClick={async () => {*/}
-                                {/*            setCurrentFile(index)*/}
-                                {/*            await setMoreImages(file, token)*/}
-                                {/*        }}>*/}
+                            {/*<button type="button"*/}
+                            {/*        className="absolute inset-0 focus:outline-none"*/}
+                            {/*        onClick={async () => {*/}
+                            {/*            setCurrentFile(index)*/}
+                            {/*            await setMoreImages(file, token)*/}
+                            {/*        }}>*/}
 
-                                {/*    <span className="sr-only">View details for {file.title}</span>*/}
-                                {/*</button>*/}
+                            {/*    <span className="sr-only">View details for {file.title}</span>*/}
+                            {/*</button>*/}
                             {/*</div>*/}
                             {/*<p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">*/}
                             {/*    {file.title}*/}
                             {/*</p>*/}
+                            {/*<p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.price} TND</p>*/}
                             <div className="py-3 flex justify-between text-md ">
                                 <dt className="text-black-900 font-bold "> {file.query}</dt>
                             </div>
-                            {/*<p className="block text-sm font-medium text-gray-500 pointer-events-none">{file.price} TND</p>*/}
+
                         </li>
                     ))}
                 </ul>

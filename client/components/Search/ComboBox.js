@@ -32,7 +32,7 @@ export default function ComboBox({onChange, filtredLocation, selectedLocation, s
                     name="combo"
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                     onChange={onChange}
-                    displayValue={(location) => location.name}
+                    displayValue={(location) => location?.name}
                     value={(location) => location.id}
                 />
                 <Combobox.Button
@@ -45,7 +45,7 @@ export default function ComboBox({onChange, filtredLocation, selectedLocation, s
                         className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                         {filtredLocation.map((location) => (
                             <Combobox.Option
-                                key={location.id}
+                                key={location?.id}
                                 value={location}
 
                                 className={({active}) =>

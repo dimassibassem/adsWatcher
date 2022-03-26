@@ -8,8 +8,6 @@ import {useStore} from "../../store";
 import Loading from "./Loading";
 
 const MainContent = () => {
-
-
     const list = useStore(store => store.list)
     const files = useStore(state => state.files);
     let view
@@ -47,12 +45,9 @@ const MainContent = () => {
                     {/* Tabs */}
                     <Tabs />
 
-                    {/* Gallery */}
-                    {/*<Gallery />*/}
 
                     {view}
-                    {/*Gallery List*/}
-                    {/*<GalleryList source={source}/>*/}
+
                 </div>
             </main>
 

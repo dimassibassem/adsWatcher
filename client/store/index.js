@@ -59,6 +59,8 @@ const createStateSlice = (set, get) => ({
     categoryDisplayNames: [],
     currentFile: null,
     userNavigation: userNavigation,
+    articleToDisplay:[],
+    setArticleToDisplay: (articles) => set({ articleToDisplay: articles},null , "articleToDisplay"),
     setUserData: async (token) =>{
         const decodedToken = parseJwt(token);
         const result = await userInfo(decodedToken,token);

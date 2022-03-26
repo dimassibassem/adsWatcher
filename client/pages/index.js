@@ -21,12 +21,6 @@ export default function Home() {
         })
         setFiles(await response.data)
     }
-
-
-
-
-
-
     const setSource = useStore(store => store.setSource)
   const setLocations = useStore(store => store.setLocations)
     const setUserData = useStore(store => store.setUserData)

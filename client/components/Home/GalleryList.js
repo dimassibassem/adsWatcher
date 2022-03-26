@@ -2,30 +2,41 @@ import React, {useEffect} from 'react';
 import {classNames} from "../../utils";
 import {useLocalStorage, useStore} from '../../store';
 import LinkButton from "./LinkButton";
+import axios from "axios";
+import {useRouter} from "next/router";
+
 
 const GalleryList = () => {
-    const source = useStore(store => store.source)
-
-    const categoryDisplayNames = useStore(store => store.categoryDisplayNames)
-    const files = useStore(state => state.files);
-
-
-    const formatedDate = (timestamp) => {
-        let ts = new Date(timestamp * 1000);
-        let month = ts.getMonth() + 1;
-        let year = ts.getFullYear();
-        let date = ts.getDate();
-        return `${date}/${month}/${year}`
+    const router = useRouter();
+    // const source = useStore(store => store.source)
+    //
+    // const categoryDisplayNames = useStore(store => store.categoryDisplayNames)
+     const files = useStore(state => state.files);
+    //
+    //
+    // const formatedDate = (timestamp) => {
+    //     let ts = new Date(timestamp * 1000);
+    //     let month = ts.getMonth() + 1;
+    //     let year = ts.getFullYear();
+    //     let date = ts.getDate();
+    //     return `${date}/${month}/${year}`
+    // }
+    // const distance = (file) => {
+    //     if (file.distance !== 0) {
+    //         return <div className="py-3 flex justify-between text-sm font-medium">
+    //             <dt className="text-gray-500">Distance</dt>
+    //             <dd className="text-gray-900">{file.distance} KM</dd>
+    //         </div>
+    //     } else return <div/>
+    // }
+const setArticleToDisplay = useStore(store => store.setArticleToDisplay)
+    const deleteQuery = async (id) => {
+        await axios.delete(`http://localhost:3001/api/search/${id}`)
     }
-    const distance = (file) => {
-        if (file.distance !== 0) {
-            return <div className="py-3 flex justify-between text-sm font-medium">
-                <dt className="text-gray-500">Distance</dt>
-                <dd className="text-gray-900">{file.distance} KM</dd>
-            </div>
-        } else return <div/>
+    const displayArticle = async (id) => {
+        const result = await axios.get(`http://localhost:3001/api/article/${id}`)
+        return result.data
     }
-
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
             <h2 id="gallery-heading" className="sr-only">
@@ -52,28 +63,51 @@ const GalleryList = () => {
                                     {/*>*/}
 
 
-                                        {/*<img*/}
-                                        {/*    src={file.thumbnail}*/}
-                                        {/*    alt=""*/}
-                                        {/*    className={classNames(*/}
-                                        {/*        file.current ? '' : 'group-hover:opacity-75',*/}
-                                        {/*        'object-cover pointer-events-none'*/}
-                                        {/*    )}*/}
-                                        {/*/>*/}
+                                    {/*<img*/}
+                                    {/*    src={file.thumbnail}*/}
+                                    {/*    alt=""*/}
+                                    {/*    className={classNames(*/}
+                                    {/*        file.current ? '' : 'group-hover:opacity-75',*/}
+                                    {/*        'object-cover pointer-events-none'*/}
+                                    {/*    )}*/}
+                                    {/*/>*/}
 
 
-                                        {/*<button type="button"*/}
-                                        {/*        className="absolute inset-0 focus:outline-none"*/}
-                                        {/*>*/}
+                                    {/*<button type="button"*/}
+                                    {/*        className="absolute inset-0 focus:outline-none"*/}
+                                    {/*>*/}
 
-                                        {/*    <span className="sr-only">View details for {file.title}</span>*/}
-                                        {/*</button>*/}
+                                    {/*    <span className="sr-only">View details for {file.title}</span>*/}
+                                    {/*</button>*/}
                                     {/*</div>*/}
                                     {/*<div className="py-3 flex justify-between text-md ">*/}
                                     {/*    <dt className="text-black-900 font-bold "> {file.title}</dt>*/}
                                     {/*</div>*/}
-                                    <div className="py-3 flex justify-between text-md ">
+                                    <div className="py-2 flex justify-between text-md ">
                                         <dt className="text-black-900 font-bold "> {file.query}</dt>
+                                        <button
+                                            onClick={async (e) => {
+                                                e.preventDefault();
+                                                await deleteQuery(file.id)
+
+                                            }}
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        >
+                                            Delete Search
+                                        </button>
+                                        <button
+                                            onClick={async (e) => {
+                                                e.preventDefault();
+                                                const result = await displayArticle(file.id)
+                                                setArticleToDisplay(result)
+                                                await router.push('/Article/')
+                                            }}
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        >
+                                            See details
+                                        </button>
                                     </div>
 
                                     {/*<div className="py-3 flex justify-between text-sm font-medium">*/}

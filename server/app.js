@@ -106,6 +106,21 @@ async function persistToDb() {
 
 }
 
+app.delete('/api/search/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+        const search = await prisma.search.delete({
+            where: {
+                id: parseInt(id)
+            }
+        })
+        return res.send(search)
+    } catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+})
+
 app.get('/api/getCategoryDisplayNames', authenticateToken, async (req, res) => {
     const category = await prisma.category.findMany()
     return res.send(category)
@@ -130,13 +145,129 @@ app.get('/api/users/:id', authenticateToken, async (req, res) => {
 })
 
 // cron job to run every 10 minutes
-cron.schedule("*/10 * * * *", async function () {
+cron.schedule("*/100 * * * *", async function () {
     try {
         await persistToDb()
     } catch (e) {
         console.log(e)
     }
     console.log("running a task every 10 minutes")
+});
+
+app.get('/api/article/:id', async function (req, res) {
+    const {id} = req.params
+    const search = await prisma.search.findUnique({
+        where: {
+            id: parseInt(id)
+        }
+    })
+    if (search.minPrice === null && search.maxPrice === null){
+        const searches = await prisma.article.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        }
+                    },
+                ]
+            }
+        })
+        searches.sort((a, b) => {
+            return a.timestamp + b.timestamp
+        })
+        return res.status(200).send(searches)
+    }
+    if (search.minPrice === null) {
+        const searches = await prisma.article.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            lte: parseFloat(search.maxPrice),
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        }
+                    },
+                ]
+            }
+        })
+        searches.sort((a, b) => {
+            return a.timestamp + b.timestamp
+        })
+        return res.status(200).send(searches)
+    }
+    if (search.maxPrice === null) {
+        const searches = await prisma.article.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        }
+                    },
+                ]
+            }
+        })
+        searches.sort((a, b) => {
+            return a.timestamp + b.timestamp
+        })
+        return res.status(200).send(searches)
+    }
+    else {
+        const searches = await prisma.article.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+                            lte: parseFloat(search.maxPrice),
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        }
+                    },
+                ]
+            }
+        })
+        searches.sort((a, b) => {
+            return a.timestamp + b.timestamp
+        })
+        return res.status(200).send(searches)
+    }
 });
 
 
