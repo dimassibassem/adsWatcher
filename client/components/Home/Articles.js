@@ -7,6 +7,7 @@ const Articles = () => {
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
+    const currentFile = useStore(state => state.currentFile);
     return (
         <div>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
@@ -40,8 +41,9 @@ const Articles = () => {
                                 <button type="button"
                                         className="absolute inset-0 focus:outline-none"
                                         onClick={async () => {
-                                            setCurrentFile(index)
-                                            await setMoreImages(article, token)
+                                            setCurrentFile(article)
+                                            console.log(currentFile);
+                                          await setMoreImages(article, token)
                                         }}>
 
                                     <span className="sr-only">View details for {article.title}</span>

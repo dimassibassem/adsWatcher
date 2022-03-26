@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Articles from "../components/Home/Articles";
 import SearchBar from "../components/Home/SearchBar";
 import ProfileDropdown from "../components/Home/ProfileDropdown";
-import {useStore} from "../store";
+import {useLocalStorage, useStore} from "../store";
 import {ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
 import Tabs from "../components/Home/Tabs";
 import DetailsSidebar from "../components/Home/DetailsSidebar";
+import {tokenValid} from "../utils/token";
 
 const Article = () => {
     const list = useStore(store => store.list)
-    const files = useStore(state => state.files);
-
+    const queries = useStore(state => state.queries);
+    const token = useLocalStorage(state => state.token);
+    useEffect(async () => {
+        if (tokenValid(token)) {
+            await setLocations()
+        } else {
+            await router.push('/Login')
+        }
+    }, [])
     return (
         <div className="h-full flex">
             <div className="flex-1 flex flex-col overflow-hidden ">

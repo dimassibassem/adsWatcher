@@ -9,15 +9,8 @@ import Loading from "./Loading";
 
 const MainContent = () => {
     const list = useStore(store => store.list)
-    const files = useStore(state => state.files);
-    let view
-    if (files.length === 0) {
-        view = <Loading/>
-    }else
-    if (list && files.length > 0) {
-        view = <GalleryList />
-    } else if (!list && files.length > 0)
-        view = <Gallery/>
+    const queries = useStore(state => state.queries);
+    let view = <GalleryList />
     return (
         <div className="flex-1 flex items-stretch overflow-hidden">
             <main className="flex-1 overflow-y-auto scroll-auto h-[90vh] scrollbar scrollbar-transparent scrollbar-track-transparent">

@@ -25,7 +25,7 @@ const getCategoryDisplayNames = async (token) => {
 }
 const getMoreImages = async (currentFile, token) => {
     try {
-        const res = await axios.get('http://localhost:3001/api/getMoreImages/' + currentFile.id,
+        const res = await axios.get('http://localhost:3001/api/getMoreImages/' + currentFile.articleId,
             {headers: {'Authorization': 'Bearer ' + token}})
         return res.data
     } catch (e) {
@@ -50,8 +50,8 @@ async function getLocations() {
 }
 const createStateSlice = (set, get) => ({
     userData:null,
-    files: [],
-    list: false,
+    queries: [],
+    list: true,
     moreImages: [],
     source: [],
     locations: [],
@@ -78,10 +78,10 @@ const createStateSlice = (set, get) => ({
         set({moreImages: await getMoreImages(file, token)}, null, "moreImages")
     },
     setList: (bool) => set({list: bool, currentFile: null}),
-    setCurrentFile: (index) => set(state => ({
-        currentFile: state.files[index]
-    }), null, "setCurrentFile"),
-    setFiles: (data) => set({files: data}, null, "setFiles"),
+    setCurrentFile: (article) => set({
+        currentFile: article
+    }, null, "setCurrentFile"),
+   setQueries: (data) => set({queries: data}, null, "setQueries"),
     setCategoryDisplayNames: async (token) => {
         set({categoryDisplayNames: await getCategoryDisplayNames(token)}, null, "setCategoryDisplayNames")
     }

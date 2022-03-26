@@ -44,39 +44,6 @@ const Tabs = () => {
                             </a>
                         ))}
                     </nav>
-                    <div
-                        className="hidden ml-6 bg-gray-100 p-0.5 rounded-lg items-center sm:flex">
-                        <button
-                            id="button1"
-                            type="button"
-                            className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                            onClick={()=>{
-                                const button1 = document.getElementById("button1")
-                                const button2 = document.getElementById("button2")
-                                button1.className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                button2.className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                setList(true)
-                            }}
-                        >
-                            <ViewListIcon className="h-5 w-5" aria-hidden="true"/>
-                            <span className="sr-only">Use list view</span>
-                        </button>
-                        <button
-                            id="button2"
-                            type="button"
-                            className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 "
-                            onClick={()=>{
-                                const button1 = document.getElementById("button1")
-                                const button2 = document.getElementById("button2")
-                                button1.className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                button2.className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                                setList(false)
-                            }}
-                        >
-                            <ViewGridIconSolid className="h-5 w-5" aria-hidden="true"/>
-                            <span className="sr-only">Use grid view</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

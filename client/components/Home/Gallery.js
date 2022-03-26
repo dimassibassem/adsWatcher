@@ -6,7 +6,7 @@ const Gallery = () => {
     const token = useLocalStorage(store => store.token)
     const setCurrentFile = useStore(state => state.setCurrentFile);
     const setMoreImages = useStore(state => state.setMoreImages);
-    const files = useStore(state => state.files);
+    const queries = useStore(state => state.queries);
 
     return (
         <div>
@@ -19,7 +19,7 @@ const Gallery = () => {
                     className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 xl:gap-x-10"
                 >
 
-                    {files.map((file, index) => (
+                    {queries.map((file, index) => (
                         <li key={file.id} className="relative ">
                             {/*<div*/}
                             {/*    className={classNames(*/}

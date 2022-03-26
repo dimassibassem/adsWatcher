@@ -37,7 +37,6 @@ const Information = ({currentFile}) => {
                         <dd className="text-gray-900">{formatedDate(currentFile.timestamp)}</dd>
                     </div>
 
-                    {distance}
 
                 </dl>
             </div>

@@ -11,7 +11,8 @@ const GalleryList = () => {
     // const source = useStore(store => store.source)
     //
     // const categoryDisplayNames = useStore(store => store.categoryDisplayNames)
-     const files = useStore(state => state.files);
+     const setQueries = useStore(state => state.setQueries);
+     const queries = useStore(state => state.queries);
     //
     //
     // const formatedDate = (timestamp) => {
@@ -46,7 +47,7 @@ const setArticleToDisplay = useStore(store => store.setArticleToDisplay)
                 role="list"
                 className="grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8"
             >
-                {files.map((file, index) => (
+                {queries.map((file, index) => (
                     <div key={file.id}
                          className="bg-white px-4 py-5 border-b border-gray-200 sm:px-6 shadow-lg rounded-xl">
 

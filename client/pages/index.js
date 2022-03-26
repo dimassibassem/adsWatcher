@@ -8,7 +8,7 @@ import {parseJwt, tokenValid} from "../utils/token";
 export default function Home() {
 
     const token = useLocalStorage(store => store.token)
-    const setFiles = useStore(store => store.setFiles)
+    const setQueries = useStore(store => store.setQueries)
     const setCategoryDisplayNames = useStore(store => store.setCategoryDisplayNames)
     const router = useRouter()
 
@@ -19,17 +19,19 @@ export default function Home() {
             method: "get",
             headers: {Authorization: "Bearer " + token}
         })
-        setFiles(await response.data)
+        setQueries(await response.data)
     }
     const setSource = useStore(store => store.setSource)
   const setLocations = useStore(store => store.setLocations)
     const setUserData = useStore(store => store.setUserData)
+    const setCurrentFile = useStore(store => store.setCurrentFile)
 
     console.log(token);
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
             // await setLocations()
+            setCurrentFile(null)
             await setSource(token)
             await setCategoryDisplayNames(token)
             await loadFiles()
