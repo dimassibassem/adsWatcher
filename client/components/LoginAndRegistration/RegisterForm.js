@@ -51,8 +51,8 @@ export default function RegisterForm() {
                         className="mx-auto"
                         src="/adswatcher.jpeg"
                         alt="Workflow"
-                        width="250"
-                        height="150"
+                        width="400"
+                        height="300"
                     />
                     <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">Create Account</h2>
                 </div>

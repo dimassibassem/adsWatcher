@@ -4,7 +4,7 @@ import {useLocalStorage} from "../../store";
 import {useRouter} from "next/router";
 import ErrorNotification from "./ErrorNotification";
 
-export default function LoginForm() {
+export default function  LoginForm() {
     const setToken = useLocalStorage((store) => store.setToken)
     const router = useRouter()
     const [state, setState] = useState({
@@ -23,16 +23,20 @@ export default function LoginForm() {
     }
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        const res = await axios.post("http://localhost:3001/login", state)
-        if (res.data) {
-            if (res.data.success) {
-                setToken(res.data.token)
-                await router.push("/Search")
+        try {
+            e.preventDefault()
+            const res = await axios.post("http://localhost:3001/login", state)
+            if (res.data) {
+                if (res.data.success) {
+                    setToken(res.data.token)
+                    await router.push("/Search")
+                }
+                if (res.data.message) {
+                    errorHandler(res.data.message)
+                }
             }
-            if (res.data.message) {
-                errorHandler(res.data.message)
-            }
+        } catch (e) {
+            errorHandler("Something went wrong")
         }
 
 
@@ -47,8 +51,8 @@ export default function LoginForm() {
                         className="mx-auto"
                         src="/adswatcher.jpeg"
                         alt="Workflow"
-                        width="250"
-                        height="150"
+                        width="400"
+                        height="300"
                     />
                     <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
                 </div>

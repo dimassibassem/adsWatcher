@@ -11,11 +11,11 @@ export default function ErrorNotification({message, setErrorMessage}) {
               <span className="flex p-2 rounded-lg bg-red-800">
                 <XCircleIcon className="h-7 w-7 text-red-400" aria-hidden="true"/>
               </span>
-                            <p className="ml-3 font-medium text-white truncate">
+                            <div className="ml-3 font-medium text-white truncate">
                                 <span className="md:hidden">Error!</span>
                                 <span className="hidden md:inline"><h2 className="text-sm font-medium text-red-800">There is an Error with your submission:</h2> <div
                                     className="text-red-700">{message}</div></span>
-                            </p>
+                            </div>
                         </div>
 
                         <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-2">
