@@ -35,8 +35,8 @@ const Article = () => {
 
                         <div className="flex-1 flex justify-between px-4 sm:px-6">
                             {/* search bar*/}
-                            <SearchBar/>
-
+                            <div>
+                            </div>
                             {/* Profile dropdown */}
                             <ProfileDropdown/>
                         </div>
