@@ -12,10 +12,6 @@ const Information = ({currentFile}) => {
         return `${date}/${month}/${year}`
     }
 
-    let distance = currentFile.distance !== 0 ? <div className="py-3 flex justify-between text-sm font-medium">
-        <dt className="text-gray-500">Distance</dt>
-        <dd className="text-gray-900">{currentFile.distance} KM</dd>
-    </div> : <div/>;
 
     return (
         <div>
@@ -25,7 +21,7 @@ const Information = ({currentFile}) => {
 
                     <div className="py-3 flex justify-between text-sm font-medium">
                         <dt className="text-gray-500">Category</dt>
-                        <dd className="text-gray-900">{categoryDisplayNames[currentFile.categoryId - 1].name}</dd>
+                        <dd className="text-gray-900">{categoryDisplayNames[currentFile.categoryId - 1]?.name}</dd>
                     </div>
 
                     <div className="py-3 flex justify-between text-sm font-medium">
@@ -36,8 +32,6 @@ const Information = ({currentFile}) => {
                         <dt className="text-gray-500">Posted at</dt>
                         <dd className="text-gray-900">{formatedDate(currentFile.timestamp)}</dd>
                     </div>
-
-
                 </dl>
             </div>
             <div className="pt-3">

@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+
 // eslint-disable-next-line @next/next/no-document-import-in-page
 import {Head} from "next/document";
 

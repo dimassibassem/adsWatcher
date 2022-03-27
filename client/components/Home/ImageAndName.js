@@ -7,7 +7,6 @@ const ImageAndName = ({currentFile}) => {
     let imagesView = <div/>
     if (moreImages.length > 0) {
         imagesView = moreImages.map((image, index) => {
-            // console.log(image);
             return (
                 <div key={index}>
                     <img className="object-cover" src={image} alt=""/>
@@ -16,8 +15,6 @@ const ImageAndName = ({currentFile}) => {
         })
     }
 
-
-    console.log(moreImages);
     return (
         <div>
             {imagesView}

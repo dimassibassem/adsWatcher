@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import FileBase from 'react-file-base64';
 import {useRouter} from "next/router";
 import ErrorNotification from "./ErrorNotification";
 import Avatar from "./Avatar";
@@ -27,14 +26,12 @@ export default function RegisterForm() {
     }
 
     async function handleSubmit(e) {
-        console.log(state);
         e.preventDefault()
         if (state.password1 !== state.password2) {
             errorHandler("Passwords don't match")
             return
         }
         const res = await axios.post("http://localhost:3001/register", state)
-        console.log(res.data);
         if (res.data.success) {
             await router.push("/Login")
         }
@@ -44,7 +41,6 @@ export default function RegisterForm() {
     }
 
     useEffect(() => {
-        console.log(state);
     }, [state.avatar])
 
     return (

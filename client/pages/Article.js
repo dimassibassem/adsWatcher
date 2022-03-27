@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Articles from "../components/Home/Articles";
+import Articles from "../components/Articles/Articles";
 import SearchBar from "../components/Home/SearchBar";
 import ProfileDropdown from "../components/Home/ProfileDropdown";
 import {useLocalStorage, useStore} from "../store";
@@ -8,17 +8,24 @@ import Tabs from "../components/Home/Tabs";
 import DetailsSidebar from "../components/Home/DetailsSidebar";
 import {tokenValid} from "../utils/token";
 
+import {useRouter} from "next/router";
+
 const Article = () => {
-    const list = useStore(store => store.list)
-    const queries = useStore(state => state.queries);
     const token = useLocalStorage(state => state.token);
+    const setUserData = useStore(state => state.setUserData);
+    const setSource = useStore(state => state.setSource);
+    const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
+const router = useRouter();
     useEffect(async () => {
         if (tokenValid(token)) {
-            await setLocations()
+            await setUserData(token)
+            await setUserData(token)
+            await setSource(token)
+            await setCategoryDisplayNames(token)
         } else {
-            await router.push('/Login')
+           await router.push('/Login')
         }
-    }, [])
+    }, [token])
     return (
         <div className="h-full flex">
             <div className="flex-1 flex flex-col overflow-hidden ">

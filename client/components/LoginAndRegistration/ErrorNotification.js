@@ -1,5 +1,4 @@
-/* This example requires Tailwind CSS v2.0+ */
-import {SpeakerphoneIcon, XIcon} from '@heroicons/react/outline'
+import {XIcon} from '@heroicons/react/outline'
 import {XCircleIcon} from "@heroicons/react/solid";
 
 export default function ErrorNotification({message, setErrorMessage}) {

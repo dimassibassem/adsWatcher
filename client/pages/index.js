@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {useLocalStorage, useStore} from "../store";
 import axios from "axios";
 import {useRouter} from "next/router";
-import {parseJwt, tokenValid} from "../utils/token";
+import {tokenValid} from "../utils/token";
 
 export default function Home() {
 
@@ -22,11 +22,9 @@ export default function Home() {
         setQueries(await response.data)
     }
     const setSource = useStore(store => store.setSource)
-  const setLocations = useStore(store => store.setLocations)
     const setUserData = useStore(store => store.setUserData)
     const setCurrentFile = useStore(store => store.setCurrentFile)
 
-    console.log(token);
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)

@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import ImageAndName from "./ImageAndName";
 import Information from "./Information";
 import LinkButton from "./LinkButton";
 import {useStore} from "../../store";
-import axios from "axios";
 
 const DetailsSidebar = () => {
     const source = useStore(store => store.source)
@@ -25,7 +24,7 @@ const DetailsSidebar = () => {
                 </div>
             </aside>
 
-        );s
+        );
     }
 
     if (!currentFile) {

@@ -1,19 +1,14 @@
 import React from 'react';
 import {ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
 import Tabs from "./Tabs";
-import Gallery from "./Gallery";
 import DetailsSidebar from "./DetailsSidebar";
 import GalleryList from "./GalleryList";
-import {useStore} from "../../store";
-import Loading from "./Loading";
 
 const MainContent = () => {
-    const list = useStore(store => store.list)
-    const queries = useStore(state => state.queries);
-    let view = <GalleryList />
     return (
         <div className="flex-1 flex items-stretch overflow-hidden">
-            <main className="flex-1 overflow-y-auto scroll-auto h-[90vh] scrollbar scrollbar-transparent scrollbar-track-transparent">
+            <main
+                className="flex-1 overflow-y-auto scroll-auto h-[90vh] scrollbar scrollbar-transparent scrollbar-track-transparent">
                 <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex">
                         <h1 className="flex-1 text-2xl font-bold text-gray-900">Photos</h1>
@@ -36,16 +31,16 @@ const MainContent = () => {
                     </div>
 
                     {/* Tabs */}
-                    <Tabs />
+                    <Tabs/>
 
 
-                    {view}
+                    <GalleryList/>
 
                 </div>
             </main>
 
             {/* Details sidebar */}
-            <DetailsSidebar />
+            <DetailsSidebar/>
         </div>
     );
 };

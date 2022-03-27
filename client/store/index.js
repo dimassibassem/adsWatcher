@@ -33,9 +33,9 @@ const getMoreImages = async (currentFile, token) => {
     }
 }
 
-const userInfo = async (decodedToken,token) => {
+const userInfo = async (decodedToken, token) => {
     if (decodedToken) {
-        const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`,{
+        const res = await axios.get(`http://localhost:3001/api/users/${decodedToken.userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48,8 +48,9 @@ async function getLocations() {
     const res = await axios.get(`http://localhost:3001/api/getLocationData`)
     return res.data
 }
+
 const createStateSlice = (set, get) => ({
-    userData:null,
+    userData: null,
     queries: [],
     list: true,
     moreImages: [],
@@ -59,16 +60,14 @@ const createStateSlice = (set, get) => ({
     categoryDisplayNames: [],
     currentFile: null,
     userNavigation: userNavigation,
-    articleToDisplay:[],
-    setArticleToDisplay: (articles) => set({ articleToDisplay: articles},null , "articleToDisplay"),
-    setUserData: async (token) =>{
+    setUserData: async (token) => {
         const decodedToken = parseJwt(token);
-        const result = await userInfo(decodedToken,token);
+        const result = await userInfo(decodedToken, token);
         set({userData: result}, null, "setUserData")
     },
     setLocations: async () => {
         const result = await getLocations()
-        set( {locations: result} ,null, "setLocations")
+        set({locations: result}, null, "setLocations")
     },
     setSource: async (token) => {
         let response = await getSource(token);
@@ -81,7 +80,7 @@ const createStateSlice = (set, get) => ({
     setCurrentFile: (article) => set({
         currentFile: article
     }, null, "setCurrentFile"),
-   setQueries: (data) => set({queries: data}, null, "setQueries"),
+    setQueries: (data) => set({queries: data}, null, "setQueries"),
     setCategoryDisplayNames: async (token) => {
         set({categoryDisplayNames: await getCategoryDisplayNames(token)}, null, "setCategoryDisplayNames")
     }
@@ -89,7 +88,9 @@ const createStateSlice = (set, get) => ({
 
 const createTokenSlice = (set, get) => ({
     token: null,
-    setToken: (token) => set({token: token}, null, "setToken")
+    setToken: (token) => set({token: token}, null, "setToken"),
+    setArticleToDisplay: (articles) => set({articleToDisplay: articles}, null, "articleToDisplay"),
+    articleToDisplay: [],
 });
 
 const createRootStorage = (set, get) => ({

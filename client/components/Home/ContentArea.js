@@ -1,10 +1,7 @@
 import React from 'react';
-
 import MainContent from "./MainContent";
 import ProfileDropdown from "./ProfileDropdown";
-
 import SearchBar from "./SearchBar";
-import {useStore} from "../../store";
 
 const ContentArea = () => {
 

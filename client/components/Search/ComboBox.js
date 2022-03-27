@@ -1,24 +1,6 @@
-/*
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import {useState} from 'react'
 import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
 import {Combobox} from '@headlessui/react'
 import {classNames} from "../../utils";
-
 
 
 export default function ComboBox({onChange, filtredLocation, selectedLocation, setSelectedLocation}) {
@@ -27,7 +9,7 @@ export default function ComboBox({onChange, filtredLocation, selectedLocation, s
     return (
         <Combobox as="div" value={selectedLocation} onChange={setSelectedLocation}>
             <Combobox.Label className="block text-sm font-medium text-gray-700">Near</Combobox.Label>
-            <div className="relative mt-1" >
+            <div className="relative mt-1">
                 <Combobox.Input
                     name="combo"
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"

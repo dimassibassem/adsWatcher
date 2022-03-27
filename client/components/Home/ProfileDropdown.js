@@ -1,17 +1,14 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment} from 'react';
 import {Menu, Transition} from "@headlessui/react";
 import {classNames} from "../../utils";
 import {useLocalStorage, useStore} from "../../store";
-import axios from "axios";
-import {parseJwt} from "../../utils/token";
+
 
 const ProfileDropdown = () => {
     const userNavigation = useStore(store => store.userNavigation)
-    const token = useLocalStorage(store => store.token);
     const setToken = useLocalStorage(store => store.setToken);
 
     const userData = useStore(store => store.userData);
-    console.log(userData?.username);
 
     let profileAvatar = userData?.avatarUrl ? userData.avatarUrl : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1";
 

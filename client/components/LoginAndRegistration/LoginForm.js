@@ -3,7 +3,7 @@ import axios from "axios";
 import {useLocalStorage} from "../../store";
 import {useRouter} from "next/router";
 import ErrorNotification from "./ErrorNotification";
-import Image from "next/image";
+
 export default function LoginForm() {
     const setToken = useLocalStorage((store) => store.setToken)
     const router = useRouter()
@@ -41,14 +41,6 @@ export default function LoginForm() {
 
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
             <div className="min-h-full flex flex-col justify-center py-8 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <img

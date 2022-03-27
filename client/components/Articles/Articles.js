@@ -3,7 +3,7 @@ import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
 
 const Articles = () => {
-    const articleToDisplay = useStore(state => state.articleToDisplay);
+    const articleToDisplay = useLocalStorage(state => state.articleToDisplay);
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
@@ -19,7 +19,7 @@ const Articles = () => {
                     className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 xl:gap-x-10"
                 >
 
-                    {articleToDisplay.map((article, index) => (
+                    {articleToDisplay.map((article) => (
                         <li key={article.id} className="relative ">
                             <div
                                 className={classNames(
@@ -42,8 +42,7 @@ const Articles = () => {
                                         className="absolute inset-0 focus:outline-none"
                                         onClick={async () => {
                                             setCurrentFile(article)
-                                            console.log(currentFile);
-                                          await setMoreImages(article, token)
+                                            await setMoreImages(article, token)
                                         }}>
 
                                     <span className="sr-only">View details for {article.title}</span>

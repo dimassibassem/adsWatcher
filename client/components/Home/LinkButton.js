@@ -6,9 +6,8 @@ const LinkButton = ({source, currentFile}) => {
     const [url, setUrl] = useState('');
     const token = useLocalStorage((store) => store.token)
     useEffect(async () => {
-        const result = await axios.get('http://localhost:3001/api/getAppData',{headers: {Authorization: "Bearer " + token},})
+        const result = await axios.get('http://localhost:3001/api/getAppData', {headers: {Authorization: "Bearer " + token},})
         const appData = result.data
-        //const decodedAppData = appData.decodedAppData
         const crawlerAdUrls = appData.crawlerAdUrls
         const url = crawlerAdUrls[currentFile.crawlerId].replace(/{id}/g, currentFile.externalId)
         setUrl(url)
@@ -26,7 +25,7 @@ const LinkButton = ({source, currentFile}) => {
                 }}
             >
                 <a>
-                    See on {source[currentFile.sourceId-1].name}
+                    See on {source[currentFile.sourceId - 1]?.name}
                 </a>
             </button>
 

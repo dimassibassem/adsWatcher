@@ -1,5 +1,6 @@
 import FileBase from 'react-file-base64';
-export default function Avatar({setState,state}) {
+
+export default function Avatar({setState, state}) {
     return (
         <div className="mt-6 flex flex-col lg:flex-row">
             <div className="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-grow-0 lg:flex-shrink-0">

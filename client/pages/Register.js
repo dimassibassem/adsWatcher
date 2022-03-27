@@ -5,7 +5,7 @@ const Register = () => {
     return (
         <html className="h-full bg-gray-50">
         <body className="h-full">
-        <RegisterForm />
+        <RegisterForm/>
         </body>
         </html>
     );
