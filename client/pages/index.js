@@ -43,7 +43,6 @@ export default function Home() {
 
                 {/* Content area */}
                 <ContentArea/>
-
             </div>
 
         </>
