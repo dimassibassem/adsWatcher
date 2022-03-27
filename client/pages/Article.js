@@ -15,15 +15,14 @@ const Article = () => {
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
-const router = useRouter();
+    const router = useRouter();
     useEffect(async () => {
         if (tokenValid(token)) {
-            await setUserData(token)
             await setUserData(token)
             await setSource(token)
             await setCategoryDisplayNames(token)
         } else {
-           await router.push('/Login')
+            await router.push('/Login')
         }
     }, [token])
     return (

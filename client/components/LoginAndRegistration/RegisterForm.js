@@ -49,7 +49,7 @@ export default function RegisterForm() {
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <img
                         className="mx-auto"
-                        src="/adswatcher.png"
+                        src="/adswatcher.jpeg"
                         alt="Workflow"
                         width="250"
                         height="150"

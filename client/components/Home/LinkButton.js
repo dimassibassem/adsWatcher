@@ -11,7 +11,7 @@ const LinkButton = ({source, currentFile}) => {
         const crawlerAdUrls = appData.crawlerAdUrls
         const url = crawlerAdUrls[currentFile.crawlerId].replace(/{id}/g, currentFile.externalId)
         setUrl(url)
-    });
+    }, [currentFile])
 
     return (
         <div className="flex">

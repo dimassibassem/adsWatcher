@@ -7,7 +7,6 @@ const Articles = () => {
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
-    const currentFile = useStore(state => state.currentFile);
     return (
         <div>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
