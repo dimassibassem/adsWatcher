@@ -11,6 +11,7 @@ export default function Home() {
     const setQueries = useStore(store => store.setQueries)
     const setCategoryDisplayNames = useStore(store => store.setCategoryDisplayNames)
     const router = useRouter()
+    const queries = useStore(store => store.queries)
 
 
     const loadFiles = async () => {
@@ -36,7 +37,7 @@ export default function Home() {
         } else {
             await router.push("/Login")
         }
-    }, [token]);
+    }, [token,queries]);
     return (
         <>
             <div className="h-full flex">

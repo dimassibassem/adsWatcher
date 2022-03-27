@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useLocalStorage, useStore} from '../../store';
 import axios from "axios";
 import {useRouter} from "next/router";
@@ -6,6 +6,7 @@ import ExpandingCards from "../ExpandingCards";
 
 
 const GalleryList = () => {
+
     const router = useRouter();
     const queries = useStore(state => state.queries);
 
