@@ -5,6 +5,7 @@ import Avatar from "../components/LoginAndRegistration/Avatar";
 import ProfileDropdown from "../components/Home/ProfileDropdown";
 import {useLocalStorage, useStore} from "../store";
 import {parseJwt, tokenValid} from "../utils/token";
+import NotifAlert from "../components/profile/NotifAlert";
 
 export default function Profile() {
     const router = useRouter()
@@ -27,6 +28,7 @@ export default function Profile() {
     }
 
     const [message, setMessage] = useState("");
+    const [notification, setNotification] = useState("");
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -43,7 +45,44 @@ export default function Profile() {
                 }
             }
         )
-        setMessage(res.data.message)
+
+        let count = 0;
+        let arrayMessages = []
+        if (res.data.message) {
+            if (state.username !== "") {
+                count++
+                arrayMessages.push("Username");
+            }
+            if (state.password1 !== "") {
+                count++
+                arrayMessages.push("Password");
+            }
+            if (state.avatar !== "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1") {
+                count++
+                arrayMessages.push("Avatar");
+            }
+            if (state.email !== "" )
+            {
+                count++
+                arrayMessages.push("Email");
+            }
+            }
+            if (count === 0) {
+                setMessage("You have not changed any information")
+            }
+            if (count === 1) {
+                setMessage(`You have changed your ${arrayMessages[0]}`)
+            }
+            if (count === 2) {
+                setMessage(`You have changed your ${arrayMessages[0]} and ${arrayMessages[1]}`)
+            }
+            if (count === 3) {
+                setMessage(`You have changed your ${arrayMessages[0]}, ${arrayMessages[1]} and ${arrayMessages[2]}`)
+            }
+            if (count === 4) {
+                setMessage(`You have changed your ${arrayMessages[0]}, ${arrayMessages[1]}, ${arrayMessages[2]} and ${arrayMessages[3]}`)
+            }
+        setNotification(<NotifAlert message={message} setNotification={setNotification}/>)
         if (res.data.token) {
             setToken(res.data.token)
         }
@@ -52,11 +91,10 @@ export default function Profile() {
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
-            console.log(message);
         } else {
             await router.push("/Login")
         }
-    }, [token]);
+    }, [token, notification,message]);
 
     return (
         <div>
@@ -147,6 +185,7 @@ export default function Profile() {
                             >
                                 Submit
                             </button>
+                            {notification}
                         </form>
                     </div>
                 </div>
