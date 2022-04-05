@@ -145,7 +145,7 @@ app.get('/api/users/:id', authenticateToken, async (req, res) => {
 })
 
 // cron job to run every 10 minutes
-cron.schedule("*/100 * * * *", async function () {
+cron.schedule("*/10 * * * *", async function () {
     try {
         await persistToDb()
     } catch (e) {
@@ -161,7 +161,7 @@ app.get('/api/article/:id', async function (req, res) {
             id: parseInt(id)
         }
     })
-    if (search.minPrice === null && search.maxPrice === null){
+    if (search.minPrice === null && search.maxPrice === null) {
         const searches = await prisma.article.findMany({
             where: {
                 OR: [
@@ -239,8 +239,7 @@ app.get('/api/article/:id', async function (req, res) {
             return a.timestamp + b.timestamp
         })
         return res.status(200).send(searches)
-    }
-    else {
+    } else {
         const searches = await prisma.article.findMany({
             where: {
                 OR: [
@@ -405,5 +404,51 @@ app.post('/register', async (req, res) => {
     });
 })
 
+app.put('/updateUser/:userId', async (req, res) => {
+    const userId = parseInt(req.params.userId)
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+    })
+    if (user) {
+        if (req.body.username) {
+            user.username = req.body.username
+        }
+        if (req.body.email) {
+            user.email = req.body.email
+        }
+        if (req.body.password1) {
+            bcrypt.genSalt(10, function (err, salt) {
+                if (err) {
+                    return res.json({success: false, message: 'Failed to update user'});
+                }
 
+                bcrypt.hash(req.body.password1, salt, async function (err, hash) {
+                    if (err) {
+                        return res.json({success: false, message: 'Failed to update user'});
+                    }
+                    user.password = hash
+                });
+            });
+        }
+        if (req.body.avatar) {
+            user.avatarUrl = req.body.avatar
+        }
+        await prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                avatarUrl: user.avatarUrl
+            },
+        })
+        return res.json({success: true, message: 'Update user successful'});
+    } else {
+        return res.json({success: false, message: 'User not found'});
+    }
+})
 app.listen(3001);
