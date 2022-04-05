@@ -9,7 +9,8 @@ const tabs = [
     {name: 'Favorited', href: '#', current: false},
 ]
 const userNavigation = [
-    {name: 'Your profile', href: '#'},
+    {name: 'Home', href: '/'},
+    {name: 'Your profile', href: '/Profile'},
     {name: 'Sign out', href: '#'},
 ]
 

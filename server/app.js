@@ -404,7 +404,7 @@ app.post('/register', async (req, res) => {
     });
 })
 
-app.put('/updateUser/:userId', async (req, res) => {
+app.put('/updateUser/:userId',authenticateToken, async (req, res) => {
     const userId = parseInt(req.params.userId)
     const user = await prisma.user.findUnique({
         where: {
@@ -446,7 +446,8 @@ app.put('/updateUser/:userId', async (req, res) => {
                 avatarUrl: user.avatarUrl
             },
         })
-        return res.json({success: true, message: 'Update user successful'});
+        const token = generateAccessToken(user.username, user.email, user.id);
+        return res.json({success: true, token: token, message: 'Update user successful'});
     } else {
         return res.json({success: false, message: 'User not found'});
     }
