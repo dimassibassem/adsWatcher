@@ -87,7 +87,7 @@ export default function Profile() {
             setToken(res.data.token)
         }
     }
-
+//todo: fix bug
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)

@@ -17,12 +17,16 @@ let decode = functions.decode
 let getData = functions.getData
 
 async function addToDatabase(item, crawlerAdUrls) {
+    let date = new Date().getTime() / 1000;
     const existingArticle = await prisma.article.findUnique({
         where: {
             articleId: item.id
         }
     })
     if (existingArticle) {
+        return false
+    }
+    if (item.timestamp + 2764800 < date) {
         return false
     } else {
         await prisma.article.create({
