@@ -28,7 +28,7 @@ export default function Profile() {
     }
 
     const [message, setMessage] = useState("");
-    const [notification, setNotification] = useState("");
+    const [submitted, setSubmitted] = useState(false);
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -61,40 +61,39 @@ export default function Profile() {
                 count++
                 arrayMessages.push("Avatar");
             }
-            if (state.email !== "" )
-            {
+            if (state.email !== "") {
                 count++
                 arrayMessages.push("Email");
             }
-            }
-            if (count === 0) {
-                setMessage("You have not changed any information")
-            }
-            if (count === 1) {
-                setMessage(`You have changed your ${arrayMessages[0]}`)
-            }
-            if (count === 2) {
-                setMessage(`You have changed your ${arrayMessages[0]} and ${arrayMessages[1]}`)
-            }
-            if (count === 3) {
-                setMessage(`You have changed your ${arrayMessages[0]}, ${arrayMessages[1]} and ${arrayMessages[2]}`)
-            }
-            if (count === 4) {
-                setMessage(`You have changed your ${arrayMessages[0]}, ${arrayMessages[1]}, ${arrayMessages[2]} and ${arrayMessages[3]}`)
-            }
-        setNotification(<NotifAlert message={message} setNotification={setNotification}/>)
+        }
+        setSubmitted(true);
+        if (count === 0) {
+            setMessage("You have not changed any information")
+        }
+        if (count === 1) {
+            setMessage(`You have changed your ${arrayMessages[0]}`)
+        }
+        if (count === 2) {
+            setMessage(`You have changed your ${arrayMessages[0]} and ${arrayMessages[1]}`)
+        }
+        if (count === 3) {
+            setMessage(`You have changed your ${arrayMessages[0]}, ${arrayMessages[1]} and ${arrayMessages[2]}`)
+        }
+        if (count === 4) {
+            setMessage(`You have changed your ${arrayMessages[0]}, ${arrayMessages[1]}, ${arrayMessages[2]} and ${arrayMessages[3]}`)
+        }
         if (res.data.token) {
             setToken(res.data.token)
         }
     }
-//todo: fix bug
+
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
         } else {
             await router.push("/Login")
         }
-    }, [token, notification,message]);
+    }, [token, message]);
 
     return (
         <div>
@@ -185,7 +184,8 @@ export default function Profile() {
                             >
                                 Submit
                             </button>
-                            {notification}
+                            {submitted && <NotifAlert message={message} setSubmitted={setSubmitted}/>}
+
                         </form>
                     </div>
                 </div>
