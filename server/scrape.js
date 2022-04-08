@@ -28,7 +28,7 @@ async function addToDatabase(item, crawlerAdUrls) {
             return false
         }
         if ((await axios.get(`${item.thumbnail}`)).status === 404) {
-            return false
+            item.thumbnail = 'https://www.linkpicture.com/q/sorry-image-not-available.png'
         } else {
             await prisma.article.create({
                 data: {
@@ -49,7 +49,7 @@ async function addToDatabase(item, crawlerAdUrls) {
             return true
         }
     } catch (e) {
-        console.log("error adding to db")
+        console.log("not added to db")
         return false
     }
 }
@@ -135,7 +135,6 @@ async function scrape(userSearch, locationId, maxPrice, minPrice) {
         return newArticles
     } catch (e) {
         console.log("Error scraping")
-        return []
     }
 }
 

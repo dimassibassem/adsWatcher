@@ -68,7 +68,6 @@ async function getData() {
 
 async function getImages(id) {
     const url = `https://api.9annas.tn/images/?ad=${id}`;
-    console.log(url);
     const res = await axios.get(url);
     return res.data
 }
