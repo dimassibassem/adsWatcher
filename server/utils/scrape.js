@@ -1,5 +1,4 @@
-const functions = require('./functions')
-// const locations = require('../client/utils/locations.js')
+const functions = require('./scrapeTools')
 const axios = require('axios')
 const prisma = require('./prismaClient')
 
@@ -12,7 +11,7 @@ let params = functions.params
 let getOffset = functions.getOffset
 let search = functions.search
 let searchMore = functions.searchMore
-let getImages = functions.getImages
+
 let decode = functions.decode
 let getData = functions.getData
 
@@ -113,7 +112,6 @@ async function scrape(userSearch, locationId, maxPrice, minPrice) {
                 item = {
                     ...item,
                     sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{id}/g, item.externalId),
-                    //images: await getImages(item.id)
                 }
 
                 lastItem = item

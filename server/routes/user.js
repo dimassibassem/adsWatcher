@@ -1,0 +1,111 @@
+const prisma = require("../utils/prismaClient");
+const bcrypt = require('bcrypt');
+const {authenticateToken, generateAccessToken} = require('../utils/jwtAuth');
+const express = require('express');
+const router = express.Router();
+
+router.post('/login', async (req, res) => {
+
+    console.log(req.body);
+    const email = req.body.email;
+    const password = req.body.password;
+    let user = {}
+    try {
+        user = await prisma.user.findFirst({
+            where: {
+                email: email,
+            },
+        })
+    } catch (e) {
+        return res.status(400).send({
+            message: 'User not found'
+        })
+    }
+
+    if (user) {
+        bcrypt.compare(password, user.password, function (err, result) {
+            if (err) {
+                // handle error
+                return res.json({success: false, message: 'Failed to log in'});
+            }
+            if (result) {
+                // Send JWT
+                const token = generateAccessToken(user.username, user.email, user.id);
+                return res.json({success: true, token: token});
+            } else {
+                // response is OutgoingMessage object that server response http request
+                return res.json({success: false, message: 'Invalid password'});
+            }
+        })
+    } else {
+        return res.json({success: false, message: 'User not found'});
+    }
+})
+
+router.post('/search', authenticateToken, async (req, res) => {
+    const query = req.body.searchBar
+    const userId = req.user.userId
+    let locationId = req.body.selectedLocation?.id
+    if (!locationId) {
+        locationId = null
+    }
+
+    const maxPrice = req.body.maxPrice !== '' ? req.body.maxPrice : null
+    const minPrice = req.body.minPrice !== '' ? req.body.minPrice : null
+    console.log({query, locationId, maxPrice, minPrice, userId})
+    await prisma.search.create({
+        data: {
+            query: query,
+            locationId: locationId,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            userId: userId
+        },
+    })
+    return res.sendStatus(200)
+})
+
+router.post('/register', async (req, res) => {
+    const test1 = await prisma.user.findUnique({
+        where: {
+            username: req.body.username,
+        },
+    })
+    if (test1) {
+        return res.json({
+            message: 'Username already exists'
+        })
+    }
+    const test2 = await prisma.user.findUnique({
+        where: {
+            email: req.body.email,
+        },
+    })
+    if (test2) {
+        return res.json({
+            message: 'Email already exists'
+        })
+    }
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) {
+            return res.json({success: false, message: 'Failed to create user'});
+        }
+
+        bcrypt.hash(req.body.password1, salt, async function (err, hash) {
+            if (err) {
+                return res.json({success: false, message: 'Failed to create user'});
+            }
+            await prisma.user.create({
+                data: {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: hash,
+                    avatarUrl: req.body.avatar
+                },
+            })
+            return res.json({success: true, message: 'Create user successful'});
+        });
+    });
+})
+
+module.exports = router;
