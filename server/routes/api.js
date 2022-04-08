@@ -51,7 +51,7 @@ router.get('/users/:id', authenticateToken, async (req, res) => {
     }
 })
 
-router.get('/article/:id', async function (req, res) {
+router.get('/article/:id', async (req, res) => {
     const {id} = req.params
     const search = await prisma.search.findUnique({
         where: {
@@ -166,7 +166,7 @@ router.get('/article/:id', async function (req, res) {
     }
 });
 
-router.get('/data', authenticateToken, async function (req, res) {
+router.get('/data', authenticateToken, async (req, res) => {
     const userId = req.user.userId
     const searches = await prisma.search.findMany({
         where: {
@@ -176,7 +176,7 @@ router.get('/data', authenticateToken, async function (req, res) {
     return res.status(200).send(searches)
 });
 
-router.get('/getAppData', authenticateToken, (async (req, res) => {
+router.get('/getAppData', authenticateToken, async (req, res) => {
     const response = await axios.get('https://cdn.9annas.tn/data/appdata.json?v=3');
     let data = response.data
     let decodedAppData = decode(data, 4)
@@ -184,16 +184,16 @@ router.get('/getAppData', authenticateToken, (async (req, res) => {
     return res.json({
         crawlerAdUrls: crawlerAdUrls
     })
-}))
+})
 
 router.get('/getMoreImages/:id', authenticateToken, async (req, res) => {
     return res.json(await getImages(req.params.id))
 })
 
-router.get('/getLocationData', (async (req, res) => {
+router.get('/getLocationData', async (req, res) => {
     const locations = await prisma.location.findMany()
     return res.json(locations)
-}))
+})
 
 router.put('/updateUser/:userId', authenticateToken, async (req, res) => {
     const userId = parseInt(req.params.userId)
