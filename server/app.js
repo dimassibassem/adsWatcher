@@ -442,7 +442,6 @@ app.post('/register', async (req, res) => {
     });
 })
 
-
 // cron job to run every 10 minutes
 cron.schedule("*/10 * * * *", async function () {
     try {
