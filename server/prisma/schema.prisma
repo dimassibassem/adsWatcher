@@ -53,7 +53,6 @@ model Article {
   description String?            @db.Text
   price       Float?
   categoryId  Int
-  distance    Int?
   timestamp   Int
   thumbnail   String?            @db.VarChar(255)
   location    String?            @db.VarChar(255)
