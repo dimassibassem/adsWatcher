@@ -55,7 +55,7 @@ export default function SearchInput() {
     }
 
     return (
-        <div className="bg-white py-16 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
+        <div className="bg-white py-10 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
             <div className="relative max-w-xl mx-auto">
                 <svg
                     className="absolute left-full transform translate-x-1/2"
@@ -177,6 +177,7 @@ export default function SearchInput() {
                                                 type="text"
                                                 name="maxPrice"
                                                 id="maxPrice"
+                                                placeholder="0.00"
                                                 aria-describedby="price-currency"
                                                 className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                                             />

@@ -12,11 +12,12 @@ export default function Profile() {
     const token = useLocalStorage(store => store.token)
     const setToken = useLocalStorage(store => store.setToken)
     const setUserData = useStore(store => store.setUserData)
+    const userData = useStore(store => store.userData)
     const userId = parseJwt(token)?.userId
     const [state, setState] = useState({
         username: "",
         password1: "",
-        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1",
+        avatar : userData !== null ? userData.avatarUrl : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
         email: ""
     });
 
@@ -94,7 +95,6 @@ export default function Profile() {
             await router.push("/Login")
         }
     }, [token, message]);
-
     return (
         <div>
             <header className="w-full">
