@@ -17,100 +17,74 @@ let decode = functions.decode
 let getData = functions.getData
 
 async function addToDatabase(item, crawlerAdUrls) {
-    let date = new Date().getTime() / 1000;
-    const existingArticle = await prisma.article.findUnique({
-        where: {
-            articleId: item.id
-        }
-    })
-    if (existingArticle) {
-        return false
-    }
-    if (item.timestamp + 2764800 < date) {
-        return false
-    } else {
-        await prisma.article.create({
-            data: {
-                articleId: item.id,
-                title: (item.title === null) ? "No title" : item.title,
-                description: item.description,
-                price: item.price,
-                categoryId: item.categoryId,
-                location: item.location,
-                timestamp: item.timestamp,
-                thumbnail: item.thumbnail,
-                externalId: item.externalId,
-                sourceId: item.sourceId,
-                crawlerId: item.crawlerId,
-                sourceUrl: crawlerAdUrls[item.crawlerId].replace(/{id}/g, item.externalId),
+    try {
+        let date = new Date().getTime() / 1000;
+        const existingArticle = await prisma.article.findUnique({
+            where: {
+                articleId: item.id
             }
         })
-        return true
+        if (existingArticle || item.timestamp + 2764800 < date) {
+            return false
+        }
+        if ((await axios.get(`${item.thumbnail}`)).status === 404) {
+            return false
+        } else {
+            await prisma.article.create({
+                data: {
+                    articleId: item.id,
+                    title: (item.title === null) ? "No title" : item.title,
+                    description: item.description === null ? "No description" : item.description,
+                    price: item.price,
+                    categoryId: item.categoryId,
+                    location: item.location === null ? "Not specified" : item.location,
+                    timestamp: item.timestamp,
+                    thumbnail: item.thumbnail,
+                    externalId: item.externalId,
+                    sourceId: item.sourceId,
+                    crawlerId: item.crawlerId,
+                    sourceUrl: crawlerAdUrls[item.crawlerId].replace(/{id}/g, item.externalId),
+                }
+            })
+            return true
+        }
+    } catch (e) {
+        console.log("error adding to db")
+        return false
     }
 }
 
 async function scrape(userSearch, locationId, maxPrice, minPrice) {
-    const query = userSearch.query
-    const breakThreshold = 300
-    let countToThreshold = 0
+    try {
+        const query = userSearch.query
+        const breakThreshold = 300
+        let countToThreshold = 0
 
-    const locations = await getLocations()
-    const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
-    const firstResult = await search(dataConfig.data, dataConfig.config)
+        const locations = await getLocations()
+        const dataConfig = params(query, locationId, locations, minPrice, maxPrice)
+        const firstResult = await search(dataConfig.data, dataConfig.config)
 
-    const appData = await getData();
-    const decodedAppData = decode(appData, 4)
-    const crawlerAdUrlsArray = decode(decodedAppData.cau, 3)
+        const appData = await getData();
+        const decodedAppData = decode(appData, 4)
+        const crawlerAdUrlsArray = decode(decodedAppData.cau, 3)
 
-    const pages = firstResult.pages
-    const hits = firstResult.hits;
-    const results = firstResult.results;
+        const pages = firstResult.pages
+        const hits = firstResult.hits;
+        const results = firstResult.results;
 
 
-    const newArticles = []
+        const newArticles = []
 
-    console.log("query: ", query);
-    console.log("hits: " + hits);
+        console.log("query: ", query);
+        console.log("hits: " + hits);
 
-    // ! FIRST PAGE
-    for (let i = 0; i < results.length; i++) {
-        let item = results[i];
-        item = {
-            ...item,
-            sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{id}/g, item.externalId),
-        }
-
-        const added = await addToDatabase(item, crawlerAdUrlsArray)
-        if (added) {
-            console.log("Added to database")
-            newArticles.push(item)
-            countToThreshold = 0
-        }
-        if (!added) {
-            console.log("Article already exists in database")
-            countToThreshold++
-        }
-    }
-
-    let lastItem = results[results.length - 1]
-
-    // ! REST OF PAGES
-    for (let i = 0; i < pages; i++) {
-        console.log(`page: ${i}`)
-
-        if (countToThreshold > breakThreshold) {
-            break
-        }
-
-        const searchMoreData = await searchMore(getOffset(lastItem.id, lastItem.timestamp), query, locationId, locations, minPrice, maxPrice)
-        for (let item of searchMoreData) {
+        // ! FIRST PAGE
+        for (let i = 0; i < results.length; i++) {
+            let item = results[i];
             item = {
                 ...item,
                 sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{id}/g, item.externalId),
-                //images: await getImages(item.id)
             }
-
-            lastItem = item
 
             const added = await addToDatabase(item, crawlerAdUrlsArray)
             if (added) {
@@ -119,14 +93,50 @@ async function scrape(userSearch, locationId, maxPrice, minPrice) {
                 countToThreshold = 0
             }
             if (!added) {
-                console.log("Article already exists in database");
+                console.log("Article already exists in database")
                 countToThreshold++
             }
         }
-    }
 
-    console.log("Done scraping")
-    return newArticles
+        let lastItem = results[results.length - 1]
+
+        // ! REST OF PAGES
+        for (let i = 0; i < pages; i++) {
+            console.log(`page: ${i}`)
+
+            if (countToThreshold > breakThreshold) {
+                break
+            }
+
+            const searchMoreData = await searchMore(getOffset(lastItem.id, lastItem.timestamp), query, locationId, locations, minPrice, maxPrice)
+            for (let item of searchMoreData) {
+                item = {
+                    ...item,
+                    sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{id}/g, item.externalId),
+                    //images: await getImages(item.id)
+                }
+
+                lastItem = item
+
+                const added = await addToDatabase(item, crawlerAdUrlsArray)
+                if (added) {
+                    console.log("Added to database")
+                    newArticles.push(item)
+                    countToThreshold = 0
+                }
+                if (!added) {
+                    console.log("Article already exists in database");
+                    countToThreshold++
+                }
+            }
+        }
+
+        console.log("Done scraping")
+        return newArticles
+    } catch (e) {
+        console.log("Error scraping")
+        return []
+    }
 }
 
 module.exports = scrape

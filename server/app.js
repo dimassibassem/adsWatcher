@@ -85,7 +85,7 @@ async function persistToDb() {
                             to: email,
                             subject: 'New articles found',
                             html: resultToSend.map(article => {
-                                return `<h3 style="display: inline">${article.title}</h3>: <h5>${article.price} TND</h5> <img style="width: 280px;border-radius: 5px;height: 200px;" src="${article.thumbnail}" alt=""/><a style="display: block; width: 115px; height: 25px; background: #ffae90; padding: 10px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">take a look </a>`
+                                return `<h3 style="display: inline">${article.title}</h3>: <h5>${article.price === 0 ? "price not available" : article.price + " TND"}</h5> <img style="width: 280px;border-radius: 5px;height: 200px;" src="${article.thumbnail}" alt=""/><a style="display: block; width: 115px; height: 25px; background: #ffae90; padding: 10px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">take a look </a>`
                             }).join("\n")
                         };
                         transporter.sendMail(mailOptions, function (error, info) {
@@ -152,7 +152,7 @@ cron.schedule("*/10 * * * *", async function () {
         console.log(e)
     }
     console.log("running a task every 10 minutes")
-    let date = new Date().getTime()/1000;
+    let date = new Date().getTime() / 1000;
     try {
         await prisma.article.deleteMany({
             where: {timestamp: {lt: parseInt(date - 2764800)}}
@@ -414,7 +414,7 @@ app.post('/register', async (req, res) => {
     });
 })
 
-app.put('/updateUser/:userId',authenticateToken, async (req, res) => {
+app.put('/updateUser/:userId', authenticateToken, async (req, res) => {
     const userId = parseInt(req.params.userId)
     const user = await prisma.user.findUnique({
         where: {
