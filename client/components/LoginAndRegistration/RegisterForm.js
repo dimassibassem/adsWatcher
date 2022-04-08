@@ -10,7 +10,7 @@ export default function RegisterForm() {
         username: "",
         password1: "",
         password2: "",
-        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1",
+        avatar: "https://www.linkpicture.com/q/avatar_3.png",
         email: ""
     });
 

@@ -10,7 +10,7 @@ const ProfileDropdown = () => {
 
     const userData = useStore(store => store.userData);
 
-    let profileAvatar = userData?.avatarUrl ? userData.avatarUrl : "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1";
+    let profileAvatar = userData?.avatarUrl ? userData.avatarUrl : "https://www.linkpicture.com/q/avatar_3.png";
 
     return (
         <div className="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">

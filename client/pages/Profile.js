@@ -17,7 +17,7 @@ export default function Profile() {
     const [state, setState] = useState({
         username: "",
         password1: "",
-        avatar : userData !== null ? userData.avatarUrl : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+        avatar: userData !== null ? userData.avatarUrl : "https://www.linkpicture.com/q/avatar_3.png",
         email: ""
     });
 
@@ -37,7 +37,7 @@ export default function Profile() {
         const res = await axios.put(`http://localhost:3001/updateUser/${userId}`, {
                 username: state.username === "" ? null : state.username,
                 password1: state.password1 === "" ? null : state.password1,
-                avatar: state.avatar === "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1" ? null : state.avatar,
+                avatar: state.avatar === "https://www.linkpicture.com/q/avatar_3.png" ? null : state.avatar,
                 email: state.email === "" ? null : state.email
             },
             {
@@ -58,7 +58,7 @@ export default function Profile() {
                 count++
                 arrayMessages.push("Password");
             }
-            if (state.avatar !== "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.shareicon.net%2Fdata%2F2016%2F05%2F24%2F770117_people_512x512.png&f=1&nofb=1") {
+            if (state.avatar !== "https://www.linkpicture.com/q/avatar_3.png") {
                 count++
                 arrayMessages.push("Avatar");
             }
