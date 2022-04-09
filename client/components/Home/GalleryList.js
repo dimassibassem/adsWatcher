@@ -1,18 +1,16 @@
 import React, {useEffect} from 'react';
 import {useLocalStorage, useStore} from '../../store';
 import axios from "axios";
-import {useRouter} from "next/router";
 import ExpandingCards from "../ExpandingCards";
 
 
 const GalleryList = () => {
 
-    const router = useRouter();
     const queries = useStore(state => state.queries);
 
     const setArticleToDisplay = useLocalStorage(store => store.setArticleToDisplay)
     const deleteQuery = async (id) => {
-        await axios.delete(`http://localhost:3001/api/search/${id}`)
+        await axios.delete(`http://localhost:3001/search/${id}`)
     }
     const displayArticle = async (id) => {
         const result = await axios.get(`http://localhost:3001/api/article/${id}`)

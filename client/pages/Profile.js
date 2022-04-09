@@ -34,7 +34,7 @@ export default function Profile() {
     async function handleSubmit(e) {
         e.preventDefault()
 
-        const res = await axios.put(`http://localhost:3001/api/updateUser/${userId}`, {
+        const res = await axios.put(`http://localhost:3001/updateUser/${userId}`, {
                 username: state.username === "" ? null : state.username,
                 password1: state.password1 === "" ? null : state.password1,
                 avatar: state.avatar === "https://www.linkpicture.com/q/avatar_3.png" ? null : state.avatar,
