@@ -108,4 +108,68 @@ router.post('/register', async (req, res) => {
     });
 })
 
+router.put('/updateUser/:userId', authenticateToken, async (req, res) => {
+    const userId = parseInt(req.params.userId)
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+    })
+    if (user) {
+        if (req.body.username) {
+            user.username = req.body.username
+        }
+        if (req.body.email) {
+            user.email = req.body.email
+        }
+        if (req.body.password1) {
+            bcrypt.genSalt(10, function (err, salt) {
+                if (err) {
+                    return res.json({success: false, message: 'Failed to update user'});
+                }
+
+                bcrypt.hash(req.body.password1, salt, async function (err, hash) {
+                    if (err) {
+                        return res.json({success: false, message: 'Failed to update user'});
+                    }
+                    user.password = hash
+                });
+            });
+        }
+        if (req.body.avatar) {
+            user.avatarUrl = req.body.avatar
+        }
+        await prisma.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                avatarUrl: user.avatarUrl
+            },
+        })
+        const token = generateAccessToken(user.username, user.email, user.id);
+        return res.json({success: true, token: token, message: 'Update user successful'});
+    } else {
+        return res.json({success: false, message: 'User not found'});
+    }
+})
+
+router.delete('/search/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+        const search = await prisma.search.delete({
+            where: {
+                id: parseInt(id)
+            }
+        })
+        return res.send(search)
+    } catch (e) {
+        console.log(e)
+        return res.sendStatus(500)
+    }
+})
+
 module.exports = router;
