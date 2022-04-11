@@ -26,7 +26,7 @@ CREATE UNIQUE INDEX "_ArticleToSearch_AB_unique" ON "_ArticleToSearch"("A", "B")
 CREATE INDEX "_ArticleToSearch_B_index" ON "_ArticleToSearch"("B");
 
 -- AddForeignKey
-ALTER TABLE "_ArticleToSearch" ADD FOREIGN KEY ("A") REFERENCES "Article"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_ArticleToSearch" ADD FOREIGN KEY ("A") REFERENCES "Article"("searchId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ArticleToSearch" ADD FOREIGN KEY ("B") REFERENCES "Search"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_ArticleToSearch" ADD FOREIGN KEY ("B") REFERENCES "Search"("searchId") ON DELETE CASCADE ON UPDATE CASCADE;

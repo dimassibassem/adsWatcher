@@ -6,7 +6,8 @@ import DetailsSidebar from "../components/Home/DetailsSidebar";
 import {tokenValid} from "../utils/token";
 import {useRouter} from "next/router";
 import PrevButton from "../components/PrevButton";
-import FavArticles from "../components/FavArticles";
+import Articles from "../components/Articles/Articles";
+
 
 const Favorite = () => {
     const token = useLocalStorage(state => state.token);
@@ -14,6 +15,9 @@ const Favorite = () => {
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
     const router = useRouter();
+    const userData = useStore(state => state.userData);
+    const articleToDisplay = useStore(state => state.articleToDisplay);
+    let favArticles = articleToDisplay.filter(article => article.favorite);
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
@@ -62,7 +66,7 @@ const Favorite = () => {
                             {/* Tabs */}
                             <Tabs all={false}/>
 
-                            <FavArticles />
+                            <Articles articleToDisplay={favArticles}/>
 
                         </div>
                     </main>

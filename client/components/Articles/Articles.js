@@ -1,28 +1,21 @@
 import React, {useEffect} from 'react';
-import {useLocalStorage, useStore} from "../../store";
-import {classNames, getFavArticles} from "../../utils";
+import {getFavArticles, useLocalStorage, useStore} from "../../store";
+import {classNames} from "../../utils";
 import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
 import axios from "axios";
 
-const Articles = () => {
+const Articles = ({articleToDisplay}) => {
     const router = useRouter()
-    let articleToDisplay = useLocalStorage(state => state.articleToDisplay);
+    // let articleToDisplay = useStore(state => state.articleToDisplay);
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
-    const setFavArticles = useLocalStorage(state => state.setFavArticles);
-    const userData = useStore(state => state.userData);
-    const favArticles = useLocalStorage(state => state.favArticles);
+    const currentFile = useStore(state => state.currentFile);
 
-
-    useEffect(async () => {
-        if (tokenValid(token)) {
-            await setFavArticles(await getFavArticles(userData))
-        } else {
-            await router.push("/Login")
-        }
-    }, [token,favArticles]);
+    const isCurrentArticle = (article) => {
+        return currentFile && article && article.id === currentFile.id;
+    }
 
    // articleToDisplay = articleToDisplay.filter(async article => (await axios.get(article.thumbnail)).status === 200);
     return (
@@ -40,7 +33,7 @@ const Articles = () => {
                         <li key={article.id} className="relative ">
                             <div
                                 className={classNames(
-                                    article.current
+                                    isCurrentArticle(article)
                                         ? 'ring-2 ring-offset-2 ring-indigo-500'
                                         : 'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500',
                                     'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'

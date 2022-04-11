@@ -13,7 +13,7 @@ DROP TABLE "user";
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "searchId" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
@@ -21,20 +21,20 @@ CREATE TABLE "User" (
     "avatarUrl" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("searchId")
 );
 
 -- CreateTable
 CREATE TABLE "Search" (
-    "id" TEXT NOT NULL,
+    "searchId" TEXT NOT NULL,
     "query" VARCHAR(255) NOT NULL,
     "locationId" INTEGER,
     "minPrice" DOUBLE PRECISION,
     "maxPrice" DOUBLE PRECISION,
     "userId" INTEGER NOT NULL,
 
-    CONSTRAINT "Search_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Search_pkey" PRIMARY KEY ("searchId")
 );
 
 -- AddForeignKey
-ALTER TABLE "Search" ADD CONSTRAINT "Search_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Search" ADD CONSTRAINT "Search_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("searchId") ON DELETE RESTRICT ON UPDATE CASCADE;

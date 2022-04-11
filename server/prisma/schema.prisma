@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  username  String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(255)
-  avatarUrl String   @db.Text
-  email     String   @unique @db.VarChar(255)
-  searchs   Search[]
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  username         String    @unique @db.VarChar(255)
+  password         String    @db.VarChar(255)
+  avatarUrl        String    @db.Text
+  email            String    @unique @db.VarChar(255)
+  searchs          Search[]
+  favoriteArticles Article[]
 }
 
 model Search {
@@ -26,7 +27,6 @@ model Search {
   maxPrice   String?
   userId     Int
   user       User?   @relation(fields: [userId], references: [id])
-
 }
 
 model Location {
@@ -61,11 +61,5 @@ model Article {
   crawlerId   Int
   sourceUrl   String  @db.Text
 
-}
-
-model Favorite {
-  id        Int @id @default(autoincrement())
-  userId    Int
-  articleId Int
-
+  favorite User[]
 }

@@ -4,16 +4,21 @@ import axios from "axios";
 import ExpandingCards from "../ExpandingCards";
 
 
-const GalleryList = () => {
 
+const GalleryList = () => {
+    const token = useLocalStorage(store => store.token);
     const queries = useStore(state => state.queries);
 
-    const setArticleToDisplay = useLocalStorage(store => store.setArticleToDisplay)
+    const setArticleToDisplay = useStore(store => store.setArticleToDisplay)
     const deleteQuery = async (id) => {
         await axios.delete(`http://localhost:3001/search/${id}`)
     }
     const displayArticle = async (id) => {
-        const result = await axios.get(`http://localhost:3001/api/article/${id}`)
+        const result = await axios.get(`http://localhost:3001/api/article/${id}`, {
+            headers: {
+                'authorization': 'Bearer ' + token
+            }
+        })
         return result.data
     }
     return (

@@ -84,14 +84,12 @@ cron.schedule("*/10 * * * *", async function () {
     console.log("running a task every 10 minutes")
     let date = new Date().getTime() / 1000;
     try {
-        await prisma.article.deleteMany({
+        let deleted = await prisma.article.deleteMany({
             where: {timestamp: {lt: parseInt(date - 2764800)}}
         })
-
+        if (deleted) console.log("deleted old articles")
     } catch (e) {
         console.log(e)
-    } finally {
-        console.log("deleted old articles")
     }
 });
 

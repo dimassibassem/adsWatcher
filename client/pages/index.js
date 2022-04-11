@@ -13,15 +13,14 @@ export default function Home() {
     const router = useRouter()
     const queries = useStore(store => store.queries)
 
-
-    const loadFiles = async () => {
+    useEffect(async () => {
         const response = await axios({
             url: "http://localhost:3001/api/data",
             method: "get",
             headers: {Authorization: "Bearer " + token}
         })
         setQueries(await response.data)
-    }
+    }, [setQueries, token]);
 
     const setSource = useStore(store => store.setSource)
     const setUserData = useStore(store => store.setUserData)
@@ -32,7 +31,6 @@ export default function Home() {
             setCurrentFile(null)
             await setSource(token)
             await setCategoryDisplayNames(token)
-            await loadFiles()
         } else {
             await router.push("/Login")
         }

@@ -20,7 +20,7 @@ async function addToDatabase(item, crawlerAdUrls) {
         let date = new Date().getTime() / 1000;
         const existingArticle = await prisma.article.findUnique({
             where: {
-                articleId: item.id
+                articleId: item.searchId
             }
         })
         if (existingArticle || item.timestamp + 2764800 < date) {
@@ -31,7 +31,7 @@ async function addToDatabase(item, crawlerAdUrls) {
         } else {
             await prisma.article.create({
                 data: {
-                    articleId: item.id,
+                    articleId: item.searchId,
                     title: (item.title === null) ? "No title" : item.title,
                     description: item.description === null ? "No description" : item.description,
                     price: item.price,
@@ -42,7 +42,7 @@ async function addToDatabase(item, crawlerAdUrls) {
                     externalId: item.externalId,
                     sourceId: item.sourceId,
                     crawlerId: item.crawlerId,
-                    sourceUrl: crawlerAdUrls[item.crawlerId].replace(/{id}/g, item.externalId),
+                    sourceUrl: crawlerAdUrls[item.crawlerId].replace(/{searchId}/g, item.externalId),
                 }
             })
             return true
@@ -82,7 +82,7 @@ async function scrape(userSearch, locationId, maxPrice, minPrice) {
             let item = results[i];
             item = {
                 ...item,
-                sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{id}/g, item.externalId),
+                sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{searchId}/g, item.externalId),
             }
 
             const added = await addToDatabase(item, crawlerAdUrlsArray)
@@ -107,11 +107,11 @@ async function scrape(userSearch, locationId, maxPrice, minPrice) {
                 break
             }
 
-            const searchMoreData = await searchMore(getOffset(lastItem.id, lastItem.timestamp), query, locationId, locations, minPrice, maxPrice)
+            const searchMoreData = await searchMore(getOffset(lastItem.searchId, lastItem.timestamp), query, locationId, locations, minPrice, maxPrice)
             for (let item of searchMoreData) {
                 item = {
                     ...item,
-                    sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{id}/g, item.externalId),
+                    sourceUrl: crawlerAdUrlsArray[item.crawlerId].replace(/{searchId}/g, item.externalId),
                 }
 
                 lastItem = item

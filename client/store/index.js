@@ -2,7 +2,6 @@ import axios from "axios";
 import create from "zustand";
 import {devtools, persist} from "zustand/middleware";
 import {parseJwt} from "../utils/token";
-import favArticles from "../components/FavArticles";
 
 const tabs = [
     {name: 'Recently Viewed', href: '/Article', current: true},
@@ -18,7 +17,6 @@ const getSource = async (token) => {
     let response = await axios.get('http://localhost:3001/api/getSource', {headers: {'Authorization': 'Bearer ' + token}});
     return response.data;
 }
-
 
 const getCategoryDisplayNames = async (token) => {
     let response = await axios.get('http://localhost:3001/api/getCategoryDisplayNames/', {headers: {'Authorization': 'Bearer ' + token}});
@@ -61,6 +59,21 @@ const createStateSlice = (set, get) => ({
     categoryDisplayNames: [],
     currentFile: null,
     userNavigation: userNavigation,
+    setArticleToDisplay: (articles) => set({articleToDisplay: articles}, null, "articleToDisplay"),
+    articleToDisplay: [],
+    setFavArticles: (articlesId) => {
+        const articles = get().articleToDisplay
+        const newArticles = articles.map(article => {
+            console.log(` ${articlesId} == ${article.id}`)
+
+            if (articlesId === article.id) {
+                article.favorite = !article.favorite
+            }
+            return article
+        })
+        console.log(newArticles)
+        set({articleToDisplay: newArticles}, null, "setFavArticles")
+    },
     setUserData: async (token) => {
         const decodedToken = parseJwt(token);
         const result = await userInfo(decodedToken, token);
@@ -90,10 +103,6 @@ const createStateSlice = (set, get) => ({
 const createTokenSlice = (set, get) => ({
     token: null,
     setToken: (token) => set({token: token}, null, "setToken"),
-    setArticleToDisplay: (articles) => set({articleToDisplay: articles}, null, "articleToDisplay"),
-    articleToDisplay: [],
-    favArticles:[],
-    setFavArticles: (articles) => set({favArticles: articles}, null, "setFavArticles"),
 });
 
 const createRootStorage = (set, get) => ({

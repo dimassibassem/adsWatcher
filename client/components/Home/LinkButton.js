@@ -9,7 +9,7 @@ const LinkButton = ({source, currentFile}) => {
         const result = await axios.get('http://localhost:3001/api/getAppData', {headers: {Authorization: "Bearer " + token},})
         const appData = result.data
         const crawlerAdUrls = appData.crawlerAdUrls
-        const url = crawlerAdUrls[currentFile.crawlerId].replace(/{id}/g, currentFile.externalId)
+        const url = crawlerAdUrls[currentFile.crawlerId].replace(/{searchId}/g, currentFile.externalId)
         setUrl(url)
     }, [currentFile])
 

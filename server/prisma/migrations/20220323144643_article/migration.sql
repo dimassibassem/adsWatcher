@@ -2,18 +2,18 @@
   Warnings:
 
   - The primary key for the `Search` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - The `id` column on the `Search` table would be dropped and recreated. This will lead to data loss if there is data in the column.
+  - The `searchId` column on the `Search` table would be dropped and recreated. This will lead to data loss if there is data in the column.
 
 */
 -- AlterTable
 ALTER TABLE "Search" DROP CONSTRAINT "Search_pkey",
-DROP COLUMN "id",
-ADD COLUMN     "id" SERIAL NOT NULL,
-ADD CONSTRAINT "Search_pkey" PRIMARY KEY ("id");
+DROP COLUMN "searchId",
+ADD COLUMN     "searchId" SERIAL NOT NULL,
+ADD CONSTRAINT "Search_pkey" PRIMARY KEY ("searchId");
 
 -- CreateTable
 CREATE TABLE "Article" (
-    "id" SERIAL NOT NULL,
+    "searchId" SERIAL NOT NULL,
     "searchId" INTEGER NOT NULL,
     "articleId" INTEGER NOT NULL,
     "title" VARCHAR(255) NOT NULL,
@@ -29,11 +29,11 @@ CREATE TABLE "Article" (
     "crawlerId" INTEGER NOT NULL,
     "sourceUrl" TEXT NOT NULL,
 
-    CONSTRAINT "Article_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Article_pkey" PRIMARY KEY ("searchId")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Article_articleId_key" ON "Article"("articleId");
 
 -- AddForeignKey
-ALTER TABLE "Article" ADD CONSTRAINT "Article_searchId_fkey" FOREIGN KEY ("searchId") REFERENCES "Search"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Article" ADD CONSTRAINT "Article_searchId_fkey" FOREIGN KEY ("searchId") REFERENCES "Search"("searchId") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -22,7 +22,7 @@ CREATE TABLE "ArticlesInSearch" (
 );
 
 -- AddForeignKey
-ALTER TABLE "ArticlesInSearch" ADD CONSTRAINT "ArticlesInSearch_searchId_fkey" FOREIGN KEY ("searchId") REFERENCES "Search"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ArticlesInSearch" ADD CONSTRAINT "ArticlesInSearch_searchId_fkey" FOREIGN KEY ("searchId") REFERENCES "Search"("searchId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ArticlesInSearch" ADD CONSTRAINT "ArticlesInSearch_articleId_fkey" FOREIGN KEY ("articleId") REFERENCES "Article"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ArticlesInSearch" ADD CONSTRAINT "ArticlesInSearch_articleId_fkey" FOREIGN KEY ("articleId") REFERENCES "Article"("searchId") ON DELETE RESTRICT ON UPDATE CASCADE;

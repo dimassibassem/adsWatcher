@@ -35,15 +35,25 @@ router.get('/users/:id', authenticateToken, async (req, res) => {
     }
 })
 
-router.get('/article/:id', async (req, res) => {
-    const {id} = req.params
+router.get('/article/:searchId', authenticateToken, async (req, res) => {
+    const {searchId} = req.params
     const search = await prisma.search.findUnique({
         where: {
-            id: parseInt(id)
+            id: parseInt(searchId)
         }
     })
+
+    if (!search) {
+        return res.status(404).send({
+            error: 'Search not found'
+        })
+    }
+
     if (search.minPrice === null && search.maxPrice === null) {
-        const searches = await prisma.article.findMany({
+        let articles = await prisma.article.findMany({
+            include: {
+                favorite: true,
+            },
             where: {
                 OR: [
                     {
@@ -61,13 +71,25 @@ router.get('/article/:id', async (req, res) => {
                 ]
             }
         })
-        searches.sort((a, b) => {
+        const user = req.user
+        console.log(user)
+
+        // convert articles to display format
+        articles = articles.map(article => {
+            article.favorite = article.favorite.some(favorite => favorite.id === user.userId)
+            return article
+        })
+
+        articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        return res.status(200).send(searches)
+        return res.status(200).send(articles)
     }
     if (search.minPrice === null) {
-        const searches = await prisma.article.findMany({
+        let articles = await prisma.article.findMany({
+            include: {
+                favorite: true,
+            },
             where: {
                 OR: [
                     {
@@ -88,10 +110,20 @@ router.get('/article/:id', async (req, res) => {
                 ]
             }
         })
-        searches.sort((a, b) => {
+
+        const user = req.user
+        console.log(user)
+
+        // convert articles to display format
+        articles = articles.map(article => {
+            article.favorite = article.favorite.some(favorite => favorite.id === user.userId)
+            return article
+        })
+
+        articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        return res.status(200).send(searches)
+        return res.status(200).send(articles)
     }
     if (search.maxPrice === null) {
         const searches = await prisma.article.findMany({
@@ -179,31 +211,81 @@ router.get('/getLocationData', async (req, res) => {
     return res.json(locations)
 })
 
-router.get('/favorite/:id', async (req, res) => {
-      const{id} = req.params
+// Update an article by id to favorite or not
+router.get('/favorite/:articleId', authenticateToken, async (req, res) => {
+    const {articleId} = req.params
     try {
-        const favorites = await prisma.favorite.findMany({
+        let article = await prisma.article.findUnique({
+            include: {
+                favorite: true
+            },
             where: {
-                userId: parseInt(id)
+                id: parseInt(articleId)
             }
         })
-        if (favorites) {
-            const results = await prisma.article.findMany({
+
+        // If it's already favorited, remove it
+        if (article.favorite.some(favorite => favorite.id === req.user.userId)) {
+            // make the article not favorite
+            const favs = article.favorite.filter(favorite => favorite.id !== req.user.userId)
+            await prisma.article.update({
                 where: {
-                    id: {
-                        in: favorites.map(favorite => favorite.articleId)
+                    id: parseInt(articleId)
+                },
+                data: {
+                    favorite: {
+                        set: favs
                     }
                 }
             })
-           return res.json(results)
         } else {
-            return res.json({
-                message: 'No favorites found'
+            // make the article favorite
+            await prisma.article.update({
+                where: {
+                    id: parseInt(articleId)
+                },
+                data: {
+                    favorite: {
+                        connect: {
+                            id: req.user.userId
+                        }
+                    }
+                }
             })
         }
+
+        article.favorite = !article.favorite.some(favorite => favorite.id === req.user.userId)
+
+        return res.status(200).send(article)
     } catch (e) {
         console.log(e);
     }
+})
+
+router.get('/verifyImage/:id', async (req, res) => {
+    const {id} = req.params
+    try {
+        const article = await prisma.article.findFirst({
+            where: {
+                articleId: parseInt(id)
+            }
+        })
+        await axios.get(article.thumbnail)
+        return res.json({
+            message: 'Image verified'
+        })
+    } catch (e) {
+        console.log("error")
+        await prisma.article.update({
+            where: {
+                articleId: parseInt(id)
+            },
+            data: {thumbnail: 'https://www.linkpicture.com/q/sorry-image-not-available.png'},
+        })
+    }
+    return res.json({
+        message: 'Image changed'
+    })
 })
 
 module.exports = router;
