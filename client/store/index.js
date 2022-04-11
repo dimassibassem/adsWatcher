@@ -2,11 +2,11 @@ import axios from "axios";
 import create from "zustand";
 import {devtools, persist} from "zustand/middleware";
 import {parseJwt} from "../utils/token";
+import favArticles from "../components/FavArticles";
 
 const tabs = [
-    {name: 'Recently Viewed', href: '#', current: true},
-    {name: 'Recently Added', href: '#', current: false},
-    {name: 'Favorited', href: '#', current: false},
+    {name: 'Recently Viewed', href: '/Article', current: true},
+    {name: 'Favorited', href: '/favorite', current: false},
 ]
 const userNavigation = [
     {name: 'Home', href: '/'},
@@ -92,6 +92,8 @@ const createTokenSlice = (set, get) => ({
     setToken: (token) => set({token: token}, null, "setToken"),
     setArticleToDisplay: (articles) => set({articleToDisplay: articles}, null, "articleToDisplay"),
     articleToDisplay: [],
+    favArticles:[],
+    setFavArticles: (articles) => set({favArticles: articles}, null, "setFavArticles"),
 });
 
 const createRootStorage = (set, get) => ({

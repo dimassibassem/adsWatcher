@@ -13,10 +13,10 @@ const MainContent = () => {
                 <PrevButton path={"Search"}/>
                 <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex">
-                        <h1 className="flex-1 text-2xl font-bold text-gray-900">Photos</h1>
+                        <h1 className="flex-1 text-2xl font-bold text-gray-900">Searches</h1>
                     </div>
                     {/* Tabs */}
-                    <Tabs/>
+                    {/*<Tabs/>*/}
                     <GalleryList/>
                 </div>
             </main>

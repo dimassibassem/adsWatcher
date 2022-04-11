@@ -15,7 +15,6 @@ const DetailsSidebar = () => {
                 <div className="pb-16 space-y-6 ">
                     {/* image and name details*/}
                     <ImageAndName currentFile={currentFile}
-
                     />
                     {/*Information */}
                     <Information currentFile={currentFile}/>

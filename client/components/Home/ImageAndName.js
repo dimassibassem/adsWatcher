@@ -1,9 +1,11 @@
 import {HeartIcon} from "@heroicons/react/outline";
 import {useStore} from "../../store";
+import axios from "axios";
 
 
 const ImageAndName = ({currentFile}) => {
     const moreImages = useStore(state => state.moreImages);
+    const userData = useStore(state => state.userData);
     let imagesView = <div/>
     if (moreImages.length > 0) {
         imagesView = moreImages.map((image, index) => {
@@ -15,6 +17,12 @@ const ImageAndName = ({currentFile}) => {
         })
     }
 
+const addToFavorite = async (id) => {
+    const res = await axios.post(`http://localhost:3001/favorite/${currentFile.id}`, {
+        userId: id
+    })
+    console.log(res.data.message);
+}
     return (
         <div>
             {imagesView}
@@ -32,6 +40,10 @@ const ImageAndName = ({currentFile}) => {
                 <button
                     type="button"
                     className="ml-4 bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    onClick={async () => {
+                        console.log(currentFile.articleId, userData.id);
+                        await addToFavorite(userData.id)
+                    }}
                 >
                     <HeartIcon className="h-6 w-6" aria-hidden="true"/>
                     <span className="sr-only">Favorite</span>

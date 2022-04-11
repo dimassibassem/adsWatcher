@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
-import {useLocalStorage, useStore} from "../../store";
-import {classNames, getFavArticles} from "../../utils";
-import {tokenValid} from "../../utils/token";
+import {useLocalStorage, useStore} from "../store";
+import {classNames, getFavArticles} from "../utils";
+import axios from "axios";
+import {tokenValid} from "../utils/token";
 import {useRouter} from "next/router";
 
-const Articles = () => {
-    const router = useRouter()
-    const articleToDisplay = useLocalStorage(state => state.articleToDisplay);
+const FavArticles = () => {
+
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
+    const favArticles = useLocalStorage(state => state.favArticles);
     const setFavArticles = useLocalStorage(state => state.setFavArticles);
     const userData = useStore(state => state.userData);
-    const favArticles = useLocalStorage(state => state.favArticles);
-
+    const router = useRouter()
 
     useEffect(async () => {
         if (tokenValid(token)) {
@@ -21,7 +21,7 @@ const Articles = () => {
         } else {
             await router.push("/Login")
         }
-    }, [token,favArticles]);
+    }, [token, favArticles]);
     return (
         <div>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
@@ -32,8 +32,7 @@ const Articles = () => {
                     role="list"
                     className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 xl:gap-x-10"
                 >
-
-                    {articleToDisplay.map((article) => (
+                    {favArticles.map((article) => (
                         <li key={article.id} className="relative ">
                             <div
                                 className={classNames(
@@ -75,4 +74,5 @@ const Articles = () => {
     )
 };
 
-export default Articles;
+export default FavArticles;
+

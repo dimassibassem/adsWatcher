@@ -22,14 +22,13 @@ export default function Home() {
         })
         setQueries(await response.data)
     }
+
     const setSource = useStore(store => store.setSource)
     const setUserData = useStore(store => store.setUserData)
     const setCurrentFile = useStore(store => store.setCurrentFile)
-
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
-            // await setLocations()
             setCurrentFile(null)
             await setSource(token)
             await setCategoryDisplayNames(token)
@@ -37,7 +36,7 @@ export default function Home() {
         } else {
             await router.push("/Login")
         }
-    }, [token,queries]);
+    }, [token, queries]);
     return (
         <>
             <div className="h-full flex">

@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import Articles from "../components/Articles/Articles";
 import ProfileDropdown from "../components/Home/ProfileDropdown";
 import {useLocalStorage, useStore} from "../store";
 import Tabs from "../components/Home/Tabs";
@@ -7,8 +6,9 @@ import DetailsSidebar from "../components/Home/DetailsSidebar";
 import {tokenValid} from "../utils/token";
 import {useRouter} from "next/router";
 import PrevButton from "../components/PrevButton";
+import FavArticles from "../components/FavArticles";
 
-const Article = () => {
+const Favorite = () => {
     const token = useLocalStorage(state => state.token);
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
@@ -60,8 +60,10 @@ const Article = () => {
                             </div>
 
                             {/* Tabs */}
-                            <Tabs all={true}/>
-                            <Articles/>
+                            <Tabs all={false}/>
+
+                            <FavArticles />
+
                         </div>
                     </main>
 
@@ -73,4 +75,4 @@ const Article = () => {
     )
 };
 
-export default Article;
+export default Favorite;

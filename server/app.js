@@ -9,6 +9,7 @@ const cron = require("node-cron");
 const nodemailer = require('nodemailer');
 const userRoute = require('./routes/user.js');
 const apiRoute = require('./routes/api.js');
+const axios = require("axios");
 
 // get config vars
 dotenv.config();
@@ -74,6 +75,7 @@ app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
 cron.schedule("*/10 * * * *", async function () {
+    console.log("Cron Begin");
     try {
         await addToDbAndSendEmails()
     } catch (e) {
@@ -85,6 +87,7 @@ cron.schedule("*/10 * * * *", async function () {
         await prisma.article.deleteMany({
             where: {timestamp: {lt: parseInt(date - 2764800)}}
         })
+
     } catch (e) {
         console.log(e)
     } finally {

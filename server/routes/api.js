@@ -1,8 +1,7 @@
 const prisma = require("../utils/prismaClient");
 const axios = require("axios");
 const {decode, getImages} = require("../utils/scrapeTools");
-const bcrypt = require('bcrypt');
-const {authenticateToken, generateAccessToken} = require('../utils/jwtAuth');
+const {authenticateToken} = require('../utils/jwtAuth');
 const express = require('express');
 const router = express.Router();
 
@@ -178,6 +177,33 @@ router.get('/getMoreImages/:id', authenticateToken, async (req, res) => {
 router.get('/getLocationData', async (req, res) => {
     const locations = await prisma.location.findMany()
     return res.json(locations)
+})
+
+router.get('/favorite/:id', async (req, res) => {
+      const{id} = req.params
+    try {
+        const favorites = await prisma.favorite.findMany({
+            where: {
+                userId: parseInt(id)
+            }
+        })
+        if (favorites) {
+            const results = await prisma.article.findMany({
+                where: {
+                    id: {
+                        in: favorites.map(favorite => favorite.articleId)
+                    }
+                }
+            })
+           return res.json(results)
+        } else {
+            return res.json({
+                message: 'No favorites found'
+            })
+        }
+    } catch (e) {
+        console.log(e);
+    }
 })
 
 module.exports = router;

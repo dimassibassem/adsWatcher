@@ -19,13 +19,13 @@ model User {
 }
 
 model Search {
-  id         Int                @id @default(autoincrement())
-  query      String             @db.VarChar(255)
+  id         Int     @id @default(autoincrement())
+  query      String  @db.VarChar(255)
   locationId String?
   minPrice   String?
   maxPrice   String?
   userId     Int
-  user       User?              @relation(fields: [userId], references: [id])
+  user       User?   @relation(fields: [userId], references: [id])
 
 }
 
@@ -47,18 +47,25 @@ model Source {
 }
 
 model Article {
-  id          Int                @id @default(autoincrement())
-  articleId   Int                @unique
-  title       String             @db.Text
-  description String?            @db.Text
+  id          Int     @id @default(autoincrement())
+  articleId   Int     @unique
+  title       String  @db.Text
+  description String? @db.Text
   price       Float?
   categoryId  Int
   timestamp   Int
-  thumbnail   String?            @db.VarChar(255)
-  location    String?            @db.VarChar(255)
-  externalId  String             @db.VarChar(255)
+  thumbnail   String? @db.VarChar(255)
+  location    String? @db.VarChar(255)
+  externalId  String  @db.VarChar(255)
   sourceId    Int
   crawlerId   Int
-  sourceUrl   String             @db.Text
+  sourceUrl   String  @db.Text
+
+}
+
+model Favorite {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  articleId Int
 
 }

@@ -172,4 +172,35 @@ router.delete('/search/:id', async (req, res) => {
     }
 })
 
+router.post('/favorite/:id', async (req, res) => {
+    const {id} = req.params
+    const userId = req.body.userId
+
+    const favoriteExist = await prisma.favorite.findFirst({
+        where: {
+            articleId: parseInt(id)
+        }
+    })
+    if (favoriteExist) {
+        await prisma.favorite.delete({
+            where: {
+                id: favoriteExist.id
+            }
+        })
+        return res.json({
+            message: 'Delete favorite successful'
+        })
+    } else {
+        await prisma.favorite.create({
+            data: {
+                userId: userId,
+                articleId: parseInt(id)
+            }
+        })
+        return res.json({
+            message: 'Create favorite successful'
+        })
+    }
+})
+
 module.exports = router;
