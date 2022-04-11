@@ -64,7 +64,7 @@ const FavArticles = () => {
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {article.title}
                             </p>
-                            <p className="block text-sm font-medium text-gray-500 pointer-events-none">{article.price} TND</p>
+                            <p className="block text-sm font-medium text-gray-500 pointer-events-none">{article.price === 0 ? "" : article.price + " TND" }</p>
 
                         </li>
                     ))}

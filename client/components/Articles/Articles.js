@@ -3,10 +3,11 @@ import {useLocalStorage, useStore} from "../../store";
 import {classNames, getFavArticles} from "../../utils";
 import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
+import axios from "axios";
 
 const Articles = () => {
     const router = useRouter()
-    const articleToDisplay = useLocalStorage(state => state.articleToDisplay);
+    let articleToDisplay = useLocalStorage(state => state.articleToDisplay);
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
@@ -22,6 +23,8 @@ const Articles = () => {
             await router.push("/Login")
         }
     }, [token,favArticles]);
+
+   // articleToDisplay = articleToDisplay.filter(async article => (await axios.get(article.thumbnail)).status === 200);
     return (
         <div>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
@@ -65,7 +68,7 @@ const Articles = () => {
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {article.title}
                             </p>
-                            <p className="block text-sm font-medium text-gray-500 pointer-events-none">{article.price} TND</p>
+                            <p className="block text-sm font-medium text-gray-500 pointer-events-none">{article.price === 0 ? "" : article.price + " TND"}</p>
 
                         </li>
                     ))}

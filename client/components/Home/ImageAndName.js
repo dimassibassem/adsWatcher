@@ -35,7 +35,7 @@ const addToFavorite = async (id) => {
                         <span className="sr-only">Details for </span>
                         {currentFile.title}
                     </h2>
-                    <p className="text-sm font-medium text-gray-500">{currentFile.price} TND</p>
+                    <p className="text-sm font-medium text-gray-500">{currentFile.price === 0 ? "price not specified" : currentFile.price + " TND" }</p>
                 </div>
                 <button
                     type="button"
