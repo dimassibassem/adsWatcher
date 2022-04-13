@@ -1,23 +1,23 @@
 import React, {useEffect} from 'react';
 import Articles from "../components/Articles/Articles";
 import ProfileDropdown from "../components/Home/ProfileDropdown";
-import {getFavArticles, useLocalStorage, useStore} from "../store";
+import {useLocalStorage, useStore} from "../store";
 import Tabs from "../components/Home/Tabs";
 import DetailsSidebar from "../components/Home/DetailsSidebar";
 import {tokenValid} from "../utils/token";
 import {useRouter} from "next/router";
 import PrevButton from "../components/PrevButton";
-import axios from "axios";
 
 const Article = () => {
     const token = useLocalStorage(state => state.token);
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
-    const articleToDisplay = useStore(state => state.articleToDisplay);
+    let articleToDisplay = useStore(state => state.articleToDisplay);
     const router = useRouter();
 
     const userData = useStore(state => state.userData);
+
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)

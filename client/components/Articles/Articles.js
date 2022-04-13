@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
-import {getFavArticles, useLocalStorage, useStore} from "../../store";
+import React from 'react';
+import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
-import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
-import axios from "axios";
 
 const Articles = ({articleToDisplay}) => {
     const router = useRouter()
@@ -17,7 +15,7 @@ const Articles = ({articleToDisplay}) => {
         return currentFile && article && article.id === currentFile.id;
     }
 
-   // articleToDisplay = articleToDisplay.filter(async article => (await axios.get(article.thumbnail)).status === 200);
+    // articleToDisplay = articleToDisplay.filter(async article => (await axios.get(article.thumbnail)).status === 200);
     return (
         <div>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">

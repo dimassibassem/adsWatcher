@@ -275,17 +275,10 @@ router.get('/verifyImage/:id', async (req, res) => {
             message: 'Image verified'
         })
     } catch (e) {
-        console.log("error")
-        await prisma.article.update({
-            where: {
-                articleId: parseInt(id)
-            },
-            data: {thumbnail: 'https://www.linkpicture.com/q/sorry-image-not-available.png'},
+        return res.json({
+            message: 'Image Not Found'
         })
     }
-    return res.json({
-        message: 'Image changed'
-    })
 })
 
 module.exports = router;

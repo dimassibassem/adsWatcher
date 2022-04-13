@@ -59,19 +59,26 @@ const createStateSlice = (set, get) => ({
     categoryDisplayNames: [],
     currentFile: null,
     userNavigation: userNavigation,
-    setArticleToDisplay: (articles) => set({articleToDisplay: articles}, null, "articleToDisplay"),
+    setArticleToDisplay: (articles) => {
+       articles.map(async article => {
+            let res = await axios.get(`http://localhost:3001/api/verifyImage/${article.articleId}`)
+            if (res.data.message === "Image Not Found"){
+                article.thumbnail = "https://www.linkpicture.com/q/sorry-image-not-available.png";
+            }
+            return article;
+        });
+        set({articleToDisplay: articles}, null, "articleToDisplay")
+
+    },
     articleToDisplay: [],
     setFavArticles: (articlesId) => {
         const articles = get().articleToDisplay
         const newArticles = articles.map(article => {
-            console.log(` ${articlesId} == ${article.id}`)
-
             if (articlesId === article.id) {
                 article.favorite = !article.favorite
             }
             return article
         })
-        console.log(newArticles)
         set({articleToDisplay: newArticles}, null, "setFavArticles")
     },
     setUserData: async (token) => {

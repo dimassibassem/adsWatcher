@@ -27,11 +27,7 @@ const ImageAndName = ({currentFile}) => {
                 'Authorization': `Bearer ` + token
             }
         })
-
-        console.log(res.data.id);
         setFavArticles(res.data.id)
-
-        console.log(res);
     }
     return (
         <div>
@@ -51,6 +47,7 @@ const ImageAndName = ({currentFile}) => {
                     type="button"
                     className="ml-4 bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     onClick={async () => {
+                        console.log(currentFile);
                         await addToFavorite(currentFile.id)
                     }}
                 >
