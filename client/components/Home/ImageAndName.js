@@ -1,4 +1,5 @@
 import {HeartIcon} from "@heroicons/react/outline";
+import {HeartIcon as HeartIconSolid} from "@heroicons/react/solid";
 import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {useEffect} from "react";
@@ -35,13 +36,14 @@ const ImageAndName = ({currentFile}) => {
                 </div>
                 <button
                     type="button"
-                    className="ml-4 bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="ml-4 bg-white rounded-full h-10 w-10 flex items-center justify-center text-gray-400 hover:bg-gray-100  focus:outline-none focus:ring-2 focus:ring-white"
                     onClick={async () => {
                         console.log(currentFile);
                         await addToFavorite(currentFile.id)
                     }}
                 >
-                    <HeartIcon className="h-6 w-6" aria-hidden="true"/>
+                    {!currentFile.favorite && <HeartIcon className="h-8 w-8" aria-hidden="true"/>}
+                    {currentFile.favorite && <HeartIconSolid className="h-8 w-8 text-red-600" aria-hidden="true"/>}
                     <span className="sr-only">Favorite</span>
                 </button>
             </div>
