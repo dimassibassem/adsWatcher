@@ -26,7 +26,6 @@ const Article = () => {
     let articleToDisplay = useStore(state => state.articleToDisplay);
     const router = useRouter();
     const {id} = router.query
-    console.log(id);
     const userData = useStore(state => state.userData);
     const setArticleToDisplay = useStore(state => state.setArticleToDisplay);
 
@@ -40,6 +39,7 @@ const Article = () => {
 
     useEffect(async () => {
         setArticleToDisplay(await articles)
+        console.log(articles);
     }, [articles, setArticleToDisplay]);
 
 

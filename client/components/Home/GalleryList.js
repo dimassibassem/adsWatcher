@@ -12,6 +12,7 @@ const GalleryList = () => {
     const deleteQuery = async (id) => {
         await axios.delete(`http://localhost:3001/search/${id}`)
     }
+    const setQueries = useStore(store => store.setQueries)
 
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">

@@ -2,6 +2,7 @@ import {HeartIcon} from "@heroicons/react/outline";
 import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {useEffect} from "react";
+import {CarouselImages} from "../CarouselImages";
 
 
 const ImageAndName = ({currentFile}) => {
@@ -9,17 +10,6 @@ const ImageAndName = ({currentFile}) => {
     const token = useLocalStorage(state => state.token);
     const userData = useStore(state => state.userData);
     const setFavArticles = useStore(state => state.setFavArticles);
-
-    let imagesView = <div/>
-    if (moreImages.length > 0) {
-        imagesView = moreImages.map((image, index) => {
-            return (
-                <div key={index}>
-                    <img className="object-cover" src={image} alt=""/>
-                </div>
-            )
-        })
-    }
 
     const addToFavorite = async (id) => {
         const res = await axios.get(`http://localhost:3001/api/favorite/${id}`, {
@@ -31,10 +21,10 @@ const ImageAndName = ({currentFile}) => {
     }
     return (
         <div>
-            {imagesView}
-            <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
-                <img src={currentFile.thumbnail} alt="" className="object-cover"/>
-            </div>
+            <CarouselImages moreImages={moreImages}/>
+            {/*<div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">*/}
+            {/*    <img src={currentFile.thumbnail} alt="" className="object-cover"/>*/}
+            {/*</div>*/}
             <div className="mt-4 flex items-start justify-between">
                 <div>
                     <h2 className="text-lg font-medium text-gray-900">
