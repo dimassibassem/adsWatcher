@@ -42,8 +42,8 @@ const ImageAndName = ({currentFile}) => {
                         await addToFavorite(currentFile.id)
                     }}
                 >
-                    {!currentFile.favorite && <HeartIcon className="h-8 w-8" aria-hidden="true"/>}
-                    {currentFile.favorite && <HeartIconSolid className="h-8 w-8 text-red-600" aria-hidden="true"/>}
+                    {!currentFile.favorite && <HeartIconSolid className="h-8 w-8 text-red-300" aria-hidden="true"/>}
+                    {currentFile.favorite && <HeartIconSolid className="h-8 w-8 text-red-600 " aria-hidden="true"/>}
                     <span className="sr-only">Favorite</span>
                 </button>
             </div>
