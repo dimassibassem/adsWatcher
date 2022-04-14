@@ -74,8 +74,9 @@ app.use('/', userRoute);
 app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
+
 cron.schedule("*/10 * * * *", async function () {
-    console.log("Cron Begin");
+    console.log("task1 Begin");
     try {
         await addToDbAndSendEmails()
     } catch (e) {
@@ -87,10 +88,29 @@ cron.schedule("*/10 * * * *", async function () {
         let deleted = await prisma.article.deleteMany({
             where: {timestamp: {lt: parseInt(date - 2764800)}}
         })
-        if (deleted) console.log("deleted old articles")
+        if (deleted.count > 0) console.log("deleted ", deleted.count, " old articles")
     } catch (e) {
         console.log(e)
     }
 });
+//running task evrey day
+cron.schedule("* * 23 * * *", async function () {
+    task1.stop()
+    console.log("task2 Begin");
+    let articles = await prisma.article.findMany({})
+    for (const article of articles) {
+        try {
+            await axios.get(article.thumbnail)
+        } catch (e) {
+            await prisma.article.delete({
+                where: {
+                    id: article.id
+                }
+            })
+        }
+
+    }
+});
+
 
 app.listen(3001);
