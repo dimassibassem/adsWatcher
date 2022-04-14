@@ -1,23 +1,48 @@
-import React, {useEffect} from 'react';
-import ProfileDropdown from "../components/Home/ProfileDropdown";
-import {useLocalStorage, useStore} from "../store";
-import Tabs from "../components/Home/Tabs";
-import DetailsSidebar from "../components/Home/DetailsSidebar";
-import {tokenValid} from "../utils/token";
+import React, {useCallback, useEffect, useMemo} from 'react';
+import Articles from "../../components/Articles/Articles";
+import ProfileDropdown from "../../components/Home/ProfileDropdown";
+import {useLocalStorage, useStore} from "../../store";
+import Tabs from "../../components/Home/Tabs";
+import DetailsSidebar from "../../components/Home/DetailsSidebar";
+import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
-import PrevButton from "../components/PrevButton";
-import Articles from "../components/Articles/Articles";
+import PrevButton from "../../components/PrevButton";
+import axios from "axios";
 
+const displayArticle = async (id, token) => {
+    const result = await axios.get(`http://localhost:3001/api/article/${id}`, {
+        headers: {
+            'authorization': 'Bearer ' + token
+        }
+    })
+    return result.data
+}
 
-const Favorite = () => {
+const Article = () => {
     const token = useLocalStorage(state => state.token);
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
+    let articleToDisplay = useStore(state => state.articleToDisplay);
     const router = useRouter();
+    const {id} = router.query
+    console.log(id);
     const userData = useStore(state => state.userData);
-    const articleToDisplay = useStore(state => state.articleToDisplay);
-    let favArticles = articleToDisplay.filter(article => article.favorite);
+    const setArticleToDisplay = useStore(state => state.setArticleToDisplay);
+
+    const articles = useMemo(async () => {
+        if (id) {
+            return await displayArticle(id, token);
+        } else {
+            return [];
+        }
+    }, [id, token]);
+
+    useEffect(async () => {
+        setArticleToDisplay(await articles)
+    }, [articles, setArticleToDisplay]);
+
+
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
@@ -41,7 +66,7 @@ const Favorite = () => {
                                 <div>
                                     <img
                                         className="mx-auto mt-2"
-                                        src="/adswatcher.jpeg"
+                                        src="/adsWatcher.jpeg"
                                         alt="Workflow"
                                         width="180"
                                         height="120"
@@ -64,10 +89,8 @@ const Favorite = () => {
                             </div>
 
                             {/* Tabs */}
-                            <Tabs all={false}/>
-
-                            <Articles articleToDisplay={favArticles}/>
-
+                            <Tabs all={true}/>
+                            <Articles articleToDisplay={articleToDisplay}/>
                         </div>
                     </main>
 
@@ -79,4 +102,4 @@ const Favorite = () => {
     )
 };
 
-export default Favorite;
+export default Article;

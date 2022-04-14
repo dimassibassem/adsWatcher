@@ -2,9 +2,12 @@ import React from 'react';
 import {classNames} from "../../utils";
 import {useStore} from "../../store";
 import Link from 'next/link'
+import {useRouter} from "next/router";
 
 const Tabs = ({all}) => {
     const tabs = useStore(store => store.tabs)
+    const router = useRouter();
+    const {id} = router.query
     return (
         <div className="mt-3 sm:mt-2">
             <div className="sm:hidden">
@@ -27,7 +30,7 @@ const Tabs = ({all}) => {
                     <nav className="flex-1 -mb-px flex space-x-6 xl:space-x-8"
                          aria-label="Tabs">
                         <Link key={tabs[0].name}
-                              href={tabs[0].href}
+                              href={tabs[0].href+'/'+id}
                               aria-current={all ? 'page' : undefined}
                         ><a
 
@@ -42,7 +45,7 @@ const Tabs = ({all}) => {
                         </a>
                         </Link>
                         <Link key={tabs[1].name}
-                              href={tabs[1].href}
+                              href={tabs[1].href+'/'+id}
                               aria-current={!all ? 'page' : undefined}>
                             <a
 

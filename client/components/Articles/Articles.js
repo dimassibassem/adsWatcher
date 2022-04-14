@@ -2,6 +2,7 @@ import React from 'react';
 import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
 import {useRouter} from "next/router";
+import {ImageWithLoading} from "../ImageWithLoading";
 
 const Articles = ({articleToDisplay}) => {
     const router = useRouter()
@@ -27,7 +28,7 @@ const Articles = ({articleToDisplay}) => {
                     className="grid grid-cols-3 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-x-8 md:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 xl:gap-x-10"
                 >
 
-                    {articleToDisplay.map((article) => (
+                    {articleToDisplay && articleToDisplay.map((article) => (
                         <li key={article.id} className="relative ">
                             <div
                                 className={classNames(
@@ -37,6 +38,7 @@ const Articles = ({articleToDisplay}) => {
                                     'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'
                                 )}
                             >
+                                {/*<ImageWithLoading src={article.thumbnail}/>*/}
                                 <img
                                     src={article.thumbnail}
                                     alt=""

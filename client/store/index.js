@@ -60,15 +60,14 @@ const createStateSlice = (set, get) => ({
     currentFile: null,
     userNavigation: userNavigation,
     setArticleToDisplay: (articles) => {
-       articles.map(async article => {
-            let res = await axios.get(`http://localhost:3001/api/verifyImage/${article.articleId}`)
-            if (res.data.message === "Image Not Found"){
-                article.thumbnail = "https://www.linkpicture.com/q/sorry-image-not-available.png";
-            }
-            return article;
-        });
+       //articles.map(async article => {
+        //     let res = await axios.get(`http://localhost:3001/api/verifyImage/${article.articleId}`)
+        //     if (res.data.message === "Image Not Found"){
+        //         article.thumbnail = "https://www.linkpicture.com/q/sorry-image-not-available.png";
+        //     }
+        //     return article;
+        // });
         set({articleToDisplay: articles}, null, "articleToDisplay")
-
     },
     articleToDisplay: [],
     setFavArticles: (articlesId) => {

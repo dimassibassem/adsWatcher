@@ -2,7 +2,7 @@ import React from 'react';
 import {ClipboardListIcon, FolderIcon, TrashIcon, XCircleIcon, XIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
 
-const ExpandingCards = ({query, displayArticle, setArticleToDisplay, deleteQuery}) => {
+const ExpandingCards = ({query,deleteQuery}) => {
     const router = useRouter()
 
     return (
@@ -31,9 +31,7 @@ const ExpandingCards = ({query, displayArticle, setArticleToDisplay, deleteQuery
                             className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-white font-medium border border-transparent "
                             onClick={async (e) => {
                                 e.preventDefault();
-                                let articles = await displayArticle(query.id)
-                                setArticleToDisplay(articles)
-                                await router.push('/Article')
+                                await router.push(`/Article/${query.id}`)
                             }}
                         >
                             <ClipboardListIcon className="w-5 h-5 text-white" aria-hidden="true"/>

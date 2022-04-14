@@ -1,23 +1,24 @@
 import React, {useEffect} from 'react';
-import Articles from "../components/Articles/Articles";
-import ProfileDropdown from "../components/Home/ProfileDropdown";
-import {useLocalStorage, useStore} from "../store";
-import Tabs from "../components/Home/Tabs";
-import DetailsSidebar from "../components/Home/DetailsSidebar";
-import {tokenValid} from "../utils/token";
+import ProfileDropdown from "../../components/Home/ProfileDropdown";
+import {useLocalStorage, useStore} from "../../store";
+import Tabs from "../../components/Home/Tabs";
+import DetailsSidebar from "../../components/Home/DetailsSidebar";
+import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
-import PrevButton from "../components/PrevButton";
+import PrevButton from "../../components/PrevButton";
+import Articles from "../../components/Articles/Articles";
 
-const Article = () => {
+
+const Id = () => {
     const token = useLocalStorage(state => state.token);
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
-    let articleToDisplay = useStore(state => state.articleToDisplay);
     const router = useRouter();
-
     const userData = useStore(state => state.userData);
-
+    const articleToDisplay = useStore(state => state.articleToDisplay);
+    let favArticles = articleToDisplay.filter(article => article.favorite);
+    const {id} = router.query
     useEffect(async () => {
         if (tokenValid(token)) {
             await setUserData(token)
@@ -41,7 +42,7 @@ const Article = () => {
                                 <div>
                                     <img
                                         className="mx-auto mt-2"
-                                        src="/adswatcher.jpeg"
+                                        src="/adsWatcher.jpeg"
                                         alt="Workflow"
                                         width="180"
                                         height="120"
@@ -64,8 +65,10 @@ const Article = () => {
                             </div>
 
                             {/* Tabs */}
-                            <Tabs all={true}/>
-                            <Articles articleToDisplay={articleToDisplay}/>
+                            <Tabs all={false}/>
+
+                            <Articles articleToDisplay={favArticles}/>
+
                         </div>
                     </main>
 
@@ -77,4 +80,4 @@ const Article = () => {
     )
 };
 
-export default Article;
+export default Id;
