@@ -7,6 +7,7 @@ import axios from "axios";
 import {useRouter} from 'next/router'
 import {useLocalStorage, useStore} from "../../store";
 import {tokenValid} from "../../utils/token";
+import Link from "next/link";
 
 export default function SearchInput() {
     const router = useRouter()
@@ -220,13 +221,13 @@ export default function SearchInput() {
                                         <div className="ml-3">
                                             <p className="text-base text-gray-500">
                                                 By selecting this, you agree to the{' '}
-                                                <a href="#" className="font-medium text-gray-700 underline">
+                                                <Link href="#" className="font-medium text-gray-700 underline">
                                                     Privacy Policy
-                                                </a>{' '}
+                                                </Link>{' '}
                                                 and{' '}
-                                                <a href="#" className="font-medium text-gray-700 underline">
+                                                <Link href="#" className="font-medium text-gray-700 underline">
                                                     Cookie Policy
-                                                </a>
+                                                </Link>
                                                 .
                                             </p>
                                         </div>

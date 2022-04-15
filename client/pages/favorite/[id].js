@@ -15,19 +15,21 @@ const Id = () => {
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
     const router = useRouter();
-    const userData = useStore(state => state.userData);
     const articleToDisplay = useStore(state => state.articleToDisplay);
     let favArticles = articleToDisplay.filter(article => article.favorite);
-    const {id} = router.query
-    useEffect(async () => {
-        if (tokenValid(token)) {
-            await setUserData(token)
-            await setSource(token)
-            await setCategoryDisplayNames(token)
-        } else {
-            await router.push('/Login')
+    useEffect(() => {
+        async function setupFun() {
+            if (tokenValid(token)) {
+                await setUserData(token)
+                await setSource(token)
+                await setCategoryDisplayNames(token)
+            } else {
+                await router.push('/Login')
+            }
         }
-    }, [token])
+
+        setupFun().catch(err => console.log(err))
+    }, [router, setCategoryDisplayNames, setSource, setUserData, token])
     return (
         <div className="h-full flex">
             <div className="flex-1 flex flex-col overflow-hidden ">

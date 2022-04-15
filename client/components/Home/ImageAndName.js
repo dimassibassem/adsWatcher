@@ -1,15 +1,12 @@
-import {HeartIcon} from "@heroicons/react/outline";
 import {HeartIcon as HeartIconSolid} from "@heroicons/react/solid";
 import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
-import {useEffect} from "react";
 import {CarouselImages} from "../CarouselImages";
 
 
 const ImageAndName = ({currentFile}) => {
     const moreImages = useStore(state => state.moreImages);
     const token = useLocalStorage(state => state.token);
-    const userData = useStore(state => state.userData);
     const setFavArticles = useStore(state => state.setFavArticles);
 
     const addToFavorite = async (id) => {

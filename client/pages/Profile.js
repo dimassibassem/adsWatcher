@@ -88,13 +88,16 @@ export default function Profile() {
         }
     }
 
-    useEffect(async () => {
-        if (tokenValid(token)) {
-            await setUserData(token)
-        } else {
-            await router.push("/Login")
+    useEffect( () => {
+        async function setUserDataFun() {
+            if (tokenValid(token)) {
+                await setUserData(token)
+            } else {
+                await router.push("/Login")
+            }
         }
-    }, [token, message]);
+        setUserDataFun().catch(err => console.log(err))
+    }, [token, message, setUserData, router]);
     return (
         <div>
             <header className="w-full">

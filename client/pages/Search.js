@@ -9,13 +9,16 @@ const Search = () => {
     const router = useRouter()
     const setUserData = useStore(store => store.setUserData)
     const token = useLocalStorage(store => store.token)
-    useEffect(async () => {
-        if (tokenValid(token)) {
-            await setUserData(token)
-        } else {
-            await router.push("/Login")
+    useEffect( () => {
+        async function setUserDataFunc() {
+            if (tokenValid(token)) {
+                await setUserData(token)
+            } else {
+                await router.push("/Login")
+            }
         }
-    }, [token]);
+        setUserDataFunc().catch(err => console.log(err))
+    }, [router, setUserData, token]);
     return (<div>
             <header className="w-full">
                 <div

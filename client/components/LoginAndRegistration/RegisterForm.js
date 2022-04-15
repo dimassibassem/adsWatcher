@@ -3,6 +3,7 @@ import axios from "axios";
 import {useRouter} from "next/router";
 import ErrorNotification from "./ErrorNotification";
 import Avatar from "./Avatar";
+import Link from "next/link";
 
 export default function RegisterForm() {
     const router = useRouter()
@@ -156,7 +157,7 @@ export default function RegisterForm() {
                                 </div>
                             </div>
 
-                           <a href="/Login" className="mt-6 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">Sign in</a>
+                           <Link href="/Login" className="mt-6 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">Sign in</Link>
                         </div>
                     </div>
                 </div>

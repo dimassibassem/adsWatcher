@@ -1,19 +1,13 @@
-import React, {useEffect} from 'react';
-import {useLocalStorage, useStore} from '../../store';
+import React from 'react';
+import {useStore} from '../../store';
 import axios from "axios";
 import ExpandingCards from "../ExpandingCards";
 
-
 const GalleryList = () => {
-    const token = useLocalStorage(store => store.token);
     const queries = useStore(state => state.queries);
-
-    const setArticleToDisplay = useStore(store => store.setArticleToDisplay)
     const deleteQuery = async (id) => {
         await axios.delete(`http://localhost:3001/search/${id}`)
     }
-    const setQueries = useStore(store => store.setQueries)
-
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
             <h2 id="gallery-heading" className="sr-only">

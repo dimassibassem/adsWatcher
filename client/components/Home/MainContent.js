@@ -1,6 +1,4 @@
 import React from 'react';
-import {ViewGridIcon as ViewGridIconSolid, ViewListIcon} from "@heroicons/react/solid";
-import Tabs from "./Tabs";
 import DetailsSidebar from "./DetailsSidebar";
 import GalleryList from "./GalleryList";
 import PrevButton from "../PrevButton";
@@ -15,8 +13,6 @@ const MainContent = () => {
                     <div className="flex">
                         <h1 className="flex-1 text-2xl font-bold text-gray-900">Searches</h1>
                     </div>
-                    {/* Tabs */}
-                    {/*<Tabs/>*/}
                     <GalleryList/>
                 </div>
             </main>

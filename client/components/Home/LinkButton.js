@@ -5,13 +5,17 @@ import {useLocalStorage} from "../../store";
 const LinkButton = ({source, currentFile}) => {
     const [url, setUrl] = useState('');
     const token = useLocalStorage((store) => store.token)
-    useEffect(async () => {
-        const result = await axios.get('http://localhost:3001/api/getAppData', {headers: {Authorization: "Bearer " + token},})
-        const appData = result.data
-        const crawlerAdUrls = appData.crawlerAdUrls
-        const url = crawlerAdUrls[currentFile.crawlerId].replace(/{id}/g, currentFile.externalId)
-        setUrl(url)
-    }, [currentFile])
+    useEffect(() => {
+        async function setUrlFun() {
+            const result = await axios.get('http://localhost:3001/api/getAppData', {headers: {Authorization: "Bearer " + token},})
+            const appData = result.data
+            const crawlerAdUrls = appData.crawlerAdUrls
+            const url = crawlerAdUrls[currentFile.crawlerId].replace(/{id}/g, currentFile.externalId)
+            setUrl(url)
+        }
+
+        setUrlFun().catch(err => console.log(err))
+    }, [currentFile, token])
 
     return (
         <div className="flex">

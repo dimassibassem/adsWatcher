@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import Articles from "../../components/Articles/Articles";
 import ProfileDropdown from "../../components/Home/ProfileDropdown";
 import {useLocalStorage, useStore} from "../../store";
@@ -26,7 +26,6 @@ const Article = () => {
     let articleToDisplay = useStore(state => state.articleToDisplay);
     const router = useRouter();
     const {id} = router.query
-    const userData = useStore(state => state.userData);
     const setArticleToDisplay = useStore(state => state.setArticleToDisplay);
 
     const articles = useMemo(async () => {
@@ -37,21 +36,28 @@ const Article = () => {
         }
     }, [id, token]);
 
-    useEffect(async () => {
-        setArticleToDisplay(await articles)
-        console.log(articles);
+    useEffect( () => {
+        async function setArticleToDisplayFun() {
+            setArticleToDisplay(await articles)
+        }
+
+        setArticleToDisplayFun().catch(err => console.log(err))
     }, [articles, setArticleToDisplay]);
 
 
-    useEffect(async () => {
-        if (tokenValid(token)) {
-            await setUserData(token)
-            await setSource(token)
-            await setCategoryDisplayNames(token)
-        } else {
-            await router.push('/Login')
+    useEffect(() => {
+        async function setupFun() {
+            if (tokenValid(token)) {
+                await setUserData(token)
+                await setSource(token)
+                await setCategoryDisplayNames(token)
+            } else {
+                await router.push('/Login')
+            }
         }
-    }, [token])
+
+        setupFun().catch(err => console.log(err))
+    }, [router, setCategoryDisplayNames, setSource, setUserData, token])
     return (
         <div className="h-full flex">
             <div className="flex-1 flex flex-col overflow-hidden ">

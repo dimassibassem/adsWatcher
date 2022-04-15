@@ -51,7 +51,6 @@ async function getLocations() {
 const createStateSlice = (set, get) => ({
     userData: null,
     queries: [],
-    list: true,
     moreImages: [],
     source: [],
     locations: [],
@@ -60,13 +59,6 @@ const createStateSlice = (set, get) => ({
     currentFile: null,
     userNavigation: userNavigation,
     setArticleToDisplay: (articles) => {
-       //articles.map(async article => {
-        //     let res = await axios.get(`http://localhost:3001/api/verifyImage/${article.articleId}`)
-        //     if (res.data.message === "Image Not Found"){
-        //         article.thumbnail = "https://www.linkpicture.com/q/sorry-image-not-available.png";
-        //     }
-        //     return article;
-        // });
         set({articleToDisplay: articles}, null, "articleToDisplay")
     },
     articleToDisplay: [],
@@ -96,7 +88,6 @@ const createStateSlice = (set, get) => ({
     setMoreImages: async (file, token) => {
         set({moreImages: await getMoreImages(file, token)}, null, "moreImages")
     },
-    setList: (bool) => set({list: bool, currentFile: null}),
     setCurrentFile: (article) => set({
         currentFile: article
     }, null, "setCurrentFile"),
