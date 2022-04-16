@@ -45,9 +45,21 @@ async function addToDbAndSendEmails() {
                             from: process.env.EMAIL_HOST,
                             to: email,
                             subject: 'New articles found',
-                            html: resultToSend.map(article => {
-                                return `<h3 style="display: inline">${article.title}</h3> <h5>${article.price === 0 ? "price not available" : article.price + " TND"}</h5> <img style="border-radius: 5px;" src="${article.thumbnail}" alt=""/><a style="display: block; width: 115px; height: 25px; background: #ffae90; padding: 10px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">take a look </a>`
-                            }).join("\n")
+                            html: `<h1>Found ${resultToSend.length > 1 ? resultToSend.length + " new articles !" : "a new article !"} 🎉🎉</h1>`  +
+                                resultToSend.map(article => {
+                                    return `<div style="padding: 20px">
+                                            <h3 style="display: inline">${article.title}</h3> 
+                                            <h4 style="color: #414141;">${article.price === 0 ? "Price not specified" : article.price + " TND"}</h4> 
+                                            <div style="position: relative; height: auto;">
+                                                <img style="border-radius: 5px; max-width: 672px; max-height: 504px;" id="${article.id}"  src="${article.thumbnail}" alt="${article.title}"/>
+                                                <div style=" width: auto; height: auto;margin: 0 auto;padding: 10px;position: relative;">
+                                                    <a style="width: 115px; height: 25px; background: #ffae90; padding: 20px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">
+                                                    take a look 
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>`
+                                }).join("\n")
                         };
                         transporter.sendMail(mailOptions, function (error, info) {
                             if (error) {
@@ -75,7 +87,7 @@ app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
 cron.schedule("*/10 * * * *", async function () {
-    console.log("task1 Begin");
+    console.log("task Begin");
     try {
         await addToDbAndSendEmails()
     } catch (e) {
@@ -87,14 +99,16 @@ cron.schedule("*/10 * * * *", async function () {
         let deleted = await prisma.article.deleteMany({
             where: {timestamp: {lt: parseInt(date - 2764800)}}
         })
-        if (deleted.count > 0) deleted.count > 1 ? console.log("deleted ", deleted.count, " old articles") : console.log("deleted an old article")
+        if (deleted.count > 0) {
+            deleted.count > 1 ? console.log("deleted ", deleted.count, " old articles") : console.log("deleted an old article")
+        }
     } catch (e) {
         console.log(e)
     }
 });
-//running task evrey hour
-cron.schedule("0 0 */1 * * *", async function () {
-    console.log("task2 Begin");
+//running task evrey 3 hour
+cron.schedule("0 0 */3 * * *", async function () {
+    console.log("checking-existance task begin");
     let articles = await prisma.article.findMany({})
     for (const article of articles) {
         try {
@@ -105,6 +119,7 @@ cron.schedule("0 0 */1 * * *", async function () {
                     id: article.id
                 }
             })
+            console.log("deleted an article that no longer exists");
         }
 
     }

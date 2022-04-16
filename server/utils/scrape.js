@@ -16,7 +16,6 @@ let decode = functions.decode
 let getData = functions.getData
 
 async function addToDatabase(item, crawlerAdUrls) {
-    try {
         let date = new Date().getTime() / 1000;
         const existingArticle = await prisma.article.findUnique({
             where: {
@@ -26,9 +25,7 @@ async function addToDatabase(item, crawlerAdUrls) {
         if (existingArticle || item.timestamp + 2764800 < date) {
             return false
         }
-        if ((await axios.get(`${item.thumbnail}`)).status === 404) {
-            item.thumbnail = 'https://www.linkpicture.com/q/sorry-image-not-available.png'
-        } else {
+        else {
             await prisma.article.create({
                 data: {
                     articleId: item.id,
@@ -47,10 +44,6 @@ async function addToDatabase(item, crawlerAdUrls) {
             })
             return true
         }
-    } catch (e) {
-        console.log("not added to db")
-        return false
-    }
 }
 
 async function scrape(userSearch, locationId, maxPrice, minPrice) {
