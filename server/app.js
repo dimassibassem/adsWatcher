@@ -50,9 +50,9 @@ async function addToDbAndSendEmails() {
                                     return `<div style="padding: 20px">
                                             <h3 style="display: inline">${article.title}</h3> 
                                             <h4 style="color: #414141;">${article.price === 0 ? "Price not specified" : article.price + " TND"}</h4> 
-                                            <div style="position: relative; height: auto;">
+                                            <div style="height: auto;">
                                                 <img style="border-radius: 5px; max-width: 672px; max-height: 504px;" id="${article.id}"  src="${article.thumbnail}" alt="${article.title}"/>
-                                                <div style=" width: auto; height: auto;margin: 0 auto;padding: 10px;position: relative;">
+                                                <div style=" width: auto; height: auto;margin: 0 auto;padding: 10px; justify-items: center">
                                                     <a style="width: 115px; height: 25px; background: #ffae90; padding: 20px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">
                                                     take a look 
                                                     </a>

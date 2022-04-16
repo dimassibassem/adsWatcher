@@ -16,6 +16,7 @@ let decode = functions.decode
 let getData = functions.getData
 
 async function addToDatabase(item, crawlerAdUrls) {
+    try {
         let date = new Date().getTime() / 1000;
         const existingArticle = await prisma.article.findUnique({
             where: {
@@ -24,8 +25,7 @@ async function addToDatabase(item, crawlerAdUrls) {
         })
         if (existingArticle || item.timestamp + 2764800 < date) {
             return false
-        }
-        else {
+        } else {
             await prisma.article.create({
                 data: {
                     articleId: item.id,
@@ -44,6 +44,10 @@ async function addToDatabase(item, crawlerAdUrls) {
             })
             return true
         }
+    } catch (e) {
+        console.log("Error adding to db : ", e)
+        return false
+    }
 }
 
 async function scrape(userSearch, locationId, maxPrice, minPrice) {
