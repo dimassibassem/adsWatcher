@@ -25,6 +25,7 @@ model Search {
   locationId String?
   minPrice   String?
   maxPrice   String?
+  region     String?
   userId     Int
   user       User?   @relation(fields: [userId], references: [id])
 }

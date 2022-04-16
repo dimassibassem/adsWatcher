@@ -16,6 +16,7 @@ export default function ComboBox({onChange, filtredLocation, selectedLocation, s
                     onChange={onChange}
                     displayValue={(location) => location?.name}
                     value={(location) => location.id}
+                    placeholder="by keeping this empty, you will search for all locations"
                 />
                 <Combobox.Button
                     className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">

@@ -60,19 +60,23 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         title: {
                             contains: search.query
                         },
+                        location: {
+                            contains: search.region
+                        }
                     }, {
                         title: {
                             contains: search.query
                         },
                         price: {
                             equals: 0,
+                        }, location: {
+                            contains: search.region
                         }
                     },
                 ]
             }
         })
         const user = req.user
-        console.log(user)
 
         // convert articles to display format
         articles = articles.map(article => {
@@ -98,6 +102,9 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         },
                         price: {
                             lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: search.region
                         }
                     }, {
                         title: {
@@ -105,6 +112,9 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         },
                         price: {
                             equals: 0,
+                        },
+                        location: {
+                            contains: search.region
                         }
                     },
                 ]
@@ -136,6 +146,9 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         price: {
                             gte: parseFloat(search.minPrice),
 
+                        },
+                        location: {
+                            contains: search.region
                         }
                     }, {
                         title: {
@@ -143,6 +156,9 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         },
                         price: {
                             equals: 0,
+                        },
+                        location: {
+                            contains: search.region
                         }
                     },
                 ]
@@ -163,6 +179,9 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         price: {
                             gte: parseFloat(search.minPrice),
                             lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: search.region
                         }
                     }, {
                         title: {
@@ -170,6 +189,9 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         },
                         price: {
                             equals: 0,
+                        },
+                        location: {
+                            contains: search.region
                         }
                     },
                 ]

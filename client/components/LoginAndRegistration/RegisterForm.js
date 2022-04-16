@@ -157,7 +157,13 @@ export default function RegisterForm() {
                                 </div>
                             </div>
 
-                           <Link href="/Login" className="mt-6 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">Sign in</Link>
+                            <Link href="/Login">
+                                <button
+                                    className="mt-6 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                    Sign in
+                                </button
+                                >
+                            </Link>
                         </div>
                     </div>
                 </div>

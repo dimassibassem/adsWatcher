@@ -14,13 +14,16 @@ export default function SearchInput() {
     const token = useLocalStorage((store) => store.token)
     const locations = useStore((store) => store.locations)
     const setLocations = useStore((store) => store.setLocations)
-    useEffect(async () => {
-        if (tokenValid(token)) {
-            await setLocations()
-        } else {
-            await router.push('/Login')
+    useEffect( () => {
+        async function setLocationsFun() {
+            if (tokenValid(token)) {
+                await setLocations()
+            } else {
+                await router.push('/Login')
+            }
         }
-    }, [])
+        setLocationsFun().catch(console.error)
+    }, [router, setLocations, token])
     const [agreed, setAgreed] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState()
     const [state, setState] = useState({

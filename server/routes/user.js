@@ -46,20 +46,26 @@ router.post('/search', authenticateToken, async (req, res) => {
     const query = req.body.searchBar
     const userId = req.user.userId
     let locationId = req.body.selectedLocation?.id
+    let region;
     if (!locationId) {
         locationId = null
     }
-
+    let LocationName = req.body.selectedLocation?.name
+    if (LocationName === undefined) {
+        region = ''
+    } else {
+        region = LocationName.substr(LocationName.indexOf(",") + 1)
+    }
     const maxPrice = req.body.maxPrice !== '' ? req.body.maxPrice : null
     const minPrice = req.body.minPrice !== '' ? req.body.minPrice : null
-    console.log({query, locationId, maxPrice, minPrice, userId})
     await prisma.search.create({
         data: {
             query: query,
             locationId: locationId,
             minPrice: minPrice,
             maxPrice: maxPrice,
-            userId: userId
+            userId: userId,
+            region: region
         },
     })
     return res.sendStatus(200)

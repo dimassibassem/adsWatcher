@@ -5,7 +5,7 @@ import {useRouter} from "next/router";
 import ErrorNotification from "./ErrorNotification";
 import Link from "next/link";
 
-export default function  LoginForm() {
+export default function LoginForm() {
     const setToken = useLocalStorage((store) => store.setToken)
     const router = useRouter()
     const [state, setState] = useState({
@@ -137,7 +137,12 @@ export default function  LoginForm() {
                                 </div>
                             </div>
 
-                            <Link href="/Register" className="mt-6 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">Sign up</Link>
+                            <Link href="/Register">
+                                <button
+                                    className="mt-6 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">Sign
+                                    up
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
