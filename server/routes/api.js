@@ -70,7 +70,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         price: {
                             equals: 0,
                         }, location: {
-                            contains: search.region
+                            OR: [{contains: search.region},
+                                {contains: "Not specified"}]
                         }
                     },
                 ]
@@ -114,7 +115,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             equals: 0,
                         },
                         location: {
-                            contains: search.region
+                            OR: [{contains: search.region},
+                                {contains: "Not specified"}]
                         }
                     },
                 ]
@@ -148,7 +150,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
 
                         },
                         location: {
-                            contains: search.region
+                            OR: [{contains: search.region},
+                                {contains: "Not specified"}]
                         }
                     }, {
                         title: {
@@ -158,7 +161,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             equals: 0,
                         },
                         location: {
-                            contains: search.region
+                            OR: [{contains: search.region},
+                                {contains: "Not specified"}]
                         }
                     },
                 ]
@@ -181,7 +185,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             lte: parseFloat(search.maxPrice),
                         },
                         location: {
-                            contains: search.region
+                            OR: [{contains: search.region},
+                                {contains: "Not specified"}]
                         }
                     }, {
                         title: {
@@ -191,7 +196,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             equals: 0,
                         },
                         location: {
-                            contains: search.region
+                            OR: [{contains: search.region},
+                                {contains: "Not specified"}]
                         }
                     },
                 ]

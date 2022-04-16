@@ -56,7 +56,7 @@ async function addToDatabase(item, crawlerAdUrls) {
 async function scrape(userSearch, locationId, maxPrice, minPrice) {
     try {
         const query = userSearch.query
-        const breakThreshold = 300
+        const breakThreshold = 500
         let countToThreshold = 0
 
         const locations = await getLocations()

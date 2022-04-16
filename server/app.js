@@ -46,7 +46,7 @@ async function addToDbAndSendEmails() {
                             to: email,
                             subject: 'New articles found',
                             html: resultToSend.map(article => {
-                                return `<h3 style="display: inline">${article.title}</h3> <h5>${article.price === 0 ? "price not available" : article.price + " TND"}</h5> <img style="width: 280px;border-radius: 5px;height: 200px;" src="${article.thumbnail}" alt=""/><a style="display: block; width: 115px; height: 25px; background: #ffae90; padding: 10px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">take a look </a>`
+                                return `<h3 style="display: inline">${article.title}</h3> <h5>${article.price === 0 ? "price not available" : article.price + " TND"}</h5> <img style="border-radius: 5px;" src="${article.thumbnail}" alt=""/><a style="display: block; width: 115px; height: 25px; background: #ffae90; padding: 10px; text-align: center; border-radius: 5px; color: black; font-weight: bold; line-height: 25px;" href="${article.sourceUrl}">take a look </a>`
                             }).join("\n")
                         };
                         transporter.sendMail(mailOptions, function (error, info) {
@@ -74,7 +74,6 @@ app.use('/', userRoute);
 app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
-
 cron.schedule("*/10 * * * *", async function () {
     console.log("task1 Begin");
     try {
@@ -88,14 +87,13 @@ cron.schedule("*/10 * * * *", async function () {
         let deleted = await prisma.article.deleteMany({
             where: {timestamp: {lt: parseInt(date - 2764800)}}
         })
-        if (deleted.count > 0) console.log("deleted ", deleted.count, " old articles")
+        if (deleted.count > 0) deleted.count > 1 ? console.log("deleted ", deleted.count, " old articles") : console.log("deleted an old article")
     } catch (e) {
         console.log(e)
     }
 });
-//running task evrey day
-cron.schedule("* * 23 * * *", async function () {
-    task1.stop()
+//running task evrey hour
+cron.schedule("0 0 */1 * * *", async function () {
     console.log("task2 Begin");
     let articles = await prisma.article.findMany({})
     for (const article of articles) {
