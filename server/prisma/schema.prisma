@@ -55,9 +55,9 @@ model Article {
   price       Float?
   categoryId  Int
   timestamp   Int
-  thumbnail   String? @db.VarChar(255)
+  thumbnail   String? @db.Text
   location    String? @db.VarChar(255)
-  externalId  String  @db.VarChar(255)
+  externalId  String  @db.Text
   sourceId    Int
   crawlerId   Int
   sourceUrl   String  @db.Text
