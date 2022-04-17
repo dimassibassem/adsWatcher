@@ -38,14 +38,16 @@ async function addToDbAndSendEmails() {
                             || (newArticle.price >= search.minPrice
                                 || search.minPrice === null)
                             && (newArticle.price <= search.maxPrice
-                                || search.maxPrice === null);
+                                || search.maxPrice === null)
+                        //todo: need to add sending emails with location conditions
+
                     })
                     if (resultToSend.length > 0) {
                         const mailOptions = {
                             from: process.env.EMAIL_HOST,
                             to: email,
-                            subject: 'New articles found',
-                            html: `<h1>Found ${resultToSend.length > 1 ? resultToSend.length + " new articles !" : "a new article !"} 🎉🎉</h1>`  +
+                            subject: 'New articles found of ' + search.query + (search.region !== "" ? " in" + search.region : ""),
+                            html: `<h1>Found ${resultToSend.length > 1 ? resultToSend.length + " new articles !" : "a new article !"} 🎉🎉</h1>` +
                                 resultToSend.map(article => {
                                     return `<div style="padding: 20px">
                                             <h3 style="display: inline">${article.title}</h3> 
@@ -112,14 +114,26 @@ cron.schedule("0 0 */3 * * *", async function () {
     let articles = await prisma.article.findMany({})
     for (const article of articles) {
         try {
-            await axios.get(article.thumbnail)
+            await axios.get(article.sourceUrl)
         } catch (e) {
             await prisma.article.delete({
                 where: {
                     id: article.id
                 }
             })
-            console.log("deleted an article that no longer exists");
+            console.log("deleted an article that no longer exists, id: ", article.id)
+        }
+        try {
+            await axios.get(article.thumbnail)
+        } catch (e) {
+            await prisma.article.update({
+                where: {
+                    id: article.id
+                }, data: {
+                    thumbnail: "https://www.linkpicture.com/q/sorry-image-not-available.png"
+                }
+            })
+            console.log("replacing an article's thumbnail with a default image, id: ", article.id);
         }
 
     }

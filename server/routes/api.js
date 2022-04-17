@@ -67,13 +67,31 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                         title: {
                             contains: search.query
                         },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
                         price: {
                             equals: 0,
-                        }, location: {
-                            OR: [{contains: search.region},
-                                {contains: "Not specified"}]
+                        },
+                        location: {
+                            contains: search.region
                         }
                     },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }
                 ]
             }
         })
@@ -115,8 +133,29 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             equals: 0,
                         },
                         location: {
-                            OR: [{contains: search.region},
-                                {contains: "Not specified"}]
+                            contains: search.region
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
                         }
                     },
                 ]
@@ -150,8 +189,7 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
 
                         },
                         location: {
-                            OR: [{contains: search.region},
-                                {contains: "Not specified"}]
+                            contains: search.region
                         }
                     }, {
                         title: {
@@ -161,10 +199,32 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             equals: 0,
                         },
                         location: {
-                            OR: [{contains: search.region},
-                                {contains: "Not specified"}]
+                            contains: search.region
                         }
                     },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }
                 ]
             }
         })
@@ -185,8 +245,18 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             lte: parseFloat(search.maxPrice),
                         },
                         location: {
-                            OR: [{contains: search.region},
-                                {contains: "Not specified"}]
+                            contains: search.region
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: "Not specified"
                         }
                     }, {
                         title: {
@@ -196,10 +266,20 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                             equals: 0,
                         },
                         location: {
-                            OR: [{contains: search.region},
-                                {contains: "Not specified"}]
+                            contains: search.region
                         }
                     },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }
                 ]
             }
         })
