@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
 import {useRouter} from "next/router";
-import {ImageWithLoading} from "../ImageWithLoading";
+import {since} from "../../utils/since";
 
 const Articles = ({articleToDisplay}) => {
     const router = useRouter()
@@ -16,7 +16,6 @@ const Articles = ({articleToDisplay}) => {
         return currentFile && article && article.id === currentFile.id;
     }
 
-    // articleToDisplay = articleToDisplay.filter(async article => (await axios.get(article.thumbnail)).status === 200);
     return (
         <div>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
@@ -61,6 +60,7 @@ const Articles = ({articleToDisplay}) => {
                             <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
                                 {article.title}
                             </p>
+                            <p className="block text-sm font-medium text-gray-500 pointer-events-none">{since(article)}</p>
                             <p className="block text-sm font-medium text-gray-500 pointer-events-none">{article.price === 0 ? "" : article.price + " TND"}</p>
 
                         </li>

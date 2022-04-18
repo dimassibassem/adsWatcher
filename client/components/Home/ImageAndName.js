@@ -2,6 +2,7 @@ import {HeartIcon as HeartIconSolid} from "@heroicons/react/solid";
 import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {CarouselImages} from "../CarouselImages";
+import {since} from "../../utils/since";
 
 
 const ImageAndName = ({currentFile}) => {
@@ -44,6 +45,7 @@ const ImageAndName = ({currentFile}) => {
                     <span className="sr-only">Favorite</span>
                 </button>
             </div>
+                    <p className="text-sm font-medium text-gray-500 pt-3 text-right">{since(currentFile)}</p>
         </div>
     );
 };
