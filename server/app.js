@@ -27,6 +27,7 @@ async function addToDbAndSendEmails() {
     const searches = await prisma.search.findMany({include: {user: true}})
     for (let distinctSearch of distinctSearches) {
         try {
+            //scrape and add to db
             const newArticles = await scrape(distinctSearch, null, null, null, null)
             searches.forEach(search => {
                 if (search.query === distinctSearch.query) {
@@ -34,20 +35,18 @@ async function addToDbAndSendEmails() {
                     const email = search.user.email
 
                     const resultToSend = newArticles.filter(newArticle => {
-                        return newArticle.price === 0
-                            || (newArticle.price >= search.minPrice
-                                || search.minPrice === null)
-                            && (newArticle.price <= search.maxPrice
-                                || search.maxPrice === null)
-                        //todo: need to add sending emails with location conditions
-
+                        return (
+                            (newArticle.price === 0 || newArticle.price >= search.minPrice || !search.minPrice)
+                            && (newArticle.price === 0 || newArticle.price <= search.maxPrice || !search.maxPrice)
+                            && (search.region === "" || !newArticle.location || newArticle.location.toUpperCase().includes(search.region.toUpperCase().trim()))
+                        )
                     })
                     if (resultToSend.length > 0) {
                         const mailOptions = {
                             from: process.env.EMAIL_HOST,
                             to: email,
-                            subject: 'New articles found of ' + search.query + (search.region !== "" ? " in" + search.region : ""),
-                            html: `<h1>Found ${resultToSend.length > 1 ? resultToSend.length + " new articles !" : "a new article !"} 🎉🎉</h1>` +
+                            subject: 'New Ads found of ' + search.query + (search.region !== "" ? " in" + search.region : ""),
+                            html: `<h1>Found ${resultToSend.length > 1 ? resultToSend.length + " new Ads !" : "a new " + search.query + " ! "} 👀</h1>` +
                                 resultToSend.map(article => {
                                     return `<div style="padding: 20px">
                                             <h3 style="display: inline">${article.title}</h3> 
@@ -88,7 +87,7 @@ app.use('/', userRoute);
 app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
-cron.schedule("*/10 * * * *", async function () {
+cron.schedule("*/5 * * * *", async function () {
     console.log("task Begin");
     try {
         await addToDbAndSendEmails()

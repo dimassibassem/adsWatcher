@@ -2,7 +2,7 @@ import React from 'react';
 import {ClipboardListIcon, FolderIcon, TrashIcon, XCircleIcon, XIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
 
-const ExpandingCards = ({query,deleteQuery}) => {
+const ExpandingCards = ({query, deleteQuery}) => {
     const router = useRouter()
 
     return (
@@ -11,8 +11,8 @@ const ExpandingCards = ({query,deleteQuery}) => {
             className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
         >
             <div className="flex-1 flex flex-col p-3 shadow-md">
-                <FolderIcon className="text-gray-400"/>
-                <h3 className="text-gray-900 text-sm font-medium">{query.query}</h3>
+                {/*<FolderIcon className="text-gray-400"/>*/}
+                <h3 className="text-gray-900 text-md font-medium">{query.query}</h3>
                 <dl className="mt-1 flex-grow flex flex-col justify-between">
                     <dt className="sr-only">Max Price:</dt>
                     <dd className="text-gray-500 text-sm">Max Price: {query.maxPrice}</dd>
@@ -22,11 +22,17 @@ const ExpandingCards = ({query,deleteQuery}) => {
                   Min Price: {query.minPrice}
                 </span>
                     </dd>
+                    <dd className="mt-3">
+                <span className="text-gray-500 text-sm">
+                  Region: {query.region}
+                </span>
+                    </dd>
                 </dl>
             </div>
             <div>
                 <div className="-mt-px flex divide-x divide-gray-200">
-                    <div className="-ml-px w-0 flex-1 flex bg-indigo-600 hover:bg-indigo-800 hover:text-white rounded-md">
+                    <div
+                        className="-ml-px w-0 flex-1 flex bg-indigo-600 hover:bg-indigo-800 hover:text-white rounded-md">
                         <button
                             className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-white font-medium border border-transparent "
                             onClick={async (e) => {
