@@ -5,8 +5,13 @@ import ExpandingCards from "../ExpandingCards";
 
 const GalleryList = () => {
     const queries = useStore(state => state.queries);
+    const setQueries = useStore(state => state.setQueries);
     const deleteQuery = async (id) => {
         await axios.delete(`http://localhost:3001/search/${id}`)
+    }
+    const deleteQueryHandler = async (id) => {
+        await deleteQuery(id);
+        setQueries(queries.filter(query => query.id !== id));
     }
     return (
         <section className="mt-8 pb-16" aria-labelledby="gallery-heading">
@@ -19,7 +24,7 @@ const GalleryList = () => {
             >
                 {queries.map((query) => (
                     <ExpandingCards key={query.id} query={query}
-                                    deleteQuery={deleteQuery}/>
+                                    deleteQuery={deleteQueryHandler}/>
                 ))}
             </ul>
         </section>
