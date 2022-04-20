@@ -27,10 +27,19 @@ const Article = () => {
     const router = useRouter();
     const {id} = router.query
     const setArticleToDisplay = useStore(state => state.setArticleToDisplay);
+    const setPages = useStore(state => state.setPages);
 
     const articles = useMemo(async () => {
         if (id) {
-            return await displayArticle(id, token);
+            return (await displayArticle(id, token)).articles;
+        } else {
+            return [];
+        }
+    }, [id, token]);
+
+    const pages = useMemo(async () => {
+        if (id) {
+            return ((await displayArticle(id, token)).pages);
         } else {
             return [];
         }
@@ -39,10 +48,11 @@ const Article = () => {
     useEffect( () => {
         async function setArticleToDisplayFun() {
             setArticleToDisplay(await articles)
+            setPages(await pages)
         }
 
         setArticleToDisplayFun().catch(err => console.log(err))
-    }, [articles, setArticleToDisplay]);
+    }, [articles, pages, setArticleToDisplay, setPages]);
 
 
     useEffect(() => {

@@ -12,6 +12,8 @@ function exclude(user, ...keys) {
     return user
 }
 
+
+
 router.get('/getCategoryDisplayNames', authenticateToken, async (req, res) => {
     const category = await prisma.category.findMany()
     return res.send(category)
@@ -37,6 +39,7 @@ router.get('/users/:id', authenticateToken, async (req, res) => {
 
 router.get('/article/:searchId', authenticateToken, async (req, res) => {
     const {searchId} = req.params
+    const page = parseInt(req.query.page) || 1
     const search = await prisma.search.findUnique({
         where: {
             id: parseInt(searchId)
@@ -49,8 +52,94 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         })
     }
 
+
     if (search.minPrice === null && search.maxPrice === null) {
         let articles = await prisma.article.findMany({
+            include: {
+                favorite: true,
+            },
+            skip: (page - 1) * 10,
+            take: 10,
+            orderBy: {
+                timestamp: 'desc'
+            },
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }
+                ]
+            }
+        })
+        const articlesCount =  Object.keys(await prisma.article.findMany({
             include: {
                 favorite: true,
             },
@@ -129,7 +218,7 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                     }
                 ]
             }
-        })
+        })).length
         const user = req.user
 
         // convert articles to display format
@@ -141,10 +230,112 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        return res.status(200).send(articles)
+        const pages = Math.ceil(articlesCount/10)
+        console.log(pages);
+        return res.status(200).send({articles, pages})
     }
     if (search.minPrice === null) {
         let articles = await prisma.article.findMany({
+            include: {
+                favorite: true,
+            },
+            skip: (page - 1) * 10,
+            take: 10,
+            orderBy: {
+                timestamp: 'desc'
+            },
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                ]
+            }
+        })
+        let articlesCount = Object.keys(await prisma.article.findMany({
             include: {
                 favorite: true,
             },
@@ -238,8 +429,7 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                     },
                 ]
             }
-        })
-
+        })).length
         const user = req.user
         console.log(user)
 
@@ -252,10 +442,17 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        return res.status(200).send(articles)
+        const pages = Math.ceil(articlesCount/10)
+        console.log(pages);
+        return res.status(200).send({articles, pages})
     }
     if (search.maxPrice === null) {
-        const searches = await prisma.article.findMany({
+        const articles = await prisma.article.findMany({
+            skip: (page - 1) * 10,
+            take: 10,
+            orderBy: {
+                timestamp: 'desc'
+            },
             where: {
                 OR: [
                     {
@@ -350,12 +547,114 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                 ]
             }
         })
-        searches.sort((a, b) => {
+        const searchesCount = Object.keys(await prisma.article.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }
+                ]
+            }
+        })).length
+        articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        return res.status(200).send(searches)
+        const pages = Math.ceil(searchesCount/10)
+        console.log(pages);
+        return res.status(200).send({articles, pages})
     } else {
-        const searches = await prisma.article.findMany({
+        const articles = await prisma.article.findMany({
+            skip: (page - 1) * 10,
+            take: 10,
+            orderBy: {
+                timestamp: 'desc'
+            },
             where: {
                 OR: [
                     {
@@ -448,21 +747,116 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
                 ]
             }
         })
-        searches.sort((a, b) => {
+        const searchesCount = Object.keys(await prisma.article.findMany({
+            where: {
+                OR: [
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        title: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            gte: parseFloat(search.minPrice),
+                            lte: parseFloat(search.maxPrice),
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }, {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: search.region
+                        }
+                    },
+                    {
+                        description: {
+                            contains: search.query
+                        },
+                        price: {
+                            equals: 0,
+                        },
+                        location: {
+                            contains: "Not specified"
+                        }
+                    }
+                ]
+            }
+        })).length
+        articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        return res.status(200).send(searches)
+        const pages = Math.ceil(searchesCount/10)
+        console.log(pages);
+        return res.status(200).send({articles,pages})
     }
 });
 
 router.get('/data', authenticateToken, async (req, res) => {
     const userId = req.user.userId
-    const searches = await prisma.search.findMany({
+    const articles = await prisma.search.findMany({
         where: {
             userId: userId
         },
     })
-    return res.status(200).send(searches)
+    return res.status(200).send(articles)
 });
 
 router.get('/getAppData', authenticateToken, async (req, res) => {
@@ -553,5 +947,18 @@ router.get('/verifyImage/:id', async (req, res) => {
         })
     }
 })
+
+router.get('/getArticle', async (req, res) => {
+const page = req.query.page || 1
+    const articles = await prisma.article.findMany({
+        skip: (page - 1) * 10,
+        take: 10,
+        orderBy: {
+            timestamp: 'desc'
+        }
+    })
+    return res.json(articles)
+})
+
 
 module.exports = router;

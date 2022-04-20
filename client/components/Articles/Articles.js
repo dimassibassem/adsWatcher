@@ -3,6 +3,7 @@ import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
 import {useRouter} from "next/router";
 import {since} from "../../utils/since";
+import Pagination from "../Pagination";
 
 const Articles = ({articleToDisplay}) => {
     const router = useRouter()
@@ -11,6 +12,7 @@ const Articles = ({articleToDisplay}) => {
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
     const currentFile = useStore(state => state.currentFile);
+    const pages = useStore(state => state.pages);
 
     const isCurrentArticle = (article) => {
         return currentFile && article && article.id === currentFile.id;
@@ -18,6 +20,7 @@ const Articles = ({articleToDisplay}) => {
 
     return (
         <div>
+            <h1>pages: {pages}</h1>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
                 <h2 id="gallery-heading" className="sr-only">
                     Recently viewed
@@ -67,6 +70,7 @@ const Articles = ({articleToDisplay}) => {
                     ))}
                 </ul>
             </section>
+            <Pagination />
         </div>
     )
 };
