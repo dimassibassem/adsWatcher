@@ -57,12 +57,17 @@ const createStateSlice = (set, get) => ({
     tabs: tabs,
     categoryDisplayNames: [],
     currentFile: null,
+    pages: 1,
     userNavigation: userNavigation,
+    setPages: (num) => {
+        set({pages: num}, null, "setPages")
+    },
     setArticleToDisplay: (articles) => {
-        set({articleToDisplay: articles}, null, "articleToDisplay")
+        set({articleToDisplay: articles}, null, "setArticleToDisplay")
     },
     articleToDisplay: [],
-    setFavArticles: (articlesId) => {
+    favoriteArticles: [],
+    updateArticleToDisplayWithFav: (articlesId) => {
         const articles = get().articleToDisplay
         const newArticles = articles.map(article => {
             if (articlesId === article.id) {
@@ -70,7 +75,42 @@ const createStateSlice = (set, get) => ({
             }
             return article
         })
-        set({articleToDisplay: newArticles}, null, "setFavArticles")
+        set({articleToDisplay: newArticles}, null, "updateArticleToDisplayWithFav")
+    },
+    setCurrentFileToFav: () => {
+        set(
+            {
+                currentFile: {
+                    ...get().currentFile,
+                    favorite: true
+                }
+            },
+            null,
+            "setCurrentFileToFav"
+        )
+    },
+    setCurrentFileToUnFav: () => {
+        set(
+            {
+                currentFile: {
+                    ...get().currentFile,
+                    favorite: false
+                }
+            },
+            null,
+            "setCurrentFileToUnFav"
+        )
+    },
+    setFavArticles: (articles) => {
+        set({favoriteArticles: articles}, null, "setFavArticles")
+    },
+    setOneFavArticle: (article) => {
+        //todo: make request to the server to set article to favorite
+        set({favoriteArticles: [...get().favoriteArticles, article]}, null, "setOneFavArticle")
+    },
+    setOneUnFavArticle: (article) => {
+        //todo: make request to the server to remove article to favorite
+        set({favoriteArticles: get().favoriteArticles.filter(fav => fav.articleId !== article.articleId)}, null, "setOneUnFavArticle")
     },
     setUserData: async (token) => {
         const decodedToken = parseJwt(token);
@@ -86,11 +126,12 @@ const createStateSlice = (set, get) => ({
         set({source: response}, null, "setSource");
     },
     setMoreImages: async (file, token) => {
-        set({moreImages: await getMoreImages(file, token)}, null, "moreImages")
+        set({moreImages: await getMoreImages(file, token)}, null, "setMoreImages")
     },
     setCurrentFile: (article) => set({
         currentFile: article
     }, null, "setCurrentFile"),
+
     setQueries: (data) => set({queries: data}, null, "setQueries"),
     setCategoryDisplayNames: async (token) => {
         set({categoryDisplayNames: await getCategoryDisplayNames(token)}, null, "setCategoryDisplayNames")

@@ -3,21 +3,39 @@ import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {CarouselImages} from "../CarouselImages";
 import {since} from "../../utils/since";
+import {useCallback, useEffect} from "react";
 
 
 const ImageAndName = ({currentFile}) => {
     const moreImages = useStore(state => state.moreImages);
     const token = useLocalStorage(state => state.token);
-    const setFavArticles = useStore(state => state.setFavArticles);
+    const setOneUnFavArticle = useStore(state => state.setOneUnFavArticle);
+    const setOneFavArticle = useStore(state => state.setOneFavArticle);
+    const setCurrentFileToFav = useStore(state => state.setCurrentFileToFav);
+    const updateArticleToDisplayWithFav = useStore(state => state.updateArticleToDisplayWithFav);
+const setCurrentFileToUnFav = useStore(state => state.setCurrentFileToUnFav);
 
-    const addToFavorite = async (id) => {
-        const res = await axios.get(`http://localhost:3001/api/favorite/${id}`, {
+    const addToFavorite = async () => {
+       await axios.get(`http://localhost:3001/api/favorite/${currentFile.id}`, {
             headers: {
                 'Authorization': `Bearer ` + token
             }
         })
-        setFavArticles(res.data.id)
+
+        if (currentFile.favorite) {
+            setOneUnFavArticle(currentFile)
+            setCurrentFileToUnFav()
+
+            console.log("unfav");
+        } else {
+            setOneFavArticle(currentFile)
+            setCurrentFileToFav()
+            updateArticleToDisplayWithFav(currentFile.id)
+            console.log("fav");
+        }
     }
+
+
     return (
         <div>
             <CarouselImages moreImages={moreImages}/>
@@ -36,8 +54,7 @@ const ImageAndName = ({currentFile}) => {
                     type="button"
                     className="ml-4 bg-white rounded-full h-10 w-10 flex items-center justify-center text-gray-400 hover:bg-gray-100  focus:outline-none focus:ring-2 focus:ring-white"
                     onClick={async () => {
-                        console.log(currentFile);
-                        await addToFavorite(currentFile.id)
+                        await addToFavorite()
                     }}
                 >
                     {!currentFile.favorite && <HeartIconSolid className="h-8 w-8 text-red-300" aria-hidden="true"/>}

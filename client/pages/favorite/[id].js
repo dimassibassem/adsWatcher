@@ -7,6 +7,7 @@ import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
 import PrevButton from "../../components/PrevButton";
 import Articles from "../../components/Articles/Articles";
+import axios from "axios";
 
 
 const Id = () => {
@@ -14,9 +15,28 @@ const Id = () => {
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
+
     const router = useRouter();
-    const articleToDisplay = useStore(state => state.articleToDisplay);
-    let favArticles = articleToDisplay.filter(article => article.favorite);
+
+    // todo get favArticles from the store
+    const favoriteArticles = useStore(state => state.favoriteArticles);
+    const setFavArticles = useStore(state => state.setFavArticles);
+        let {id} = router.query
+    const setFav = async () => {
+        console.log(id);
+            setFavArticles((await axios.get(`http://localhost:3001/api/fav_articles/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })).data.articles);
+
+    }
+    useEffect(() => {
+        setFav().catch(err => console.log(err))
+    }, [id]);
+
+    // todo get fav article and use useEffect to set them in the store
+    // let favArticles = articleToDisplay.filter(article => article.favorite);
     useEffect(() => {
         async function setupFun() {
             if (tokenValid(token)) {
@@ -69,7 +89,7 @@ const Id = () => {
                             {/* Tabs */}
                             <Tabs all={false}/>
 
-                            <Articles articleToDisplay={favArticles}/>
+                            <Articles articleToDisplay={favoriteArticles}/>
 
                         </div>
                     </main>
