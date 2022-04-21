@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ProfileDropdown from "../../components/Home/ProfileDropdown";
 import {useLocalStorage, useStore} from "../../store";
 import Tabs from "../../components/Home/Tabs";
@@ -8,7 +8,6 @@ import {useRouter} from "next/router";
 import PrevButton from "../../components/PrevButton";
 import Articles from "../../components/Articles/Articles";
 import axios from "axios";
-
 
 const Id = () => {
     const token = useLocalStorage(state => state.token);
@@ -21,22 +20,24 @@ const Id = () => {
     // todo get favArticles from the store
     const favoriteArticles = useStore(state => state.favoriteArticles);
     const setFavArticles = useStore(state => state.setFavArticles);
-        let {id} = router.query
-    const setFav = async () => {
-        console.log(id);
-            setFavArticles((await axios.get(`http://localhost:3001/api/fav_articles/${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })).data.articles);
-
+    let {id} = router.query
+    const setPages = useStore(state => state.setPages);
+    const [currentPage, setCurrentPage] = useState(1);
+    const setFav = async (i) => {
+        const response = (await axios.get(`http://localhost:3001/api/fav_articles/${id}/?page=${i + 1}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })).data;
+        setFavArticles(response.articles);
+        setPages(response.pages);
+        setCurrentPage(i + 1);
     }
+
     useEffect(() => {
-        setFav().catch(err => console.log(err))
+        setFav(0).catch(err => console.log(err))
     }, [id]);
 
-    // todo get fav article and use useEffect to set them in the store
-    // let favArticles = articleToDisplay.filter(article => article.favorite);
     useEffect(() => {
         async function setupFun() {
             if (tokenValid(token)) {
@@ -88,8 +89,8 @@ const Id = () => {
 
                             {/* Tabs */}
                             <Tabs all={false}/>
-
-                            <Articles articleToDisplay={favoriteArticles}/>
+                            <Articles articleToDisplay={favoriteArticles} onPageChange={setFav}
+                                      currentPage={currentPage}/>
 
                         </div>
                     </main>

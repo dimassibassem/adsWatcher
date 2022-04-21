@@ -1,19 +1,15 @@
 import React from 'react';
 import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
-import {useRouter} from "next/router";
 import {since} from "../../utils/since";
 import Pagination from "../Pagination";
 
-const Articles = ({articleToDisplay}) => {
-    const router = useRouter()
-    // let articleToDisplay = useStore(state => state.articleToDisplay);
+const Articles = ({articleToDisplay, currentPage, onPageChange}) => {
     const token = useLocalStorage(state => state.token);
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
     const currentFile = useStore(state => state.currentFile);
     const pages = useStore(state => state.pages);
-
     const isCurrentArticle = (article) => {
         return currentFile && article && article.id === currentFile.id;
     }
@@ -70,7 +66,7 @@ const Articles = ({articleToDisplay}) => {
                     ))}
                 </ul>
             </section>
-            <Pagination />
+            <Pagination onPageChange={onPageChange} currentPage={currentPage}/>
         </div>
     )
 };

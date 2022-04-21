@@ -3,7 +3,6 @@ import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
 import {CarouselImages} from "../CarouselImages";
 import {since} from "../../utils/since";
-import {useCallback, useEffect} from "react";
 
 
 const ImageAndName = ({currentFile}) => {
@@ -13,10 +12,10 @@ const ImageAndName = ({currentFile}) => {
     const setOneFavArticle = useStore(state => state.setOneFavArticle);
     const setCurrentFileToFav = useStore(state => state.setCurrentFileToFav);
     const updateArticleToDisplayWithFav = useStore(state => state.updateArticleToDisplayWithFav);
-const setCurrentFileToUnFav = useStore(state => state.setCurrentFileToUnFav);
+    const setCurrentFileToUnFav = useStore(state => state.setCurrentFileToUnFav);
 
     const addToFavorite = async () => {
-       await axios.get(`http://localhost:3001/api/favorite/${currentFile.id}`, {
+        await axios.get(`http://localhost:3001/api/favorite/${currentFile.id}`, {
             headers: {
                 'Authorization': `Bearer ` + token
             }
@@ -62,7 +61,7 @@ const setCurrentFileToUnFav = useStore(state => state.setCurrentFileToUnFav);
                     <span className="sr-only">Favorite</span>
                 </button>
             </div>
-                    <p className="text-sm font-medium text-gray-500 pt-3 text-right">{since(currentFile)}</p>
+            <p className="text-sm font-medium text-gray-500 pt-3 text-right">{since(currentFile)}</p>
         </div>
     );
 };

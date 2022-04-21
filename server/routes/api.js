@@ -3,7 +3,8 @@ const axios = require("axios");
 const {decode, getImages} = require("../utils/scrapeTools");
 const {authenticateToken} = require('../utils/jwtAuth');
 const express = require('express');
-const {getArticlesNoMinMaxPrice, getArticlesNoMinPrice, getArticlesNoMaxPrice, getArticlesAllFilterPrice,
+const {
+    getArticlesNoMinMaxPrice, getArticlesNoMinPrice, getArticlesNoMaxPrice, getArticlesAllFilterPrice,
     getFavArticlesNoMinPrice, getFavArticlesNoMaxPrice, getFavArticlesAllFilterPrice, getFavArticlesNoMinMaxPrice
 } = require("../utils/articleService");
 const router = express.Router();
@@ -14,7 +15,6 @@ function exclude(user, ...keys) {
     }
     return user
 }
-
 
 
 router.get('/getCategoryDisplayNames', authenticateToken, async (req, res) => {
@@ -69,7 +69,7 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        const pages = Math.ceil(articlesCount/36)
+        const pages = Math.ceil(articlesCount / 36)
         console.log(pages);
         return res.status(200).send({articles, pages})
     }
@@ -87,7 +87,7 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        const pages = Math.ceil(articlesCount/36)
+        const pages = Math.ceil(articlesCount / 36)
         console.log(pages);
         return res.status(200).send({articles, pages})
     }
@@ -97,7 +97,7 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        const pages = Math.ceil(articlesCount/36)
+        const pages = Math.ceil(articlesCount / 36)
         console.log(pages);
         return res.status(200).send({articles, pages})
     } else {
@@ -105,8 +105,8 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
         articles.sort((a, b) => {
             return a.timestamp + b.timestamp
         })
-        const pages = Math.ceil(articlesCount/36)
-        return res.status(200).send({articles,pages})
+        const pages = Math.ceil(articlesCount / 36)
+        return res.status(200).send({articles, pages})
     }
 });
 
@@ -190,12 +190,10 @@ router.get('/favorite/:articleId', authenticateToken, async (req, res) => {
     }
 })
 
-router.get('/fav_articles/:searchId', authenticateToken,async (req, res) => {
+router.get('/fav_articles/:searchId', authenticateToken, async (req, res) => {
     const {searchId} = req.params
     const page = parseInt(req.query.page) || 1
     const user = req.user
-    console.log(searchId);
-
     try {
         const search = await prisma.search.findUnique({
             where: {
@@ -281,7 +279,7 @@ router.get('/verifyImage/:id', async (req, res) => {
 })
 
 router.get('/getArticle', async (req, res) => {
-const page = req.query.page || 1
+    const page = req.query.page || 1
     const articles = await prisma.article.findMany({
         skip: (page - 1) * 36,
         take: 36,

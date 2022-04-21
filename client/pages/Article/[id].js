@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Articles from "../../components/Articles/Articles";
 import ProfileDropdown from "../../components/Home/ProfileDropdown";
 import {useLocalStorage, useStore} from "../../store";
@@ -18,15 +18,26 @@ const displayArticle = async (id, token) => {
     return result.data
 }
 
+
 const Article = () => {
     const token = useLocalStorage(state => state.token);
+    const setArticleToDisplay = useStore(state => state.setArticleToDisplay)
+    const [currentPage, setCurrentPage] = useState(1);
+    const onPageChange = async (i) => {
+        setArticleToDisplay((await axios.get(`http://localhost:3001/api/article/${id}?page=${i + 1}`, {
+            headers: {
+                'authorization': 'Bearer ' + token
+            }
+        })).data.articles);
+        setCurrentPage(i + 1);
+    }
     const setUserData = useStore(state => state.setUserData);
     const setSource = useStore(state => state.setSource);
     const setCategoryDisplayNames = useStore(state => state.setCategoryDisplayNames);
     let articleToDisplay = useStore(state => state.articleToDisplay);
     const router = useRouter();
     const {id} = router.query
-    const setArticleToDisplay = useStore(state => state.setArticleToDisplay);
+
     const setPages = useStore(state => state.setPages);
 
     const articles = useMemo(async () => {
@@ -45,7 +56,7 @@ const Article = () => {
         }
     }, [id, token]);
 
-    useEffect( () => {
+    useEffect(() => {
         async function setArticleToDisplayFun() {
             setArticleToDisplay(await articles)
             setPages(await pages)
@@ -106,7 +117,8 @@ const Article = () => {
 
                             {/* Tabs */}
                             <Tabs all={true}/>
-                            <Articles articleToDisplay={articleToDisplay}/>
+                            <Articles articleToDisplay={articleToDisplay} onPageChange={onPageChange}
+                                      currentPage={currentPage}/>
                         </div>
                     </main>
 
