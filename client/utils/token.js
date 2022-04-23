@@ -16,6 +16,6 @@ export function tokenValid(token){
     }
     let decodedToken = parseJwt(token);
     const now = Date.now() / 1000;
-    const expiry = decodedToken.iat + decodedToken.exp;
+    const expiry = decodedToken.exp;
     return now < expiry;
 }
