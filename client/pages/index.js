@@ -25,7 +25,7 @@ export default function Home() {
                 })
                 setQueries(await response.data)
             } else {
-                await router.push("/login")
+                await router.push("/Login")
             }
         }
         setQueriesFun().catch(err => console.log(err))
@@ -40,7 +40,6 @@ export default function Home() {
                 await router.push("/Login")
             }
         }
-
         setUserDataFun().catch(err => console.log(err))
     }, [router, setUserData, token])
 

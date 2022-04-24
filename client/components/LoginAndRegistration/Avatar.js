@@ -1,7 +1,4 @@
 import FileBase from 'react-file-base64';
-import {useEffect} from "react";
-import {useLocalStorage, useStore} from "../../store";
-
 export default function Avatar({setState, state}) {
 
 

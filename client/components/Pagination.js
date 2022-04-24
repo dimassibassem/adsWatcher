@@ -4,7 +4,6 @@ import {classNames} from "../utils";
 
 export default function Pagination({onPageChange, currentPage}) {
     const pages = useStore(state => state.pages);
-    console.log(currentPage);
     return <nav className="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0 mb-8">
         <div className="-mt-px w-0 flex-1 flex">
             <button

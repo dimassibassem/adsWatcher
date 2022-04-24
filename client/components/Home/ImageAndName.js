@@ -1,8 +1,16 @@
 import {HeartIcon as HeartIconSolid} from "@heroicons/react/solid";
 import {useLocalStorage, useStore} from "../../store";
 import axios from "axios";
-import {CarouselImages} from "../CarouselImages";
 import {since} from "../../utils/since";
+import React from 'react';
+import dynamic from "next/dynamic";
+
+const CarouselJsx = dynamic(
+    () => {
+        return import("../Carousel");
+    },
+    {ssr: false}
+);
 
 
 const ImageAndName = ({currentFile}) => {
@@ -24,23 +32,19 @@ const ImageAndName = ({currentFile}) => {
         if (currentFile.favorite) {
             setOneUnFavArticle(currentFile)
             setCurrentFileToUnFav()
-
-            console.log("unfav");
         } else {
             setOneFavArticle(currentFile)
             setCurrentFileToFav()
             updateArticleToDisplayWithFav(currentFile.id)
-            console.log("fav");
         }
     }
 
 
     return (
         <div>
-            <CarouselImages moreImages={moreImages}/>
-            {/*<div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">*/}
-            {/*    <img src={currentFile.thumbnail} alt="" className="object-cover"/>*/}
-            {/*</div>*/}
+            {moreImages.length === 0 ? <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
+                <img src={currentFile.thumbnail} alt="" className="object-cover"/>
+            </div> : <CarouselJsx images={moreImages}/>}
             <div className="mt-4 flex items-start justify-between">
                 <div>
                     <h2 className="text-lg font-medium text-gray-900">
