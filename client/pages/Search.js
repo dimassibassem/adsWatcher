@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import SearchInput from "../components/Search/SearchInput";
-import ProfileDropdown from "../components/Home/ProfileDropdown";
+import ProfileDropdown from "../components/ProfileDropdown";
 import {tokenValid} from "../utils/token";
 import {useLocalStorage, useStore} from "../store";
 import {useRouter} from "next/router";

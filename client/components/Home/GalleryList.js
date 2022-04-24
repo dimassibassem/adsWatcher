@@ -1,7 +1,7 @@
 import React from 'react';
 import {useStore} from '../../store';
 import axios from "axios";
-import ExpandingCards from "../ExpandingCards";
+import ExpandingCards from "./ExpandingCards";
 
 const GalleryList = () => {
     const queries = useStore(state => state.queries);

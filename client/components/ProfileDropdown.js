@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {Menu, Transition} from "@headlessui/react";
-import {classNames} from "../../utils";
-import {useLocalStorage, useStore} from "../../store";
+import {classNames} from "../utils";
+import {useLocalStorage, useStore} from "../store";
 
 
 const ProfileDropdown = () => {

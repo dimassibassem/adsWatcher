@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useRouter} from "next/router";
 import Avatar from "../components/LoginAndRegistration/Avatar";
-import ProfileDropdown from "../components/Home/ProfileDropdown";
+import ProfileDropdown from "../components/ProfileDropdown";
 import {useLocalStorage, useStore} from "../store";
 import {parseJwt, tokenValid} from "../utils/token";
 import NotifAlert from "../components/profile/NotifAlert";

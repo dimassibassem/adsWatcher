@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import ProfileDropdown from "../../components/Home/ProfileDropdown";
+import ProfileDropdown from "../../components/ProfileDropdown";
 import {useLocalStorage, useStore} from "../../store";
-import Tabs from "../../components/Home/Tabs";
+import Tabs from "../../components/Articles/Tabs";
 import DetailsSidebar from "../../components/Home/DetailsSidebar";
 import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";

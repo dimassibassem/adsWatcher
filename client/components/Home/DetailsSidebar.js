@@ -1,6 +1,6 @@
 import React from 'react';
 import ImageAndName from "./ImageAndName";
-import Information from "./Information";
+import Information from "../Articles/Information";
 import LinkButton from "./LinkButton";
 import {useStore} from "../../store";
 

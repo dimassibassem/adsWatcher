@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 
 const CarouselJsx = dynamic(
     () => {
-        return import("../Carousel");
+        return import("../Articles/Carousel");
     },
     {ssr: false}
 );
