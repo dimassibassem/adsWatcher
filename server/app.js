@@ -88,7 +88,7 @@ app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
 cron.schedule("*/59 * * * *", async function () {
-    console.log("task Begin");
+    console.log("adding ads to DB and Sending emails task Begin");
     try {
         await addToDbAndSendEmails()
     } catch (e) {

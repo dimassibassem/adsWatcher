@@ -259,25 +259,6 @@ router.get('/fav_articles/:searchId', authenticateToken, async (req, res) => {
     }
 })
 
-router.get('/verifyImage/:id', async (req, res) => {
-    const {id} = req.params
-    try {
-        const article = await prisma.article.findFirst({
-            where: {
-                articleId: parseInt(id)
-            }
-        })
-        await axios.get(article.thumbnail)
-        return res.json({
-            message: 'Image verified'
-        })
-    } catch (e) {
-        return res.json({
-            message: 'Image Not Found'
-        })
-    }
-})
-
 router.get('/getArticle', async (req, res) => {
     const page = req.query.page || 1
     const articles = await prisma.article.findMany({
