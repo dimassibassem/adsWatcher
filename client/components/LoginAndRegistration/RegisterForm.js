@@ -16,10 +16,12 @@ export default function RegisterForm() {
     });
 
     const handleChange = e => {
-        setState({
-            ...state,
-            [e.target.name]: e.target.value,
-        })
+        if (e.target.name !== "avatar") {
+            setState({
+                ...state,
+                [e.target.name]: e.target.value,
+            })
+        }
     }
     const [errorMessage, setErrorMessage] = useState("");
     const errorHandler = (message) => {
@@ -31,6 +33,12 @@ export default function RegisterForm() {
         if (state.password1 !== state.password2) {
             errorHandler("Passwords don't match")
             return
+        } else if (state.username.length < 3) {
+            errorHandler("Username must be at least 3 characters long")
+            return
+        } else if (state.password1.length < 8) {
+            errorHandler("Password must be at least 8 characters long")
+            return
         }
         const res = await axios.post("http://localhost:3001/register", state)
         if (res.data.success) {
@@ -40,9 +48,6 @@ export default function RegisterForm() {
             errorHandler(res.data.message)
         }
     }
-
-    useEffect(() => {
-    }, [state.avatar])
 
     return (
         <>
@@ -62,13 +67,11 @@ export default function RegisterForm() {
                     {errorMessage}
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <form className="space-y-6" onSubmit={handleSubmit}>
-                            <div>
-
-
-                                {/*Avatar*/}
-                                <Avatar setState={setState} state={state}/>
-
-                            </div>
+                            {/*Avatar*/}
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                Avatar
+                            </label>
+                            <Avatar setState={setState} state={state}/>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                                     Name
