@@ -31,10 +31,9 @@ const ExpandingCards = ({query, deleteQuery}) => {
             </div>
             <div>
                 <div className="-mt-px flex divide-x divide-gray-200">
-                    <div
-                        className="-ml-px w-0 flex-1 flex bg-indigo-600 hover:bg-indigo-800 hover:text-white rounded-md">
+                    <div className="-ml-px w-0 flex-1 flex bg-indigo-600 hover:bg-indigo-800 hover:text-white rounded-md">
                         <button
-                            className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-white font-medium border border-transparent "
+                            className=" relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-white font-medium border border-transparent "
                             onClick={async (e) => {
                                 e.preventDefault();
                                 await router.push(`/Article/${query.id}`)

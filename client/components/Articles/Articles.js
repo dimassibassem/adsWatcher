@@ -9,14 +9,12 @@ const Articles = ({articleToDisplay, currentPage, onPageChange}) => {
     const setMoreImages = useStore(state => state.setMoreImages);
     const setCurrentFile = useStore(state => state.setCurrentFile);
     const currentFile = useStore(state => state.currentFile);
-    const pages = useStore(state => state.pages);
     const isCurrentArticle = (article) => {
         return currentFile && article && article.id === currentFile.id;
     }
 
     return (
         <div>
-            <h1>pages: {pages}</h1>
             <section className="mt-8 pb-16 t" aria-labelledby="gallery-heading">
                 <h2 id="gallery-heading" className="sr-only">
                     Recently viewed
