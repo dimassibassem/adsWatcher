@@ -307,17 +307,24 @@ router.get('/getFiveArticleThmbnails/:searchQuery', async (req, res) => {
                 {
                     title: {
                         contains: searchQuery
+                    },
+                    thumbnail: {
+                        not: "https://www.linkpicture.com/q/sorry-image-not-available.png"
                     }
                 },
                 {
                     description: {
                         contains: searchQuery
-                    }},
-                    ],
-        },take: 5
+                    },
+                    thumbnail: {
+                        not: "https://www.linkpicture.com/q/sorry-image-not-available.png"
+                    }
+                },
+            ],
+        }, take: 5
     })
     return res.json(articles.map(article => (article.thumbnail)))
 })
 
 
-    module.exports = router;
+module.exports = router;
