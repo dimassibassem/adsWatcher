@@ -271,5 +271,53 @@ router.get('/getArticle', async (req, res) => {
     return res.json(articles)
 })
 
+router.get('/adsCount', async (req, res) => {
+    const adsCount = await prisma.article.count()
+    const dayAgoCount = await prisma.article.count({
+        where: {
+            timestamp: {
+                gt: parseInt(new Date().getTime() / 1000) - 86400
+            }
+        }
+    })
+    return res.json({adsCount, dayAgoCount})
+})
 
-module.exports = router;
+router.get('/popularSearches', async (req, res) => {
+    const searches = await prisma.search.groupBy({
+        by: ['query'],
+        _count: {
+            query: true,
+        },
+        orderBy: {
+            _count: {
+                query: 'desc',
+            },
+        },
+        take: 10,
+    })
+    return res.json(searches)
+})
+
+router.get('/getFiveArticleThmbnails/:searchQuery', async (req, res) => {
+    const searchQuery = req.params.searchQuery
+    const articles = await prisma.article.findMany({
+        where: {
+            OR: [
+                {
+                    title: {
+                        contains: searchQuery
+                    }
+                },
+                {
+                    description: {
+                        contains: searchQuery
+                    }},
+                    ],
+        },take: 5
+    })
+    return res.json(articles.map(article => (article.thumbnail)))
+})
+
+
+    module.exports = router;
