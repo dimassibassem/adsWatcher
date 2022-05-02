@@ -70,13 +70,11 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
             return a.timestamp + b.timestamp
         })
         const pages = Math.ceil(articlesCount / 36)
-        console.log(pages);
         return res.status(200).send({articles, pages})
     }
     if (search.minPrice === null) {
         let {articles, articlesCount} = await getArticlesNoMinPrice(search, page)
         const user = req.user
-        console.log(user)
 
         // convert articles to display format
         articles = articles.map(article => {
@@ -88,7 +86,6 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
             return a.timestamp + b.timestamp
         })
         const pages = Math.ceil(articlesCount / 36)
-        console.log(pages);
         return res.status(200).send({articles, pages})
     }
     if (search.maxPrice === null) {
@@ -98,7 +95,6 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
             return a.timestamp + b.timestamp
         })
         const pages = Math.ceil(articlesCount / 36)
-        console.log(pages);
         return res.status(200).send({articles, pages})
     } else {
         const {articles, articlesCount} = await getArticlesAllFilterPrice(search, page)
