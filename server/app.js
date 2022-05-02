@@ -87,7 +87,7 @@ app.use('/', userRoute);
 app.use('/api', apiRoute);
 
 // cron job to run every 10 minutes
-cron.schedule("*/59 * * * *", async function () {
+cron.schedule("*/30 * * * *", async function () {
     console.log("adding ads to DB and Sending emails task Begin");
     try {
         await addToDbAndSendEmails()
@@ -121,18 +121,6 @@ cron.schedule("0 0 */3 * * *", async function () {
                 }
             })
             console.log("deleted an article that no longer exists, id: ", article.id)
-        }
-        try {
-            await axios.get(article.thumbnail)
-        } catch (e) {
-            await prisma.article.update({
-                where: {
-                    id: article.id
-                }, data: {
-                    thumbnail: "https://www.linkpicture.com/q/sorry-image-not-available.png"
-                }
-            })
-            console.log("replacing an article's thumbnail with a default image, id: ", article.id);
         }
 
     }

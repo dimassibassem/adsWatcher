@@ -1,6 +1,14 @@
 const functions = require('./scrapeTools')
 const axios = require('axios')
 const prisma = require('./prismaClient')
+const axiosRetry = require('axios-retry');
+
+axiosRetry(axios, {retries: 3});
+const imageUrlToBase64 = async url => {
+    const response = await axios(url, {responseType: 'arraybuffer'})
+    return Buffer.from(response.data, 'binary').toString('base64')
+}
+
 
 async function getLocations() {
     const res = await axios.get(`http://localhost:3001/api/getLocationData`)
@@ -11,7 +19,6 @@ let params = functions.params
 let getOffset = functions.getOffset
 let search = functions.search
 let searchMore = functions.searchMore
-
 let decode = functions.decode
 let getData = functions.getData
 
@@ -26,6 +33,9 @@ async function addToDatabase(item, crawlerAdUrls) {
         if (existingArticle || item.timestamp + 2764800 < date) {
             return false
         } else {
+            let thumbnailImage = await imageUrlToBase64("" + item.thumbnail).catch(err => {
+                return "https://www.linkpicture.com/q/sorry-image-not-available.png"
+            })
             await prisma.article.create({
                 data: {
                     articleId: item.id,
@@ -35,7 +45,7 @@ async function addToDatabase(item, crawlerAdUrls) {
                     categoryId: item.categoryId,
                     location: item.location === null ? "Not specified" : item.location,
                     timestamp: item.timestamp,
-                    thumbnail: item.thumbnail,
+                    thumbnail:thumbnailImage === "https://www.linkpicture.com/q/sorry-image-not-available.png" ? "https://www.linkpicture.com/q/sorry-image-not-available.png" :  "data:image/png;base64," + thumbnailImage,
                     externalId: item.externalId,
                     sourceId: item.sourceId,
                     crawlerId: item.crawlerId,
