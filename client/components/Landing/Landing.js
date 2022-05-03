@@ -34,6 +34,9 @@ import {
 } from '@heroicons/react/outline'
 import {ChevronDownIcon} from '@heroicons/react/solid'
 import axios from "axios";
+import Stats from "./Stats";
+import Grid from "./Grid";
+import Logos from "./Logos";
 
 const solutions = [
     {
@@ -205,7 +208,7 @@ export default function Landing() {
 
 
     async function adsCount() {
-        const res = await axios.get("http://localhost:3001/api/adsCount");
+        const res = await axios.get("http://localhost:3001/api/stats");
         setCount(res.data)
     }
 
@@ -214,7 +217,7 @@ export default function Landing() {
         const queries = res.data.map(item => item["query"])
         let popularSearchObj = [];
         for (let i = 0; i < queries.length; i++) {
-            let thumbnails = await axios.get(`http://localhost:3001/api/getFiveArticleThmbnails/${queries[i]}`)
+            let thumbnails = await axios.get(`http://localhost:3001/api/getEightArticleThmbnails/${queries[i]}`)
             popularSearchObj.push({
                 query: queries[i],
                 thumbnails: thumbnails.data
@@ -255,58 +258,58 @@ export default function Landing() {
                     <Popover.Group as="nav" className="hidden md:flex space-x-10">
                         <Popover className="relative">
                             {({open}) => <>
-                                    <Popover.Button
+                                <Popover.Button
+                                    className={classNames(
+                                        open ? 'text-gray-900' : 'text-gray-500',
+                                        'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                                    )}
+                                >
+                                    <span>Solutions</span>
+                                    <ChevronDownIcon
                                         className={classNames(
-                                            open ? 'text-gray-900' : 'text-gray-500',
-                                            'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                                            open ? 'text-gray-600' : 'text-gray-400',
+                                            'ml-2 h-5 w-5 group-hover:text-gray-500'
                                         )}
-                                    >
-                                        <span>Solutions</span>
-                                        <ChevronDownIcon
-                                            className={classNames(
-                                                open ? 'text-gray-600' : 'text-gray-400',
-                                                'ml-2 h-5 w-5 group-hover:text-gray-500'
-                                            )}
-                                            aria-hidden="true"
-                                        />
-                                    </Popover.Button>
+                                        aria-hidden="true"
+                                    />
+                                </Popover.Button>
 
-                                    <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-200"
-                                        enterFrom="opacity-0 translate-y-1"
-                                        enterTo="opacity-100 translate-y-0"
-                                        leave="transition ease-in duration-150"
-                                        leaveFrom="opacity-100 translate-y-0"
-                                        leaveTo="opacity-0 translate-y-1"
-                                    >
-                                        <Popover.Panel
-                                            className="absolute z-10 -ml-4 mt-3 transform w-screen max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-200"
+                                    enterFrom="opacity-0 translate-y-1"
+                                    enterTo="opacity-100 translate-y-0"
+                                    leave="transition ease-in duration-150"
+                                    leaveFrom="opacity-100 translate-y-0"
+                                    leaveTo="opacity-0 translate-y-1"
+                                >
+                                    <Popover.Panel
+                                        className="absolute z-10 -ml-4 mt-3 transform w-screen max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
+                                        <div
+                                            className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                                             <div
-                                                className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                                <div
-                                                    className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2">
-                                                    {solutions.map((item) => (
-                                                        <a
-                                                            key={item.name}
-                                                            href={item.href}
-                                                            className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                                                        >
-                                                            <div
-                                                                className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white sm:h-12 sm:w-12">
-                                                                <item.icon className="h-6 w-6" aria-hidden="true"/>
-                                                            </div>
-                                                            <div className="ml-4">
-                                                                <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                                <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                            </div>
-                                                        </a>
-                                                    ))}
-                                                </div>
+                                                className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2">
+                                                {solutions.map((item) => (
+                                                    <a
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
+                                                    >
+                                                        <div
+                                                            className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white sm:h-12 sm:w-12">
+                                                            <item.icon className="h-6 w-6" aria-hidden="true"/>
+                                                        </div>
+                                                        <div className="ml-4">
+                                                            <p className="text-base font-medium text-gray-900">{item.name}</p>
+                                                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
+                                                        </div>
+                                                    </a>
+                                                ))}
                                             </div>
-                                        </Popover.Panel>
-                                    </Transition>
-                                </>}
+                                        </div>
+                                    </Popover.Panel>
+                                </Transition>
+                            </>}
                         </Popover>
 
                         <a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
@@ -368,17 +371,17 @@ export default function Landing() {
                                 <div className="mt-6">
                                     <nav className="grid grid-cols-1 gap-7">
                                         {solutions.map((item) => <a
-                                                key={item.name}
-                                                href={item.href}
-                                                className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50"
-                                            >
-                                                <div
-                                                    className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-                                                    <item.icon className="h-6 w-6" aria-hidden="true"/>
-                                                </div>
-                                                <div
-                                                    className="ml-4 text-base font-medium text-gray-900">{item.name}</div>
-                                            </a>)}
+                                            key={item.name}
+                                            href={item.href}
+                                            className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50"
+                                        >
+                                            <div
+                                                className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+                                                <item.icon className="h-6 w-6" aria-hidden="true"/>
+                                            </div>
+                                            <div
+                                                className="ml-4 text-base font-medium text-gray-900">{item.name}</div>
+                                        </a>)}
                                     </nav>
                                 </div>
                             </div>
@@ -461,62 +464,12 @@ export default function Landing() {
                     </div>
                 </div>
             </div>
-            <h1>count: {count.adsCount}</h1>
-            <h1>dayAgoCount: {count.dayAgoCount}</h1>
+            <Grid/>
+            <Stats count={count}/>
             <h1>popularSearchs: </h1>
-            <ul>
-                {popularSearchs.map(item =>
-                    <li key={item.query}>
-                        <div>{item.query}</div>
-                        {item.thumbnails.map((thumbnail, i) =>
-                            <li key={i}>
-                                <img style={{"width":100,"height":100}} key={i} src={"" + thumbnail} alt=""/>
-                            </li>
-                        )}
-                    </li>
-                )}
-
-
-                </ul>
+                <Grid popularSearchs={popularSearchs}/>
             {/* Logo Cloud */}
-            <div className="bg-gray-100">
-                <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-                    <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-                        Trusted by over 5 very average small businesses
-                    </p>
-                    <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-                        <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                            <img className="h-12" src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg"
-                                 alt="Tuple"/>
-                        </div>
-                        <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                            <img className="h-12" src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg"
-                                 alt="Mirage"/>
-                        </div>
-                        <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                            <img
-                                className="h-12"
-                                src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                alt="StaticKit"
-                            />
-                        </div>
-                        <div className="col-span-1 flex justify-center md:col-span-2 md:col-start-2 lg:col-span-1">
-                            <img
-                                className="h-12"
-                                src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg"
-                                alt="Transistor"
-                            />
-                        </div>
-                        <div className="col-span-2 flex justify-center md:col-span-2 md:col-start-4 lg:col-span-1">
-                            <img
-                                className="h-12"
-                                src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg"
-                                alt="Workcation"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
+         <Logos />
 
             {/* Alternating Feature Sections */}
             <div className="relative pt-16 pb-32 overflow-hidden">
@@ -651,16 +604,16 @@ export default function Landing() {
                     <div
                         className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
                         {features.map((feature) => <div key={feature.name}>
-                                <div>
+                            <div>
                 <span className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
                   <feature.icon className="h-6 w-6 text-white" aria-hidden="true"/>
                 </span>
-                                </div>
-                                <div className="mt-6">
-                                    <h3 className="text-lg font-medium text-white">{feature.name}</h3>
-                                    <p className="mt-2 text-base text-purple-200">{feature.description}</p>
-                                </div>
-                            </div>)}
+                            </div>
+                            <div className="mt-6">
+                                <h3 className="text-lg font-medium text-white">{feature.name}</h3>
+                                <p className="mt-2 text-base text-purple-200">{feature.description}</p>
+                            </div>
+                        </div>)}
                     </div>
                 </div>
             </div>
@@ -702,11 +655,11 @@ export default function Landing() {
                         </p>
                         <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
                             {metrics.map((item) => <p key={item.id}>
-                                    <span className="block text-2xl font-bold text-white">{item.stat}</span>
-                                    <span className="mt-1 block text-base text-gray-300">
+                                <span className="block text-2xl font-bold text-white">{item.stat}</span>
+                                <span className="mt-1 block text-base text-gray-300">
                   <span className="font-medium text-white">{item.emphasis}</span> {item.rest}
                 </span>
-                                </p>)}
+                            </p>)}
                         </div>
                     </div>
                 </div>
@@ -753,22 +706,22 @@ export default function Landing() {
                                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Solutions</h3>
                                 <ul role="list" className="mt-4 space-y-4">
                                     {footerNavigation.solutions.map((item) => <li key={item.name}>
-                                            <a href={item.href}
-                                               className="text-base text-gray-500 hover:text-gray-900">
-                                                {item.name}
-                                            </a>
-                                        </li>)}
+                                        <a href={item.href}
+                                           className="text-base text-gray-500 hover:text-gray-900">
+                                            {item.name}
+                                        </a>
+                                    </li>)}
                                 </ul>
                             </div>
                             <div className="mt-12 md:mt-0">
                                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Support</h3>
                                 <ul role="list" className="mt-4 space-y-4">
                                     {footerNavigation.support.map((item) => <li key={item.name}>
-                                            <a href={item.href}
-                                               className="text-base text-gray-500 hover:text-gray-900">
-                                                {item.name}
-                                            </a>
-                                        </li>)}
+                                        <a href={item.href}
+                                           className="text-base text-gray-500 hover:text-gray-900">
+                                            {item.name}
+                                        </a>
+                                    </li>)}
                                 </ul>
                             </div>
                         </div>
@@ -777,22 +730,22 @@ export default function Landing() {
                                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Company</h3>
                                 <ul role="list" className="mt-4 space-y-4">
                                     {footerNavigation.company.map((item) => <li key={item.name}>
-                                            <a href={item.href}
-                                               className="text-base text-gray-500 hover:text-gray-900">
-                                                {item.name}
-                                            </a>
-                                        </li>)}
+                                        <a href={item.href}
+                                           className="text-base text-gray-500 hover:text-gray-900">
+                                            {item.name}
+                                        </a>
+                                    </li>)}
                                 </ul>
                             </div>
                             <div className="mt-12 md:mt-0">
                                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
                                 <ul role="list" className="mt-4 space-y-4">
                                     {footerNavigation.legal.map((item) => <li key={item.name}>
-                                            <a href={item.href}
-                                               className="text-base text-gray-500 hover:text-gray-900">
-                                                {item.name}
-                                            </a>
-                                        </li>)}
+                                        <a href={item.href}
+                                           className="text-base text-gray-500 hover:text-gray-900">
+                                            {item.name}
+                                        </a>
+                                    </li>)}
                                 </ul>
                             </div>
                         </div>
@@ -831,10 +784,11 @@ export default function Landing() {
                 <div
                     className="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16">
                     <div className="flex space-x-6 md:order-2">
-                        {footerNavigation.social.map((item) => <a key={item.name} href={item.href} className="text-gray-400 hover:text-gray-500">
-                                <span className="sr-only">{item.name}</span>
-                                <item.icon className="h-6 w-6" aria-hidden="true"/>
-                            </a>)}
+                        {footerNavigation.social.map((item) => <a key={item.name} href={item.href}
+                                                                  className="text-gray-400 hover:text-gray-500">
+                            <span className="sr-only">{item.name}</span>
+                            <item.icon className="h-6 w-6" aria-hidden="true"/>
+                        </a>)}
                     </div>
                     <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
                         &copy; 2020 Workflow, Inc. All rights reserved.
