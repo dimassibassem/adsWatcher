@@ -9,7 +9,7 @@ const HeroSection = () => {
                 <div className="relative shadow-2xl sm:rounded-2xl sm:overflow-hidden">
                     <div className="absolute inset-0">
                         <img
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-cover blur-md shadow-2xl"
                             src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
                             alt="People working on laptops"
                         />

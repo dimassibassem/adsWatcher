@@ -29,7 +29,6 @@ export default function Landing() {
             })
         }
         setPopularSearchs(popularSearchObj)
-        console.log(popularSearchObj);
     }
 
     useEffect(() => {
