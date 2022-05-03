@@ -45,7 +45,7 @@ async function addToDatabase(item, crawlerAdUrls) {
                     categoryId: item.categoryId,
                     location: item.location === null ? "Not specified" : item.location,
                     timestamp: item.timestamp,
-                    thumbnail:thumbnailImage === "https://www.linkpicture.com/q/sorry-image-not-available.png" ? "https://www.linkpicture.com/q/sorry-image-not-available.png" :  "data:image/png;base64," + thumbnailImage,
+                    thumbnail: thumbnailImage === "https://www.linkpicture.com/q/sorry-image-not-available.png" ? "https://www.linkpicture.com/q/sorry-image-not-available.png" : "data:image/png;base64," + thumbnailImage,
                     externalId: item.externalId,
                     sourceId: item.sourceId,
                     crawlerId: item.crawlerId,

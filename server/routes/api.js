@@ -267,16 +267,52 @@ router.get('/getArticle', async (req, res) => {
     return res.json(articles)
 })
 
-router.get('/adsCount', async (req, res) => {
+router.get('/stats', async (req, res) => {
     const adsCount = await prisma.article.count()
-    const dayAgoCount = await prisma.article.count({
+    const dayAgoAdsCount = await prisma.article.count({
         where: {
             timestamp: {
                 gt: parseInt(new Date().getTime() / 1000) - 86400
             }
         }
     })
-    return res.json({adsCount, dayAgoCount})
+    const weekAgoAdsCount = await prisma.article.count({
+        where: {
+            timestamp: {
+                gt: parseInt(new Date().getTime() / 1000) - 604800
+            }
+        }
+    })
+    const subscriberCount = await prisma.user.count()
+    const subscribers = await prisma.user.findMany()
+    const weekAgoSubscriber = subscribers.filter(user => {
+        return (Date.parse(user.createdAt) / 1000) > parseInt(new Date().getTime() / 1000) - 604800
+    })
+    const weekAgoSubscriberCount = weekAgoSubscriber.length
+    const searchCount = await prisma.search.count()
+    const searchs = await prisma.search.findMany()
+    const weekAgoSearch = searchs.filter(search => {
+        return (Date.parse(search.createdAt) / 1000) > parseInt(new Date().getTime() / 1000) - 604800
+    })
+    const weekAgoSearchCount = weekAgoSearch.length
+    const sources = 50
+    const adsAddedWeekAgoPercentage = ((weekAgoAdsCount / adsCount) * 100).toFixed(3) + "%";
+    const locationCount = await prisma.location.count()
+    const categoryCount = await prisma.category.count()
+    return res.json({
+        sources,
+        adsCount,
+        dayAgoAdsCount,
+        weekAgoAdsCount,
+        adsAddedWeekAgoPercentage,
+        subscriberCount,
+        weekAgoSubscriberCount,
+        searchCount,
+        weekAgoSearchCount,
+        locationCount,
+        categoryCount
+
+    })
 })
 
 router.get('/popularSearches', async (req, res) => {
@@ -290,12 +326,12 @@ router.get('/popularSearches', async (req, res) => {
                 query: 'desc',
             },
         },
-        take: 10,
+        take: 12,
     })
     return res.json(searches)
 })
 
-router.get('/getFiveArticleThmbnails/:searchQuery', async (req, res) => {
+router.get('/getEightArticleThmbnails/:searchQuery', async (req, res) => {
     const searchQuery = req.params.searchQuery
     const articles = await prisma.article.findMany({
         where: {
@@ -317,7 +353,7 @@ router.get('/getFiveArticleThmbnails/:searchQuery', async (req, res) => {
                     }
                 },
             ],
-        }, take: 5
+        }, take: 8
     })
     return res.json(articles.map(article => (article.thumbnail)))
 })
