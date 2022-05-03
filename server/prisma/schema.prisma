@@ -20,8 +20,9 @@ model User {
 }
 
 model Search {
-  id         Int     @id @default(autoincrement())
-  query      String  @db.VarChar(255)
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  query      String   @db.VarChar(255)
   locationId String?
   minPrice   String?
   maxPrice   String?
