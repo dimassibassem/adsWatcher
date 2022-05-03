@@ -4,8 +4,8 @@ export default function Thumbnails({popularSearchs}) {
     const images = popularSearchs.thumbnails
     return (
         <ul role="list" className=" relative grid grid-cols-4 gap-x-1 gap-y-1 sm:grid-cols-4 lg:grid-cols-4 ">
-            <div className="absolute bg-white overflow-hidden shadow rounded-lg text-indigo-600 z-30 place-self-center w-full text-center">
-                <SearchIcon className=" ml-20 absolute overflow-hidden h-6 w-6 text-indigo place-self-center text-center"/>
+            <div className="absolute bg-white overflow-hidden shadow rounded-lg text-indigo-600 z-30 font-bold text-2xl place-self-center w-full text-center">
+                <SearchIcon className=" ml-20 absolute mt-1 h-6 w-6 text-indigo place-self-center text-center"/>
                 {popularSearchs.query}
             </div>
             {images.map((image) => (

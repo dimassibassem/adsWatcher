@@ -2,10 +2,10 @@ import React from 'react';
 
 const Logos = () => {
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 pt-5 pb-12 ">
             <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-                <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-                    Trusted by over 5 very average small businesses
+                <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide pb-10 ">
+                    Some of our Classified advertising websites Sources
                 </p>
                 <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
                     <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">

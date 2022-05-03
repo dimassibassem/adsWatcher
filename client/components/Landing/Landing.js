@@ -37,6 +37,8 @@ import axios from "axios";
 import Stats from "./Stats";
 import Grid from "./Grid";
 import Logos from "./Logos";
+import ProfileDropdown from "../ProfileDropdown";
+import Link from "next/link";
 
 const solutions = [
     {
@@ -58,54 +60,6 @@ const solutions = [
         href: '#',
         icon: QuestionMarkCircleIcon,
     },
-]
-const features = [
-    {
-        name: 'Unlimited Inboxes',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: InboxIcon,
-    },
-    {
-        name: 'Manage Team Members',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: UsersIcon,
-    },
-    {
-        name: 'Spam Report',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: TrashIcon,
-    },
-    {
-        name: 'Compose in Markdown',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: PencilAltIcon,
-    },
-    {
-        name: 'Team Reporting',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: DocumentReportIcon,
-    },
-    {
-        name: 'Saved Replies',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: ReplyIcon,
-    },
-    {
-        name: 'Email Commenting',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: ChatAltIcon,
-    },
-    {
-        name: 'Connect with Customers',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-        icon: HeartIcon,
-    },
-]
-const metrics = [
-    {id: 1, stat: '8K+', emphasis: 'Companies', rest: 'use laoreet amet lacus nibh integer quis.'},
-    {id: 2, stat: '25K+', emphasis: 'Countries around the globe', rest: 'lacus nibh integer quis.'},
-    {id: 3, stat: '98%', emphasis: 'Customer satisfaction', rest: 'laoreet amet lacus nibh integer quis.'},
-    {id: 4, stat: '12M+', emphasis: 'Issues resolved', rest: 'lacus nibh integer quis.'},
 ]
 const footerNavigation = {
     solutions: [
@@ -234,190 +188,38 @@ export default function Landing() {
 
 
     return <div className="bg-white">
-        <header>
-            <Popover className="relative bg-white">
-                <div
-                    className="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8">
-                    <div className="flex justify-start lg:w-0 lg:flex-1">
-                        <a href="#">
-                            <span className="sr-only">Workflow</span>
-                            <img
-                                className="h-8 w-auto sm:h-10"
-                                src="https://tailwindui.com/img/logos/workflow-mark-purple-600-to-indigo-600.svg"
-                                alt=""
-                            />
-                        </a>
+        <header className="w-full">
+            <div
+                className=" mb-4 mt-2 relative z-10 flex-shrink-0 h-16 bg-white flex">
+                <div className="flex-1 flex justify-between px-4 sm:px-6 mb-4">
+                    <div>
+                        <img
+                            className="mx-auto mt-2"
+                            src="/adswatcher.jpeg"
+                            alt="Workflow"
+                            width="180"
+                            height="120"
+                        />
                     </div>
-                    <div className="-mr-2 -my-2 md:hidden">
-                        <Popover.Button
-                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                            <span className="sr-only">Open menu</span>
-                            <MenuIcon className="h-6 w-6" aria-hidden="true"/>
-                        </Popover.Button>
-                    </div>
-                    <Popover.Group as="nav" className="hidden md:flex space-x-10">
-                        <Popover className="relative">
-                            {({open}) => <>
-                                <Popover.Button
-                                    className={classNames(
-                                        open ? 'text-gray-900' : 'text-gray-500',
-                                        'group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-                                    )}
-                                >
-                                    <span>Solutions</span>
-                                    <ChevronDownIcon
-                                        className={classNames(
-                                            open ? 'text-gray-600' : 'text-gray-400',
-                                            'ml-2 h-5 w-5 group-hover:text-gray-500'
-                                        )}
-                                        aria-hidden="true"
-                                    />
-                                </Popover.Button>
 
-                                <Transition
-                                    as={Fragment}
-                                    enter="transition ease-out duration-200"
-                                    enterFrom="opacity-0 translate-y-1"
-                                    enterTo="opacity-100 translate-y-0"
-                                    leave="transition ease-in duration-150"
-                                    leaveFrom="opacity-100 translate-y-0"
-                                    leaveTo="opacity-0 translate-y-1"
-                                >
-                                    <Popover.Panel
-                                        className="absolute z-10 -ml-4 mt-3 transform w-screen max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
-                                        <div
-                                            className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                            <div
-                                                className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2">
-                                                {solutions.map((item) => (
-                                                    <a
-                                                        key={item.name}
-                                                        href={item.href}
-                                                        className="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                                                    >
-                                                        <div
-                                                            className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white sm:h-12 sm:w-12">
-                                                            <item.icon className="h-6 w-6" aria-hidden="true"/>
-                                                        </div>
-                                                        <div className="ml-4">
-                                                            <p className="text-base font-medium text-gray-900">{item.name}</p>
-                                                            <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                                                        </div>
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </Popover.Panel>
-                                </Transition>
-                            </>}
-                        </Popover>
 
-                        <a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                            Pricing
-                        </a>
-                        <a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                            Partners
-                        </a>
-                        <a href="#" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                            Company
-                        </a>
-                    </Popover.Group>
-                    <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                        <a href="#"
-                           className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-                            Sign in
-                        </a>
-                        <a
-                            href="#"
-                            className="ml-8 whitespace-nowrap inline-flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-purple-700 hover:to-indigo-700"
-                        >
-                            Sign up
-                        </a>
+                    <div className=" md:flex items-center justify-end md:flex-1 mt-3 mb-2">
+                        <Link href="/Login" passHref>
+                            <div
+                                className=" inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                Sign in
+                            </div>
+                        </Link>
+                        <Link href="/Register" passHref>
+                            <div
+                                className="ml-4 inline-flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-purple-700 hover:to-indigo-700">
+                                Sign up
+                            </div>
+                        </Link>
                     </div>
                 </div>
-
-                <Transition
-                    as={Fragment}
-                    enter="duration-200 ease-out"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="duration-100 ease-in"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                >
-                    <Popover.Panel
-                        focus
-                        className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
-                    >
-                        <div
-                            className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
-                            <div className="pt-5 pb-6 px-5">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <img
-                                            className="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-purple-600-to-indigo-600.svg"
-                                            alt="Workflow"
-                                        />
-                                    </div>
-                                    <div className="-mr-2">
-                                        <Popover.Button
-                                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                                            <span className="sr-only">Close menu</span>
-                                            <XIcon className="h-6 w-6" aria-hidden="true"/>
-                                        </Popover.Button>
-                                    </div>
-                                </div>
-                                <div className="mt-6">
-                                    <nav className="grid grid-cols-1 gap-7">
-                                        {solutions.map((item) => <a
-                                            key={item.name}
-                                            href={item.href}
-                                            className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50"
-                                        >
-                                            <div
-                                                className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
-                                                <item.icon className="h-6 w-6" aria-hidden="true"/>
-                                            </div>
-                                            <div
-                                                className="ml-4 text-base font-medium text-gray-900">{item.name}</div>
-                                        </a>)}
-                                    </nav>
-                                </div>
-                            </div>
-                            <div className="py-6 px-5">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Pricing
-                                    </a>
-                                    <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Partners
-                                    </a>
-                                    <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Company
-                                    </a>
-                                </div>
-                                <div className="mt-6">
-                                    <a
-                                        href="#"
-                                        className="w-full flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-purple-700 hover:to-indigo-700"
-                                    >
-                                        Sign up
-                                    </a>
-                                    <p className="mt-6 text-center text-base font-medium text-gray-500">
-                                        Existing customer?
-                                        <a href="#" className="text-gray-900">
-                                            Sign in
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </Popover.Panel>
-                </Transition>
-            </Popover>
+            </div>
         </header>
-
         <main>
             {/* Hero section */}
             <div className="relative">
@@ -465,215 +267,26 @@ export default function Landing() {
                 </div>
             </div>
             <Grid/>
-            <Stats count={count}/>
-            <h1>popularSearchs: </h1>
+            <div className="px-10 py-5">
+                <Stats count={count}/>
+            </div>
+            <div className="px-10 py-5">
+                <h1>popularSearchs: </h1>
                 <Grid popularSearchs={popularSearchs}/>
-            {/* Logo Cloud */}
-         <Logos />
-
-            {/* Alternating Feature Sections */}
-            <div className="relative pt-16 pb-32 overflow-hidden">
-                <div aria-hidden="true" className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-gray-100"/>
-                <div className="relative">
-                    <div
-                        className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-                        <div className="px-4 max-w-xl mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
-                            <div>
-                                <div>
-                <span
-                    className="h-12 w-12 rounded-md flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600">
-                  <InboxIcon className="h-6 w-6 text-white" aria-hidden="true"/>
-                </span>
-                                </div>
-                                <div className="mt-6">
-                                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                                        Stay on top of customer support
-                                    </h2>
-                                    <p className="mt-4 text-lg text-gray-500">
-                                        Semper curabitur ullamcorper posuere nunc sed. Ornare iaculis bibendum
-                                        malesuada faucibus lacinia
-                                        porttitor. Pulvinar laoreet sagittis viverra duis. In venenatis sem arcu
-                                        pretium pharetra at.
-                                        Lectus viverra dui tellus ornare pharetra.
-                                    </p>
-                                    <div className="mt-6">
-                                        <a
-                                            href="#"
-                                            className="inline-flex bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white hover:from-purple-700 hover:to-indigo-700"
-                                        >
-                                            Get started
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mt-8 border-t border-gray-200 pt-6">
-                                <blockquote>
-                                    <div>
-                                        <p className="text-base text-gray-500">
-                                            &ldquo;Cras velit quis eros eget rhoncus lacus ultrices sed diam. Sit
-                                            orci risus aenean
-                                            curabitur donec aliquet. Mi venenatis in euismod ut.&rdquo;
-                                        </p>
-                                    </div>
-                                    <footer className="mt-3">
-                                        <div className="flex items-center space-x-3">
-                                            <div className="flex-shrink-0">
-                                                <img
-                                                    className="h-6 w-6 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                                                    alt=""
-                                                />
-                                            </div>
-                                            <div className="text-base font-medium text-gray-700">
-                                                Marcia Hill, Digital Marketing Manager
-                                            </div>
-                                        </div>
-                                    </footer>
-                                </blockquote>
-                            </div>
-                        </div>
-                        <div className="mt-12 sm:mt-16 lg:mt-0">
-                            <div className="pl-4 -mr-48 sm:pl-6 md:-mr-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
-                                <img
-                                    className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
-                                    alt="Inbox user interface"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="mt-24">
-                    <div
-                        className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-                        <div
-                            className="px-4 max-w-xl mx-auto sm:px-6 lg:py-32 lg:max-w-none lg:mx-0 lg:px-0 lg:col-start-2">
-                            <div>
-                                <div>
-                <span
-                    className="h-12 w-12 rounded-md flex items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-600">
-                  <SparklesIcon className="h-6 w-6 text-white" aria-hidden="true"/>
-                </span>
-                                </div>
-                                <div className="mt-6">
-                                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                                        Better understand your customers
-                                    </h2>
-                                    <p className="mt-4 text-lg text-gray-500">
-                                        Semper curabitur ullamcorper posuere nunc sed. Ornare iaculis bibendum
-                                        malesuada faucibus lacinia
-                                        porttitor. Pulvinar laoreet sagittis viverra duis. In venenatis sem arcu
-                                        pretium pharetra at.
-                                        Lectus viverra dui tellus ornare pharetra.
-                                    </p>
-                                    <div className="mt-6">
-                                        <a
-                                            href="#"
-                                            className="inline-flex bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white hover:from-purple-700 hover:to-indigo-700"
-                                        >
-                                            Get started
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="mt-12 sm:mt-16 lg:mt-0 lg:col-start-1">
-                            <div className="pr-4 -ml-48 sm:pr-6 md:-ml-16 lg:px-0 lg:m-0 lg:relative lg:h-full">
-                                <img
-                                    className="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
-                                    src="https://tailwindui.com/img/component-images/inbox-app-screenshot-2.jpg"
-                                    alt="Customer profile user interface"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            {/* Gradient Feature Section */}
-            <div className="bg-gradient-to-r from-purple-800 to-indigo-700">
-                <div
-                    className="max-w-4xl mx-auto px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:pt-24 lg:px-8">
-                    <h2 className="text-3xl font-extrabold text-white tracking-tight">Inbox support built for
-                        efficiency</h2>
-                    <p className="mt-4 max-w-3xl text-lg text-purple-200">
-                        Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.
-                        Blandit
-                        aliquam sit nisl euismod mattis in.
-                    </p>
-                    <div
-                        className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
-                        {features.map((feature) => <div key={feature.name}>
-                            <div>
-                <span className="flex items-center justify-center h-12 w-12 rounded-md bg-white bg-opacity-10">
-                  <feature.icon className="h-6 w-6 text-white" aria-hidden="true"/>
-                </span>
-                            </div>
-                            <div className="mt-6">
-                                <h3 className="text-lg font-medium text-white">{feature.name}</h3>
-                                <p className="mt-2 text-base text-purple-200">{feature.description}</p>
-                            </div>
-                        </div>)}
-                    </div>
-                </div>
-            </div>
+            <Logos/>
 
-            {/* Stats section */}
-            <div className="relative bg-gray-900">
-                <div className="h-80 absolute inset-x-0 bottom-0 xl:top-0 xl:h-full">
-                    <div className="h-full w-full xl:grid xl:grid-cols-2">
-                        <div className="h-full xl:relative xl:col-start-2">
-                            <img
-                                className="h-full w-full object-cover opacity-25 xl:absolute xl:inset-0"
-                                src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
-                                alt="People working on laptops"
-                            />
-                            <div
-                                aria-hidden="true"
-                                className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-900 xl:inset-y-0 xl:left-0 xl:h-full xl:w-32 xl:bg-gradient-to-r"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div
-                    className="max-w-4xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 xl:grid xl:grid-cols-2 xl:grid-flow-col-dense xl:gap-x-8">
-                    <div className="relative pt-12 pb-64 sm:pt-24 sm:pb-64 xl:col-start-1 xl:pb-24">
-                        <h2 className="text-sm font-semibold tracking-wide uppercase">
-            <span className="bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent">
-              Valuable Metrics
-            </span>
-                        </h2>
-                        <p className="mt-3 text-3xl font-extrabold text-white">
-                            Get actionable data that will help grow your business
-                        </p>
-                        <p className="mt-5 text-lg text-gray-300">
-                            Rhoncus sagittis risus arcu erat lectus bibendum. Ut in adipiscing quis in viverra
-                            tristique sem. Ornare
-                            feugiat viverra eleifend fusce orci in quis amet. Sit in et vitae tortor, massa. Dapibus
-                            laoreet amet
-                            lacus nibh integer quis. Eu vulputate diam sit tellus quis at.
-                        </p>
-                        <div className="mt-12 grid grid-cols-1 gap-y-12 gap-x-6 sm:grid-cols-2">
-                            {metrics.map((item) => <p key={item.id}>
-                                <span className="block text-2xl font-bold text-white">{item.stat}</span>
-                                <span className="mt-1 block text-base text-gray-300">
-                  <span className="font-medium text-white">{item.emphasis}</span> {item.rest}
-                </span>
-                            </p>)}
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {/* CTA Section */}
             <div className="bg-white">
                 <div
                     className="max-w-4xl mx-auto py-16 px-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 lg:flex lg:items-center lg:justify-between">
-                    <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        <span className="block">Ready to get started?</span>
+                    <h2 className="text-4xl font-extrabold text-gray-900 sm:text-4xl">
+                        <span className="block tracking-wide pb-2">Ready to get started?</span>
                         <span
-                            className="-mb-1 pb-1 block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            Get in touch or create an account.
+                            className="tracking-tight -mb-1 pb-1 block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            Create an account.
           </span>
                     </h2>
                     <div className="mt-6 space-y-4 sm:space-y-0 sm:flex sm:space-x-5">
@@ -683,12 +296,12 @@ export default function Landing() {
                         >
                             Learn more
                         </a>
-                        <a
-                            href="#"
-                            className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-800 bg-indigo-50 hover:bg-indigo-100"
-                        >
-                            Get started
-                        </a>
+                        <Link passHref href="/Register">
+                            <div
+                                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-800 bg-indigo-50 hover:bg-indigo-100">
+                                Get started
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -783,15 +396,8 @@ export default function Landing() {
                 </div>
                 <div
                     className="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16">
-                    <div className="flex space-x-6 md:order-2">
-                        {footerNavigation.social.map((item) => <a key={item.name} href={item.href}
-                                                                  className="text-gray-400 hover:text-gray-500">
-                            <span className="sr-only">{item.name}</span>
-                            <item.icon className="h-6 w-6" aria-hidden="true"/>
-                        </a>)}
-                    </div>
                     <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-                        &copy; 2020 Workflow, Inc. All rights reserved.
+                        &copy; 2022 adsWatcher, Inc. All rights reserved.
                     </p>
                 </div>
             </div>
