@@ -1,6 +1,6 @@
 import {ArrowNarrowLeftIcon, ArrowNarrowRightIcon} from '@heroicons/react/solid'
-import {useStore} from "../store";
-import {classNames} from "../utils";
+import {useStore} from "../../store";
+import {classNames} from "../../utils";
 
 export default function Pagination({onPageChange, currentPage}) {
     const pages = useStore(state => state.pages);

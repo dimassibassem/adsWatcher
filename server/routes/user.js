@@ -2,6 +2,7 @@ const prisma = require("../utils/prismaClient");
 const bcrypt = require('bcrypt');
 const {authenticateToken, generateAccessToken} = require('../utils/jwtAuth');
 const express = require('express');
+const nodemailer = require("nodemailer");
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
@@ -175,6 +176,43 @@ router.delete('/search/:id', async (req, res) => {
         console.log(e)
         return res.sendStatus(500)
     }
+})
+
+router.post('/contactUs', async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_HOST,
+            pass: process.env.EMAIL_PASSWORD,
+        }
+    });
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const subject = req.body.subject;
+    const message = req.body.message;
+
+    const mailOptions = {
+        from: process.env.EMAIL_HOST,
+        to: process.env.EMAIL_HOST,
+        subject: `${firstName} ${lastName} sent you a message`,
+        html: `<h1>subject: ${subject}</h1>
+                <h3>${phone === "" ? "" : "phone: " + phone}</h3>
+                <h3>email: ${email}</h3>
+                <h2>message: </h2>
+                <h4>${message}</h4>`
+    }
+    await transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            return res.json({success: false, message: 'Failed to send email'});
+        } else {
+            console.log('Email sent: ' + info.response);
+            return res.json({success: true, message: 'Email sent'});
+        }
+    });
+
 })
 
 

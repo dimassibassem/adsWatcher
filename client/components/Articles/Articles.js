@@ -2,7 +2,7 @@ import React from 'react';
 import {useLocalStorage, useStore} from "../../store";
 import {classNames} from "../../utils";
 import {since} from "../../utils/since";
-import Pagination from "../Pagination";
+import Pagination from "./Pagination";
 
 const Articles = ({articleToDisplay, currentPage, onPageChange}) => {
     const token = useLocalStorage(state => state.token);

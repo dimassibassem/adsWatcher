@@ -6,6 +6,7 @@ import {
     LocationMarkerIcon,
     CollectionIcon, SearchIcon, NewspaperIcon, PlusIcon
 } from '@heroicons/react/outline'
+import React from "react";
 
 
 
@@ -26,13 +27,16 @@ export default function Stats({count}) {
         {id: 7, name: 'Added Ads Last Week', stat: count.weekAgoAdsCount, icon: PlusIcon, change: count.adsAddedWeekAgoPercentage, changeType: 'increase'},
     ]
     return (
-        <div>
+        <div className="mt-5">
+            <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide pb-10 ">
+                adsWatcher Statistics
+            </p>
             <div>
-                <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                <dl className=" grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {stats.map((item) => (
                         <div
                             key={item.id}
-                            className="relative bg-white pt-5 px-4 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden"
+                            className="relative bg-white pt-5 px-4 sm:pt-6 sm:px-6 shadow-xl rounded-lg overflow-hidden"
                         >
                             <dt>
                                 <div className="absolute bg-indigo-500 rounded-md p-3">
@@ -52,7 +56,7 @@ export default function Stats({count}) {
                     {fourColumnsStats.map((item) => (
                         <div
                             key={item.id}
-                            className="relative bg-white pt-5 px-4 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden"
+                            className="relative bg-white pt-5 px-4 sm:pt-6 sm:px-6 shadow-xl rounded-lg overflow-hidden"
                         >
                             <dt>
                                 <div className="absolute bg-indigo-500 rounded-md p-3">
