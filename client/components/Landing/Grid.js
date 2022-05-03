@@ -1,7 +1,7 @@
 import Thumbnails from "./Thumbnails";
 export default function Grid({popularSearchs}) {
     return (
-        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+        <ul role="list" className="grid grid-cols-1 gap-14 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
             {popularSearchs?.map((search) => (
                 <li
                     key={search.query}

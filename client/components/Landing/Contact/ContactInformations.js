@@ -125,7 +125,7 @@ const ContactInformations = () => {
             <ul role="list" className="mt-8 flex space-x-12">
                 <li>
                     <a className="text-indigo-200 hover:text-indigo-100"
-                       href="client/components/Landing/ContactUs#">
+                       href="#">
                         <span className="sr-only">Facebook</span>
                         <svg
                             width={24}
@@ -145,7 +145,7 @@ const ContactInformations = () => {
                 </li>
                 <li>
                     <a className="text-indigo-200 hover:text-indigo-100"
-                       href="client/components/Landing/ContactUs#">
+                       href="#">
                         <span className="sr-only">GitHub</span>
                         <svg
                             width={24}
@@ -165,7 +165,7 @@ const ContactInformations = () => {
                 </li>
                 <li>
                     <a className="text-indigo-200 hover:text-indigo-100"
-                       href="client/components/Landing/ContactUs#">
+                       href="#">
                         <span className="sr-only">Twitter</span>
                         <svg
                             width={24}

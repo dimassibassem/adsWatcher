@@ -47,16 +47,21 @@ export default function LoginForm() {
     return (
         <>
             <div className="min-h-full flex flex-col justify-center py-8 sm:px-6 lg:px-8">
-                <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <img
-                        className="mx-auto"
-                        src="/adswatcher.jpeg"
-                        alt="Workflow"
-                        width="400"
-                        height="300"
-                    />
-                    <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
-                </div>
+                        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <Link href="/LandingPage" passHref>
+                    <a>
+                            <img
+                                className="mx-auto"
+                                src="/adswatcher.jpeg"
+                                alt="Workflow"
+                                width="400"
+                                height="300"
+                            />
+                    </a>
+                </Link>
+                            <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">Sign in to your
+                                account</h2>
+                        </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     {errorMessage}

@@ -53,13 +53,17 @@ export default function RegisterForm() {
         <>
             <div className="min-h-full flex flex-col justify-center py-6 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <img
-                        className="mx-auto"
-                        src="/adswatcher.jpeg"
-                        alt="Workflow"
-                        width="400"
-                        height="300"
-                    />
+                    <Link href="/LandingPage" passHref>
+                        <a>
+                            <img
+                                className="mx-auto"
+                                src="/adswatcher.jpeg"
+                                alt="Workflow"
+                                width="400"
+                                height="300"
+                            />
+                        </a>
+                    </Link>
                     <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">Create Account</h2>
                 </div>
 
