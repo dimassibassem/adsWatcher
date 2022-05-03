@@ -205,16 +205,16 @@ export default function Landing() {
 
                     <div className=" md:flex items-center justify-end md:flex-1 mt-3 mb-2">
                         <Link href="/Login" passHref>
-                            <div
+                            <a
                                 className=" inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
                                 Sign in
-                            </div>
+                            </a>
                         </Link>
                         <Link href="/Register" passHref>
-                            <div
+                            <a
                                 className="ml-4 inline-flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white hover:from-purple-700 hover:to-indigo-700">
                                 Sign up
-                            </div>
+                            </a>
                         </Link>
                     </div>
                 </div>
@@ -297,10 +297,10 @@ export default function Landing() {
                             Learn more
                         </a>
                         <Link passHref href="/Register">
-                            <div
+                            <a
                                 className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-800 bg-indigo-50 hover:bg-indigo-100">
                                 Get started
-                            </div>
+                            </a>
                         </Link>
                     </div>
                 </div>
