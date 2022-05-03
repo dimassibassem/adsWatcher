@@ -25,7 +25,7 @@ export default function Home() {
                 })
                 setQueries(await response.data)
             } else {
-                await router.push("/Login")
+                await router.push("/LandingPage")
             }
         }
         setQueriesFun().catch(err => console.log(err))
@@ -37,7 +37,7 @@ export default function Home() {
             if (tokenValid(token)) {
                 await setUserData(token)
             } else {
-                await router.push("/Login")
+                await router.push("/LandingPage")
             }
         }
         setUserDataFun().catch(err => console.log(err))
@@ -48,7 +48,7 @@ export default function Home() {
             if (tokenValid(token)) {
                 await setSource(token)
             } else {
-                await router.push("/Login")
+                await router.push("/LandingPage")
             }
         }
 
@@ -62,7 +62,7 @@ export default function Home() {
                 setCurrentFile(null)
                 await setCategoryDisplayNames(token)
             } else {
-                await router.push("/Login")
+                await router.push("/LandingPage")
             }
         }
 
