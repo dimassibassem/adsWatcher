@@ -296,7 +296,7 @@ router.get('/stats', async (req, res) => {
     })
     const weekAgoSearchCount = weekAgoSearch.length
     const sources = 50
-    const adsAddedWeekAgoPercentage = ((weekAgoAdsCount / adsCount) * 100).toFixed(3) + "%";
+    const adsAddedWeekAgoPercentage = parseFloat(((weekAgoAdsCount / adsCount) * 100).toFixed(3));
     const locationCount = await prisma.location.count()
     const categoryCount = await prisma.category.count()
     return res.json({

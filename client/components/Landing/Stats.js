@@ -7,7 +7,7 @@ import {
     CollectionIcon, SearchIcon, NewspaperIcon, PlusIcon
 } from '@heroicons/react/outline'
 import React from "react";
-
+import AnimatedNumber from "animated-number-react";
 
 
 function classNames(...classes) {
@@ -19,13 +19,48 @@ export default function Stats({count}) {
         {id: 1, name: 'Websites & Groups', stat: count.sources, icon: GlobeIcon},
         {id: 2, name: 'Different location', stat: count.locationCount, icon: LocationMarkerIcon},
         {id: 3, name: 'Categories', stat: count.categoryCount, icon: CollectionIcon}
-        ]
-    const fourColumnsStats = [
-        {id: 4, name: 'Total Subscribers', stat: count.subscriberCount, icon: UsersIcon, change: count.weekAgoSubscriberCount, changeType: 'increase'},
-        {id: 5, name: 'Researches', stat: count.searchCount, icon: SearchIcon, change: count.weekAgoSearchCount, changeType: 'increase'},
-        {id: 6, name: 'Ads', stat: count.adsCount, icon: NewspaperIcon, change: count.dayAgoAdsCount, changeType: 'increase'},
-        {id: 7, name: 'Added Ads Last Week', stat: count.weekAgoAdsCount, icon: PlusIcon, change: count.adsAddedWeekAgoPercentage, changeType: 'increase'},
     ]
+    const fourColumnsStats = [
+        {
+            id: 4,
+            name: 'Total Subscribers',
+            stat: count.subscriberCount,
+            icon: UsersIcon,
+            change: count.weekAgoSubscriberCount,
+            changeType: 'increase'
+        },
+        {
+            id: 5,
+            name: 'Researches',
+            stat: count.searchCount,
+            icon: SearchIcon,
+            change: count.weekAgoSearchCount,
+            changeType: 'increase'
+        },
+        {
+            id: 6,
+            name: 'Ads',
+            stat: count.adsCount,
+            icon: NewspaperIcon,
+            change: count.dayAgoAdsCount,
+            changeType: 'increase'
+        },
+        {
+            id: 7,
+            name: 'Added Ads Last Week',
+            stat: count.weekAgoAdsCount,
+            icon: PlusIcon,
+            change: count.adsAddedWeekAgoPercentage,
+            changeType: 'increase'
+        },
+    ]
+    const formatValue = value => `${Number(value).toFixed(0)}`
+    const floatFormatValue = value => `${Number(value).toFixed(3)}%`
+
+    function isFloat(n) {
+        return Number(n) === n && n % 1 !== 0;
+    }
+
     return (
         <div className="mt-5">
             <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide pb-10 ">
@@ -44,7 +79,9 @@ export default function Stats({count}) {
                                 </div>
                             </dt>
                             <dd className="ml-11 pb-6 flex items-baseline sm:pb-7 mt-2">
-                                <p className="text-2xl font-semibold text-gray-900 ml-6">{item.stat}</p>
+                                <p className="text-2xl font-semibold text-gray-900 ml-6">
+                                    {item.stat}
+                                </p>
                                 <p className="ml-6 text-xl font-medium text-gray-500 truncate ">{item.name}</p>
                             </dd>
                         </div>
@@ -65,7 +102,9 @@ export default function Stats({count}) {
                                 <p className="ml-16 text-sm font-medium text-gray-500 truncate">{item.name}</p>
                             </dt>
                             <dd className="ml-16 pb-6 flex items-baseline sm:pb-7">
-                                <p className="text-2xl font-semibold text-gray-900">{item.stat}</p>
+                                <p className="text-2xl font-semibold text-gray-900">
+                                    <AnimatedNumber value={item.stat} duration={1500} formatValue={formatValue}/>
+                                </p>
                                 <p
                                     className={classNames(
                                         item.changeType === 'increase' ? 'text-green-600' : 'text-red-600',
@@ -82,7 +121,19 @@ export default function Stats({count}) {
 
                                     <span
                                         className="sr-only">{item.changeType === 'increase' ? 'Increased' : 'Decreased'} by</span>
-                                    {item.change}
+                                    {isFloat(item.change) ? (
+                                        <AnimatedNumber
+                                            value={item.change}
+                                            duration={1500}
+                                            formatValue={floatFormatValue}
+                                        />
+                                    ) : (
+                                        <AnimatedNumber
+                                            value={item.change}
+                                            duration={1500}
+                                            formatValue={formatValue}
+                                        />
+                                    )}
                                 </p>
                             </dd>
                         </div>
