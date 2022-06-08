@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Switch} from '@headlessui/react'
 import {classNames} from "../../utils";
 import ComboBox from "./ComboBox";
@@ -8,13 +8,14 @@ import {useRouter} from 'next/router'
 import {useLocalStorage, useStore} from "../../store";
 import {tokenValid} from "../../utils/token";
 import Link from "next/link";
+import GalleryList from "../Home/GalleryList";
 
 export default function SearchInput() {
     const router = useRouter()
     const token = useLocalStorage((store) => store.token)
     const locations = useStore((store) => store.locations)
     const setLocations = useStore((store) => store.setLocations)
-    useEffect( () => {
+    useEffect(() => {
         async function setLocationsFun() {
             if (tokenValid(token)) {
                 await setLocations()
@@ -22,6 +23,7 @@ export default function SearchInput() {
                 await router.push('/Login')
             }
         }
+
         setLocationsFun().catch(console.error)
     }, [router, setLocations, token])
     const [agreed, setAgreed] = useState(false)
@@ -54,12 +56,18 @@ export default function SearchInput() {
             headers: {Authorization: "Bearer " + token},
         })
         if (res.data.success) {
-            await router.push("/Article/"+res.data.searchId)
+            await router.push("/Article/" + res.data.searchId)
         }
     }
 
     return (
         <div className="bg-white py-10 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
+
+            <div>
+                <h1>History</h1>
+                <GalleryList/>
+            </div>
+
             <div className="relative max-w-xl mx-auto">
                 <svg
                     className="absolute left-full transform translate-x-1/2"
@@ -105,10 +113,12 @@ export default function SearchInput() {
                     </defs>
                     <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)"/>
                 </svg>
+
                 <div className="text-center">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Get a great deal</h2>
+                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Get a great
+                        deal</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
-                       We will find for you the desired ADS.
+                        We will find for you the desired ADS.
                     </p>
                 </div>
                 <div className="mt-12">

@@ -14,20 +14,19 @@ export default function Home() {
     const setSource = useStore(store => store.setSource)
     const setUserData = useStore(store => store.setUserData)
     const setCurrentFile = useStore(store => store.setCurrentFile)
-
-    useEffect(() => {
-        async function setQueriesFun() {
-            if (tokenValid(token)) {
-                const response = await axios({
-                    url: "http://localhost:3001/api/data",
-                    method: "get",
-                    headers: {Authorization: "Bearer " + token}
-                })
-                setQueries(await response.data)
-            } else {
-                await router.push("/LandingPage")
-            }
+    async function setQueriesFun() {
+        if (tokenValid(token)) {
+            const response = await axios({
+                url: "http://localhost:3001/api/data",
+                method: "get",
+                headers: {Authorization: "Bearer " + token}
+            })
+            setQueries(await response.data)
+        } else {
+            await router.push("/LandingPage")
         }
+    }
+    useEffect(() => {
         setQueriesFun().catch(err => console.log(err))
     }, [router, setQueries, token]);
 

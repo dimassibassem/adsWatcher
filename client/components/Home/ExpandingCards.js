@@ -1,8 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ClipboardListIcon, FolderIcon, TrashIcon, XCircleIcon, XIcon} from '@heroicons/react/solid'
 import {useRouter} from 'next/router'
+import {tokenValid} from "../../utils/token";
+import axios from "axios";
+import {useLocalStorage, useStore} from "../../store";
+
 
 const ExpandingCards = ({query, deleteQuery}) => {
+    const setQueries = useStore(state => state.setQueries)
+    const token = useLocalStorage(store => store.token)
+    async function setQueriesFun() {
+        if (tokenValid(token)) {
+            const response = await axios({
+                url: "http://localhost:3001/api/data",
+                method: "get",
+                headers: {Authorization: "Bearer " + token}
+            })
+            setQueries(await response.data)
+        } else {
+            await router.push("/LandingPage")
+        }
+    }
+    useEffect(() => {
+        setQueriesFun().catch(err => console.log(err))
+    }, [router, setQueries, token]);
     const router = useRouter()
 
     return (
@@ -12,6 +33,32 @@ const ExpandingCards = ({query, deleteQuery}) => {
         >
             <div className="flex-1 flex flex-col p-3 shadow-md">
                 {/*<FolderIcon className="text-gray-400"/>*/}
+                <img
+                    className="mx-auto mt-2"
+                    src={query.thumbnails[0]}
+                    alt="Workflow"
+                    width="180"
+                    height="120"
+                /><img
+                    className="mx-auto mt-2"
+                    src={query.thumbnails[1]}
+                    alt="Workflow"
+                    width="180"
+                    height="120"
+                /><img
+                    className="mx-auto mt-2"
+                    src={query.thumbnails[2]}
+                    alt="Workflow"
+                    width="180"
+                    height="120"
+                /><img
+                    className="mx-auto mt-2"
+                    src={query.thumbnails[3]}
+                    alt="Workflow"
+                    width="180"
+                    height="120"
+                />
+
                 <h3 className="text-gray-900 text-md font-medium">{query.query}</h3>
                 <dl className="mt-1 flex-grow flex flex-col justify-between">
                     <dt className="sr-only">Max Price:</dt>

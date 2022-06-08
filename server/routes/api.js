@@ -108,12 +108,32 @@ router.get('/article/:searchId', authenticateToken, async (req, res) => {
 
 router.get('/data', authenticateToken, async (req, res) => {
     const userId = req.user.userId
-    const articles = await prisma.search.findMany({
+    const searches = await prisma.search.findMany({
         where: {
             userId: userId
         },
     })
-    return res.status(200).send(articles)
+    const thumbnailsOfSearches = async function (searches) {
+        const results = []
+        for (let search of searches) {
+            let ad = await prisma.article.findMany({
+                take: 4,
+                where: {
+                            title: {
+                                contains: search.query,
+                            },
+                        }
+            })
+            if (ad) {
+                let thumbnails = ad.map(article => { return article.thumbnail })
+                searches[searches.indexOf(search)]['thumbnails'] = thumbnails
+                results.push(searches[searches.indexOf(search)])
+            }
+        }
+            return results
+    };
+    const resultToSend = await thumbnailsOfSearches(searches)
+    return res.status(200).send(resultToSend)
 });
 
 router.get('/getAppData', authenticateToken, async (req, res) => {
