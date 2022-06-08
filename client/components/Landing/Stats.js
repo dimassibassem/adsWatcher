@@ -80,7 +80,11 @@ export default function Stats({count}) {
                             </dt>
                             <dd className="ml-11 pb-6 flex items-baseline sm:pb-7 mt-2">
                                 <p className="text-2xl font-semibold text-gray-900 ml-6">
-                                    {item.stat}
+                                    <AnimatedNumber
+                                        value={item.stat}
+                                        duration={1500}
+                                        formatValue={formatValue}
+                                    />
                                 </p>
                                 <p className="ml-6 text-xl font-medium text-gray-500 truncate ">{item.name}</p>
                             </dd>

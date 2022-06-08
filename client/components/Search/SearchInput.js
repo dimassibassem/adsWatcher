@@ -53,8 +53,8 @@ export default function SearchInput() {
         const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation}, {
             headers: {Authorization: "Bearer " + token},
         })
-        if (res.data) {
-            await router.push("/")
+        if (res.data.success) {
+            await router.push("/Article/"+res.data.searchId)
         }
     }
 
@@ -106,11 +106,9 @@ export default function SearchInput() {
                     <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)"/>
                 </svg>
                 <div className="text-center">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Contact sales</h2>
+                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Get a great deal</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
-                        Nullam risus blandit ac aliquam justo ipsum. Quam mauris volutpat massa dictumst amet. Sapien
-                        tortor lacus
-                        arcu.
+                       We will find for you the desired ADS.
                     </p>
                 </div>
                 <div className="mt-12">

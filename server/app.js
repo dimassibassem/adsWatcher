@@ -85,9 +85,9 @@ app.use(bodyParser.json({limit: '50mb'}));
 
 app.use('/', userRoute);
 app.use('/api', apiRoute);
-
+// todo: define the specific time to run the cron job
 // cron job to run every 10 minutes
-cron.schedule("0 0 */2 * * *", async function () {
+cron.schedule("0 */10 * * * *", async function () {
     console.log("adding ads to DB and Sending emails task Begin");
     try {
         await addToDbAndSendEmails()

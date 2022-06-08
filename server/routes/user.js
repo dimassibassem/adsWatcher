@@ -58,7 +58,7 @@ router.post('/search', authenticateToken, async (req, res) => {
     }
     const maxPrice = req.body.maxPrice !== '' ? req.body.maxPrice : null
     const minPrice = req.body.minPrice !== '' ? req.body.minPrice : null
-    await prisma.search.create({
+   const searchToSave = await prisma.search.create({
         data: {
             query: query,
             locationId: locationId,
@@ -68,7 +68,8 @@ router.post('/search', authenticateToken, async (req, res) => {
             region: region
         },
     })
-    return res.sendStatus(200)
+
+    return res.json({success: true, message: 'Search saved', searchId: searchToSave.id})
 })
 
 router.post('/register', async (req, res) => {
