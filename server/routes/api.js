@@ -125,8 +125,9 @@ router.get('/data', authenticateToken, async (req, res) => {
                         }
             })
             if (ad) {
-                let thumbnails = ad.map(article => { return article.thumbnail })
-                searches[searches.indexOf(search)]['thumbnails'] = thumbnails
+                searches[searches.indexOf(search)]['thumbnails'] = ad.map(article => {
+                    return article.thumbnail
+                })
                 results.push(searches[searches.indexOf(search)])
             }
         }
