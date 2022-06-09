@@ -4,7 +4,7 @@ import ProfileDropdown from "../components/ProfileDropdown";
 import {tokenValid} from "../utils/token";
 import {useLocalStorage, useStore} from "../store";
 import {useRouter} from "next/router";
-import GalleryList from "../components/Home/GalleryList";
+
 
 const Search = () => {
     const router = useRouter()

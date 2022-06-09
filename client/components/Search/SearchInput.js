@@ -8,7 +8,7 @@ import {useRouter} from 'next/router'
 import {useLocalStorage, useStore} from "../../store";
 import {tokenValid} from "../../utils/token";
 import Link from "next/link";
-import GalleryList from "../Home/GalleryList";
+import ExpandingCards from "../Home/ExpandingCards";
 
 export default function SearchInput() {
     const router = useRouter()
@@ -65,7 +65,7 @@ export default function SearchInput() {
 
             <div>
                 <h1>History</h1>
-                <GalleryList/>
+                <ExpandingCards/>
             </div>
 
             <div className="relative max-w-xl mx-auto">

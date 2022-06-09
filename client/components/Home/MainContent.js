@@ -1,7 +1,8 @@
 import React from 'react';
 import DetailsSidebar from "./DetailsSidebar";
-import GalleryList from "./GalleryList";
+
 import PrevButton from "../PrevButton";
+import ExpandingCards from "./ExpandingCards";
 
 const MainContent = () => {
     return (
@@ -13,7 +14,7 @@ const MainContent = () => {
                     <div className="flex">
                         <h1 className="flex-1 text-2xl font-bold text-gray-900">Searches</h1>
                     </div>
-                    <GalleryList/>
+                    <ExpandingCards/>
                 </div>
             </main>
 
