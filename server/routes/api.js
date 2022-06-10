@@ -337,22 +337,39 @@ router.get('/stats', async (req, res) => {
 })
 
 router.get('/popularSearches', async (req, res) => {
-    const searches = await prisma.search.groupBy({
-        by: ['query'],
-        _count: {
-            query: true,
-        },
-        orderBy: {
+    const all = req.query.all || false
+
+    if (!all) {
+        const searches = await prisma.search.groupBy({
+            by: ['query'],
             _count: {
-                query: 'desc',
+                query: true,
             },
-        },
-        take: 12,
-    })
-    return res.json(searches)
+            orderBy: {
+                _count: {
+                    query: 'desc',
+                },
+            },
+            take: 12,
+        })
+        return res.json(searches)
+    }else {
+        const searches = await prisma.search.groupBy({
+            by: ['query'],
+            _count: {
+                query: true,
+            },
+            orderBy: {
+                _count: {
+                    query: 'desc',
+                },
+            },
+        })
+        return res.json(searches)
+    }
 })
 
-router.get('/getEightArticleThmbnails/:searchQuery', async (req, res) => {
+router.get('/getEightArticleThumbnails/:searchQuery', async (req, res) => {
     const searchQuery = req.params.searchQuery
     const articles = await prisma.article.findMany({
         where: {

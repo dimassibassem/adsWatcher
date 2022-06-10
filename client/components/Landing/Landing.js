@@ -22,7 +22,7 @@ export default function Landing() {
         const queries = res.data.map(item => item["query"])
         let popularSearchObj = [];
         for (let i = 0; i < queries.length; i++) {
-            let thumbnails = await axios.get(`http://localhost:3001/api/getEightArticleThmbnails/${queries[i]}`)
+            let thumbnails = await axios.get(`http://localhost:3001/api/getEightArticleThumbnails/${queries[i]}`)
             popularSearchObj.push({
                 query: queries[i],
                 thumbnails: thumbnails.data

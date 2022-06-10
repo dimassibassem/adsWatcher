@@ -43,6 +43,7 @@ const userInfo = async (decodedToken, token) => {
     }
 }
 
+
 async function getLocations() {
     const res = await axios.get(`http://localhost:3001/api/getLocationData`)
     return res.data

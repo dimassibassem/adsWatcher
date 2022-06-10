@@ -121,7 +121,6 @@ export default function ExpandingCards() {
     useEffect(() => {
         setQueriesFun().catch(err => console.log(err))
     }, [router, setQueries, token]);
-    console.log(queries)
     return (
         <ul role="list" className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
             {queries.map((query) => (
@@ -135,6 +134,7 @@ export default function ExpandingCards() {
                                 <p className="text-gray-500 text-sm">query: {query.query}</p>
                                 <p className="text-gray-500 text-sm">maxPrice: {query.maxPrice}</p>
                                 <p className="text-gray-500 text-sm">minPrice: {query.minPrice}</p>
+                                <p className="text-gray-500 text-sm">Region: {query.region}</p>
                             <button
                                 onClick={async (e) => {
                                     e.preventDefault();

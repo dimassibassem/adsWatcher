@@ -9,30 +9,50 @@ import {useLocalStorage, useStore} from "../../store";
 import {tokenValid} from "../../utils/token";
 import Link from "next/link";
 import ExpandingCards from "../Home/ExpandingCards";
+import SearchComboBox from "./SearchComboBox";
+
 
 export default function SearchInput() {
     const router = useRouter()
     const token = useLocalStorage((store) => store.token)
     const locations = useStore((store) => store.locations)
     const setLocations = useStore((store) => store.setLocations)
-    useEffect(() => {
-        async function setLocationsFun() {
-            if (tokenValid(token)) {
-                await setLocations()
-            } else {
-                await router.push('/Login')
-            }
-        }
 
+    async function setLocationsFun() {
+        if (tokenValid(token)) {
+            await setLocations()
+        } else {
+            await router.push('/Login')
+        }
+    }
+
+    useEffect(() => {
         setLocationsFun().catch(console.error)
     }, [router, setLocations, token])
+
+    const [popularSearches, setPopularSearches] = useState([]);
+
+    async function setPopularSearchesFunc() {
+        if (tokenValid(token)) {
+            const res = await axios.get("http://localhost:3001/api/popularSearches?all=true")
+            setPopularSearches(res.data)
+        } else {
+            await router.push("/Login")
+        }
+    }
+
+    useEffect(() => {
+        setPopularSearchesFunc().catch(err => console.log(err))
+    }, [router, setPopularSearches, token])
+
     const [agreed, setAgreed] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState()
+    const [selectedSearch, setSelectedSearch] = useState('')
     const [state, setState] = useState({
         combo: "",
         maxPrice: "",
         minPrice: "",
-        searchBar: ""
+        search: "",
     });
 
     const filtredLocation =
@@ -40,6 +60,12 @@ export default function SearchInput() {
             ? locations
             : locations.filter((location) => {
                 return location.name.toLowerCase().includes(state.combo.toLowerCase())
+            })
+  const filtredSearches =
+        state.search === ''
+            ? popularSearches
+            : popularSearches.filter((search) => {
+                return search.query.toLowerCase().includes(state.search.toLowerCase())
             })
 
     const handleChange = e => {
@@ -52,7 +78,7 @@ export default function SearchInput() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation}, {
+        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation,selectedSearch}, {
             headers: {Authorization: "Bearer " + token},
         })
         if (res.data.success) {
@@ -125,22 +151,14 @@ export default function SearchInput() {
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
 
                         <div className="sm:col-span-2">
-                            <label htmlFor="searchBar" className="block text-sm font-medium text-gray-700">
-                                I am Searching for
-                            </label>
                             <div className="mt-1">
-                                <input
-                                    onChange={handleChange}
-                                    type="text"
-                                    name="searchBar"
-                                    id="searchBar"
-                                    autoComplete="organization"
-                                    className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+
+                                <SearchComboBox onChange={handleChange} filtredSearches={filtredSearches}
+                                                selectedSearch={selectedSearch} setSelectedSearch={setSelectedSearch}
+
                                 />
-                            </div>
-                        </div>
-                        <div className="sm:col-span-2">
-                            <div className="mt-1">
+
+
                                 {/* ComboBox*/}
                                 <ComboBox onChange={handleChange} selectedLocation={selectedLocation}
                                           setSelectedLocation={setSelectedLocation} filtredLocation={filtredLocation}/>

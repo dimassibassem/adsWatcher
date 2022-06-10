@@ -14,8 +14,8 @@ export default function SearchesThumbnails({query}) {
                     </a>
             </div>
                 </Link>
-            {query.thumbnails.map((image) => (
-                <li key={image.source} className="relative">
+            {query.thumbnails.map((image,i) => (
+                <li key={i} className="relative">
                     <div
                         className="group block w-full h-full aspect-w-10 aspect-h-16 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
                         <img src={image} alt="" className="object-cover pointer-events-none group-hover:opacity-75"/>

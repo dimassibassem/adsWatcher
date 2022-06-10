@@ -43,7 +43,9 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/search', authenticateToken, async (req, res) => {
-    const query = req.body.searchBar
+    let query;
+    req.body.selectedSearch ? query = req.body.selectedSearch.query : query = req.body.search
+    console.log(query);
     const userId = req.user.userId
     let locationId = req.body.selectedLocation?.id
     let region;
