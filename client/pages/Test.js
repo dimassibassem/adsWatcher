@@ -1,11 +1,11 @@
 import React from 'react';
-import ExpandingCards from "../components/Home/ExpandingCards";
+import SwiperHistory from "../components/SwiperHistory";
 
 
 const Test = () => {
 
     return (
-        <ExpandingCards />
+        <SwiperHistory />
     );
 };
 
