@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+
+import { CheckIcon } from '@heroicons/react/solid'
 import { Combobox } from '@headlessui/react'
 import {classNames} from "../../utils";
 

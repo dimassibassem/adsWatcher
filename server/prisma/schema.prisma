@@ -28,6 +28,7 @@ model Search {
   maxPrice   String?
   region     String?
   userId     Int
+  notify     Boolean
   user       User?   @relation(fields: [userId], references: [id])
 }
 

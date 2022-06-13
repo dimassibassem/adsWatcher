@@ -44,10 +44,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/search', authenticateToken, async (req, res) => {
     const query = req.body.searched;
-    console.log(req.body)
-    // req.body.selectedSearch ? query = req.body.selectedSearch.query : query = req.body.search
     const agreed = req.body.agreed;
-    console.log("agreed: ",agreed);
     const userId = req.user.userId
     let locationId = req.body.selectedLocation?.id
     let region;
@@ -69,7 +66,8 @@ router.post('/search', authenticateToken, async (req, res) => {
             minPrice: minPrice,
             maxPrice: maxPrice,
             userId: userId,
-            region: region
+            region: region,
+            notify: agreed
         },
     })
 

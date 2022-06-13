@@ -1,4 +1,3 @@
-import {SearchIcon} from "@heroicons/react/solid";
 import Link from "next/link";
 
 export default function SearchesThumbnails({query}) {

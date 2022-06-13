@@ -47,7 +47,6 @@ export default function SearchInput() {
 
     const [agreed, setAgreed] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState()
-    const [selectedSearch, setSelectedSearch] = useState('')
     const [selectedSearchValue, setSelectedSearchValue] = useState('')
     const [state, setState] = useState({
         combo: "",
@@ -81,7 +80,7 @@ export default function SearchInput() {
         e.preventDefault()
         let searched;
         selectedSearchValue.query ? searched = selectedSearchValue.query : searched = state.search
-        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation, searched,agreed}, {
+        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation, searched, agreed}, {
             headers: {Authorization: "Bearer " + token},
         })
         if (res.data.success) {
@@ -156,12 +155,12 @@ export default function SearchInput() {
                         <div className="sm:col-span-2">
                             <div className="mt-1">
 
-                                <SearchComboBox onChange={handleChange} filtredSearches={filtredSearches} searchWritten={state.search}
-                                                selectedSearch={selectedSearchValue} setSelectedSearch={setSelectedSearchValue}
+                                <SearchComboBox onChange={handleChange} filtredSearches={filtredSearches}
+                                                searchWritten={state.search}
+                                                selectedSearch={selectedSearchValue}
+                                                setSelectedSearch={setSelectedSearchValue}
 
                                 />
-
-
                                 {/* ComboBox*/}
                                 <ComboBox onChange={handleChange} selectedLocation={selectedLocation}
                                           setSelectedLocation={setSelectedLocation} filtredLocation={filtredLocation}/>
@@ -252,15 +251,7 @@ export default function SearchInput() {
                                         </div>
                                         <div className="ml-3">
                                             <p className="text-base text-gray-500">
-                                                By selecting this, you agree to the{' '}
-                                                <Link href="#" className="font-medium text-gray-700 underline">
-                                                    Privacy Policy
-                                                </Link>{' '}
-                                                and{' '}
-                                                <Link href="#" className="font-medium text-gray-700 underline">
-                                                    Cookie Policy
-                                                </Link>
-                                                .
+                                               I agree to get email notifications when a new ADS is available.
                                             </p>
                                         </div>
                                     </div>

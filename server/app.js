@@ -41,7 +41,7 @@ async function addToDbAndSendEmails() {
                             && (search.region === "" || !newArticle.location || newArticle.location.toUpperCase().includes(search.region.toUpperCase().trim()))
                         )
                     })
-                    if (resultToSend.length > 0) {
+                    if (resultToSend.length > 0 && search.notify) {
                         const mailOptions = {
                             from: process.env.EMAIL_HOST,
                             to: email,

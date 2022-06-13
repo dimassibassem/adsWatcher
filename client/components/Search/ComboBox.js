@@ -2,10 +2,7 @@ import {CheckIcon, SelectorIcon} from '@heroicons/react/solid'
 import {Combobox} from '@headlessui/react'
 import {classNames} from "../../utils";
 
-
 export default function ComboBox({onChange, filtredLocation, selectedLocation, setSelectedLocation}) {
-
-
     return (
         <Combobox as="div" value={selectedLocation} onChange={setSelectedLocation}>
             <Combobox.Label className="block text-sm font-medium text-gray-700">Near</Combobox.Label>
