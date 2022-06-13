@@ -8,16 +8,16 @@ export default function SearchesThumbnails({query}) {
             <div
                 className="absolute  cursor-pointer  overflow-hidden shadow rounded-lg text-indigo-600 z-30 font-bold text-sm place-self-center w-full text-center">
                     <a>
-                        <div className="h-5 bg-white">
+                        <div className="h-5 bg-white opacity-75 hover:opacity-100">
                             {query.query}
                         </div>
                     </a>
             </div>
                 </Link>
             {query.thumbnails.map((image,i) => (
-                <li key={i} className="relative">
+                <li key={i} className="">
                     <div
-                        className="group block w-full h-full aspect-w-10 aspect-h-16 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+                        className=" w-full h-full h-28 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
                         <img src={image} alt="" className="object-cover pointer-events-none group-hover:opacity-75"/>
                     </div>
                 </li>

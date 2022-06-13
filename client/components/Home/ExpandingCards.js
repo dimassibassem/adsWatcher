@@ -47,11 +47,10 @@ export default function ExpandingCards() {
         setQueriesFun().catch(err => console.log(err))
     }, [router, setQueries, token]);
     return (
-        <ul role="list" className="w-full">
                 <Swiper
-                    slidesPerView={5}
+                    slidesPerView={4}
                     spaceBetween={20}
-                    slidesPerGroup={3}
+                    slidesPerGroup={1}
                     loop={true}
                     loopFillGroupWithBlank={false}
                     pagination={{
@@ -63,13 +62,13 @@ export default function ExpandingCards() {
                 >
                         {queries.map((query,i) => (
                     <SwiperSlide key={i}>
-                        <div key={query.id} className="col-span-1 shadow-sm rounded-md">
-                            <div className=" justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md ">
-                                <div className=" text-sm ">
+                        <div key={query.id} className=" shadow-sm rounded-md">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className=" h-max text-sm ">
                                     <SearchesThumbnails query={query}/>
-
                                 </div>
-                                <div className="flex-shrink-0 ">
+
+                                <div className="">
                                     <p className="text-gray-500 text-sm">query: {query.query}</p>
                                     <p className="text-gray-500 text-sm">maxPrice: {query.maxPrice}</p>
                                     <p className="text-gray-500 text-sm">minPrice: {query.minPrice}</p>
@@ -91,8 +90,6 @@ export default function ExpandingCards() {
                     ))}
                 </Swiper>
 
-
-        </ul>
     )
 }
 
