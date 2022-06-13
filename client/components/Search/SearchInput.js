@@ -48,6 +48,7 @@ export default function SearchInput() {
     const [agreed, setAgreed] = useState(false)
     const [selectedLocation, setSelectedLocation] = useState()
     const [selectedSearch, setSelectedSearch] = useState('')
+    const [selectedSearchValue, setSelectedSearchValue] = useState('')
     const [state, setState] = useState({
         combo: "",
         maxPrice: "",
@@ -61,7 +62,7 @@ export default function SearchInput() {
             : locations.filter((location) => {
                 return location.name.toLowerCase().includes(state.combo.toLowerCase())
             })
-  const filtredSearches =
+    const filtredSearches =
         state.search === ''
             ? popularSearches
             : popularSearches.filter((search) => {
@@ -78,7 +79,9 @@ export default function SearchInput() {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation,selectedSearch}, {
+        let searched;
+        selectedSearchValue.query ? searched = selectedSearchValue.query : searched = state.search
+        const res = await axios.post("http://localhost:3001/search", {...state, selectedLocation, searched,agreed}, {
             headers: {Authorization: "Bearer " + token},
         })
         if (res.data.success) {
@@ -153,8 +156,8 @@ export default function SearchInput() {
                         <div className="sm:col-span-2">
                             <div className="mt-1">
 
-                                <SearchComboBox onChange={handleChange} filtredSearches={filtredSearches}
-                                                selectedSearch={selectedSearch} setSelectedSearch={setSelectedSearch}
+                                <SearchComboBox onChange={handleChange} filtredSearches={filtredSearches} searchWritten={state.search}
+                                                selectedSearch={selectedSearchValue} setSelectedSearch={setSelectedSearchValue}
 
                                 />
 

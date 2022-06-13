@@ -3,8 +3,7 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { Combobox } from '@headlessui/react'
 import {classNames} from "../../utils";
 
-export default function SearchComboBox({filtredSearches,onChange,selectedSearch,setSelectedSearch}) {
-
+export default function SearchComboBox({filtredSearches,onChange,selectedSearch,setSelectedSearch,searchWritten}) {
     return (
         <Combobox as="div" value={selectedSearch} onChange={setSelectedSearch} className="pb-5">
             <Combobox.Label className="block text-sm font-medium text-gray-700">I am Searching for</Combobox.Label>
@@ -13,7 +12,13 @@ export default function SearchComboBox({filtredSearches,onChange,selectedSearch,
                     name="search"
                     className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                     onChange={onChange}
-                    displayValue={(search) => search.query ? search.query : ''}
+                    displayValue={(search) => {
+                        if (search) {
+                            return search.query
+                        } else {
+                            return searchWritten
+                        }
+                    }}
                     value={(search) => search.query}
                 />
 
