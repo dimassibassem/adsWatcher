@@ -66,3 +66,10 @@ model Article {
 
   favorite User[]
 }
+
+model Distance {
+  id         Int      @id @default(autoincrement())
+  loc1       String   @db.VarChar(255)
+  loc2       String   @db.VarChar(255)
+  distance   String   @db.VarChar(255)
+}
