@@ -89,7 +89,7 @@ export default function SearchInput() {
     }
 
     return (
-        <div className="bg-white py-10 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-24">
+        <div className="bg-white py-2 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-4">
 
             <div>
                 <h1>History</h1>
