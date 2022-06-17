@@ -13,8 +13,12 @@ const Search = () => {
     const router = useRouter()
     const setUserData = useStore(store => store.setUserData)
     const token = useLocalStorage(store => store.token)
+    const setArticleToDisplay = useStore(store => store.setArticleToDisplay)
+    const setCurrentFile = useStore(store => store.setCurrentFile)
     async function setUserDataFunc() {
         if (tokenValid(token)) {
+            setCurrentFile(null)
+            setArticleToDisplay([])
             await setUserData(token)
         } else {
             await router.push("/Login")

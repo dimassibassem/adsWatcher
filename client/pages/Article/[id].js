@@ -8,6 +8,7 @@ import {tokenValid} from "../../utils/token";
 import {useRouter} from "next/router";
 import PrevButton from "../../components/PrevButton";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 const displayArticle = async (id, token) => {
     const result = await axios.get(`http://localhost:3001/api/article/${id}`, {
@@ -24,6 +25,7 @@ const Article = () => {
     const setArticleToDisplay = useStore(state => state.setArticleToDisplay)
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = async (i) => {
+        setArticleToDisplay([])
         setArticleToDisplay((await axios.get(`http://localhost:3001/api/article/${id}?page=${i + 1}`, {
             headers: {
                 'authorization': 'Bearer ' + token
@@ -117,8 +119,8 @@ const Article = () => {
 
                             {/* Tabs */}
                             <Tabs all={true}/>
-                            <Articles articleToDisplay={articleToDisplay} onPageChange={onPageChange}
-                                      currentPage={currentPage}/>
+                            {articleToDisplay.length > 0 ? <Articles articleToDisplay={articleToDisplay} onPageChange={onPageChange}
+                                                                     currentPage={currentPage}/> : <Loading/>}
                         </div>
                     </main>
 

@@ -167,7 +167,7 @@ export default function SearchInput() {
                             </div>
                         </div>
 
-                        <div className="sm:col-span-2">
+                        <div className="sm:col-span-2 ">
                             <div className="mt-1">
                                 <div className="sm:col-span-2">
                                     <label htmlFor="price" className="block text-sm font-medium text-gray-700">
@@ -196,7 +196,7 @@ export default function SearchInput() {
                                 </div>
                             </div>
                         </div>
-                        <div className="sm:col-span-2">
+                        <div className="sm:col-span-2 ">
                             <div className="mt-1">
                                 <div className="sm:col-span-2">
                                     <label htmlFor="price" className="block text-sm font-medium text-gray-700">

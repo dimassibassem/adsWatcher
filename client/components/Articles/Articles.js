@@ -47,6 +47,7 @@ const Articles = ({articleToDisplay, currentPage, onPageChange}) => {
                                 <button type="button"
                                         className="absolute inset-0 focus:outline-none"
                                         onClick={async () => {
+                                            setCurrentFile(null)
                                             setCurrentFile(article)
                                             await setMoreImages(article, token)
                                         }}>
